@@ -1,0 +1,13 @@
+avrtarget/ClockFrequency=1600000
+avrtarget/ExtRAMSize=0
+avrtarget/ExtendedRAM=false
+avrtarget/MCUType=atxmega16c4
+avrtarget/UseEEPROM=false
+avrtarget/UseExtendedRAMforHeap=true
+avrtarget/avrdude/Fuses/ByteValues=
+avrtarget/avrdude/Fuses/FileName=
+avrtarget/avrdude/Fuses/MCUid=atxmega16c4
+avrtarget/avrdude/Fuses/UseFile=false
+avrtarget/avrdude/Fuses/Write=false
+avrtarget/perConfig=false
+eclipse.preferences.version=1

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cHelpSettings>
+<project name="Power_out">
+<provider id="org.eclipse.cdt.ui.provider1"/>
+<provider id="org.eclipse.linuxtools.cdt.libhover.provider">
+<book enabled="true" title="devhelp"/>
+<book enabled="true" title="glibc library"/>
+</provider>
+</project>
+<project name="Out">
+<provider id="org.eclipse.cdt.ui.provider1"/>
+<provider id="org.eclipse.linuxtools.cdt.libhover.provider">
+<book enabled="true" title="devhelp"/>
+<book enabled="true" title="glibc library"/>
+</provider>
+</project>
+<project name="MCU">
+<provider id="org.eclipse.cdt.ui.provider1"/>
+<provider id="org.eclipse.linuxtools.cdt.libhover.provider">
+<book enabled="true" title="devhelp"/>
+<book enabled="true" title="glibc library"/>
+</provider>
+</project>
+</cHelpSettings>

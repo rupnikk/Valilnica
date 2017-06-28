@@ -1,0 +1,36 @@
+KALILNIK
+
+Urban Rupnik
+Zadlog 42, 5274 Črni Vrh
+Start: 6. 6. 2016
+
+
+Verzija 1.1: 6. 6. 2016
+Komentarji k shemi:
+	LCD: 	- potenciometer za nastavljanje svetlosti, 
+			- R/W = GND => se samo piše v spomin LCD-ja
+
+	Izhodi:	- Luci:		-180 omski upor za nastavitev napetosti, ki 					mora biti na triacu in zagotovitev odprtja 						triaca.
+						- 2.4 ohm + 0.2uF -> Snubber za optospojnik
+						- 39 ohm + 0.05uF -> Snubber za induktivno breme
+			- Grelec:	- brez Snubberjev zato ker je omsko breme
+
+	Tipke: 	- paralelni upor -> pull-up upor (cca. 10k)
+			- serijski upor -> ko je pin nastavljen kot vhod in je tipka pritisnjena (nizko stanje na vhodu) skozi tranzistor steče tok, ki je zaradi velike Ugs prevelik in lahko uniči pin. (cca. 220 ohm)
+
+	Enkoder: - 10k pull-up upor, in 10k + 0.1uF C za filter
+
+	MCU: 	- Potrebujemo najmanj 21 digitalnih I/O pinov => najmanjši tak je 32 pinski.
+			- ne potrebujemo veliko spomina, niti procesorske moči, tako da bi se odločil za ATtiny88 NIMA možnosti za zunanji kristalni oscilator!!!!!!!!
+		- Izbral sem ATMEGA32M1-AU
+
+	Switcher: -http://si.farnell.com/infineon/ifx91041ej-v50/dc-dc-conv-buck-370khz-soic-8/dp/2432504
+
+			- blokirni kondenzatorji cca. 2.2u in 100n
+
+			- pi filter: (1/10*f0) f0=1/(2*pi*sqrt(L*C))
+
+
+	
+	konektorji: signalni: -jst xhp
+			močnostni: 5.08 mm bom potem zbral

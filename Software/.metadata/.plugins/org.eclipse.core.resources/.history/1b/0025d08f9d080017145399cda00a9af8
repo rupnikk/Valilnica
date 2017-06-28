@@ -1,0 +1,111 @@
+/*
+ * main.c
+ *
+ *  Created on: 27. feb. 2017
+ *      Author: urban
+ */
+
+#include <avr/io.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+#include "hardware.h"
+#include "blink.h"
+#include "bittop.h"
+#include "usi_i2c_slave.h"
+#include "dht11.h"
+
+
+extern char usi_i2c_slave_address;
+extern char* USI_Slave_register_buffer[USI_SLAVE_REGISTER_COUNT];
+char usi_i2c_slave_address=0x40;
+
+typedef enum{
+	ONE,
+	TWO,
+	THREE,
+	FOUR
+}stepper;
+
+int main(void){
+	sei();
+	char a=0;
+	//char b;
+	//b=0x13;
+	//uint8_t run=0;
+	//uint8_t step=10;
+	uint8_t cnt=0;
+
+
+	stepper my_stepper=ONE;
+	IOCfg();
+
+	//uint8_t data[4];
+
+	//initDHT();
+
+	USI_I2C_Init(0x41);
+
+
+	//sensors[0].data[0]=0x15;
+	//sensors[0].data[2]=0x18;
+
+
+	//USI_Slave_register_buffer[0] = &(sensors[0].data[0]);
+	USI_Slave_register_buffer[0]=&a;
+	//USI_Slave_register_buffer[2]=&(sensors[0].data[2]);
+	_delay_ms(1000);
+
+	for(;;){
+
+		//a=fetchData(&sensors[0]);
+		//sensors[0].data[0]=sensors[0].data[0]+1;
+		//sensors[0].data[2]=sensors[0].data[2]+1;
+		if (a==0){
+			_delay_ms(500);
+		}
+
+		else {
+			while (cnt < 100){
+			_delay_ms(5);
+
+			for (uint8_t i=0; i<LED_NUM;i++){
+				leds[i].value=0;
+			}
+			switch(my_stepper){
+				case ONE:
+					leds[1].value=1;
+					if (a==1) my_stepper=TWO;
+					else my_stepper=FOUR;
+					break;
+				case TWO:
+					leds[2].value=1;
+					if (a==1) my_stepper=THREE;
+					else my_stepper=ONE;
+					break;
+				case THREE:
+					leds[3].value=1;
+					if (a==1) my_stepper=FOUR;
+					else my_stepper=TWO;
+					break;
+				case FOUR:
+					leds[4].value=1;
+					if (a==1) my_stepper=ONE;
+					else my_stepper=THREE;
+					break;
+
+			}
+			for (uint8_t i=0; i<LED_NUM;i++){
+				SetValue(&leds[i]);
+			}
+		}
+
+		}
+		/*leds[0].value=a;
+		leds[1].value=b;
+		for (uint8_t i=0; i<LED_NUM;i++){
+			SetValue(&leds[i]);
+		}*/
+	}
+	return 0;
+}

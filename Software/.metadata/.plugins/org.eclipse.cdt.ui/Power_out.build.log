@@ -1,0 +1,37 @@
+21:38:18 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1096 bytes (13.4% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+21:38:18 Build Finished (took 94ms)
+

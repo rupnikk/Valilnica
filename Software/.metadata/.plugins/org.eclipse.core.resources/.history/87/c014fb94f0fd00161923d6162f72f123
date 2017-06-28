@@ -1,0 +1,20 @@
+/*
+ * main.c
+ *
+ *  Created on: 28. feb. 2017
+ *      Author: urban
+ */
+
+
+#include <avr/io.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+
+int main(void){
+
+
+	for(;;){
+
+	}
+	return 0;
+}

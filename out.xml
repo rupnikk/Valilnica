@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/out.sch</source>
+    <date>ned 05 feb 2017 15:09:42 CET</date>
+    <tool>Eeschema 4.0.4+dfsg1-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>out.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="P3">
+      <value>CONN_02X03</value>
+      <footprint>kalilnik:IDC_Header_Straight_6pins</footprint>
+      <libsource lib="kalilnik" part="CONN_02X03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5874F5A4</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>80</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58754599</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>Led_Small</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="Led_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5875469B</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>220</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58757B3F</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>10k</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58757B45</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>SW_PUSH</value>
+      <footprint>kalilnik:TACTILE_SWTICH_4PIN</footprint>
+      <libsource lib="kalilnik" part="SW_PUSH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58757B4B</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>1u</value>
+      <footprint>kalilnik:C_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>587C54B7</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>100n</value>
+      <footprint>kalilnik:C_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>587C57A3</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>ESD_1CH</value>
+      <footprint>kalilnik:SOD323F</footprint>
+      <datasheet>http://www.farnell.com/datasheets/682594.pdf?_ga=1.121054984.1660152525.1481320514</datasheet>
+      <fields>
+        <field name="Farnell number">8737517</field>
+      </fields>
+      <libsource lib="kalilnik" part="ESD_1CH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>588CD978</tstamp>
+    </comp>
+    <comp ref="P2">
+      <value>CONN_01X02</value>
+      <footprint>kalilnik:CONN_2x1x2.54</footprint>
+      <libsource lib="kalilnik" part="CONN_01X02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>588EEE62</tstamp>
+    </comp>
+    <comp ref="IC1">
+      <value>ATTINY24A-SS</value>
+      <footprint>kalilnik:SOIC-14_3.9x8.7mm_Pitch1.27mm</footprint>
+      <libsource lib="atmel" part="ATTINY24A-SS"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5896E745</tstamp>
+    </comp>
+    <comp ref="P1">
+      <value>CONN_01X04</value>
+      <footprint>kalilnik:CONN_4x1x2.54</footprint>
+      <libsource lib="kalilnik" part="CONN_01X04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5896EE46</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>220</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5896F8C3</tstamp>
+    </comp>
+    <comp ref="P9">
+      <value>CONN_01X05</value>
+      <footprint>kalilnik:CONN_5x1x2.54</footprint>
+      <libsource lib="conn" part="CONN_01X05"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5896FA33</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>Q_NMOS_GDS</value>
+      <footprint>kalilnik:SOT89-3_Housing_Handsoldering_123</footprint>
+      <datasheet>http://www.farnell.com/datasheets/612773.pdf?_ga=1.108842754.1660152525.1481320514</datasheet>
+      <fields>
+        <field name="Farnell number">1834055</field>
+      </fields>
+      <libsource lib="kalilnik" part="Q_NMOS_GDS"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58970257</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>220</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>589707AC</tstamp>
+    </comp>
+    <comp ref="Q3">
+      <value>Q_NMOS_GDS</value>
+      <footprint>kalilnik:SOT89-3_Housing_Handsoldering_123</footprint>
+      <datasheet>http://www.farnell.com/datasheets/612773.pdf?_ga=1.108842754.1660152525.1481320514</datasheet>
+      <fields>
+        <field name="Farnell number">1834055</field>
+      </fields>
+      <libsource lib="kalilnik" part="Q_NMOS_GDS"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>589707B3</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>220</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58970888</tstamp>
+    </comp>
+    <comp ref="Q4">
+      <value>Q_NMOS_GDS</value>
+      <footprint>kalilnik:SOT89-3_Housing_Handsoldering_123</footprint>
+      <datasheet>http://www.farnell.com/datasheets/612773.pdf?_ga=1.108842754.1660152525.1481320514</datasheet>
+      <fields>
+        <field name="Farnell number">1834055</field>
+      </fields>
+      <libsource lib="kalilnik" part="Q_NMOS_GDS"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897088F</tstamp>
+    </comp>
+    <comp ref="Q5">
+      <value>Q_NMOS_GDS</value>
+      <footprint>kalilnik:SOT89-3_Housing_Handsoldering_123</footprint>
+      <datasheet>http://www.farnell.com/datasheets/612773.pdf?_ga=1.108842754.1660152525.1481320514</datasheet>
+      <fields>
+        <field name="Farnell number">1834055</field>
+      </fields>
+      <libsource lib="kalilnik" part="Q_NMOS_GDS"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897089D</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>220</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>589708F5</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>190</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58971178</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>Led_Small</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="Led_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897117E</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>650</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897121C</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>Led_Small</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="Led_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58971222</tstamp>
+    </comp>
+    <comp ref="Q2">
+      <value>Q_NMOS_GDS</value>
+      <footprint>kalilnik:SOT89-3_Housing_Handsoldering_123</footprint>
+      <datasheet>http://www.farnell.com/datasheets/612773.pdf?_ga=1.108842754.1660152525.1481320514</datasheet>
+      <fields>
+        <field name="Farnell number">1834055</field>
+      </fields>
+      <libsource lib="kalilnik" part="Q_NMOS_GDS"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>589717C7</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>220</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58971828</tstamp>
+    </comp>
+    <comp ref="P8">
+      <value>CONN_01X02</value>
+      <footprint>kalilnik:CONN_2x1x5.08</footprint>
+      <libsource lib="kalilnik" part="CONN_01X02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58971ACC</tstamp>
+    </comp>
+    <comp ref="P5">
+      <value>CONN_01X03</value>
+      <footprint>kalilnik:CONN_3x1x2.54</footprint>
+      <libsource lib="conn" part="CONN_01X03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897258A</tstamp>
+    </comp>
+    <comp ref="P4">
+      <value>CONN_01X03</value>
+      <footprint>kalilnik:CONN_3x1x2.54</footprint>
+      <libsource lib="conn" part="CONN_01X03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58972FCA</tstamp>
+    </comp>
+    <comp ref="P7">
+      <value>CONN_01X03</value>
+      <footprint>kalilnik:CONN_3x1x2.54</footprint>
+      <libsource lib="conn" part="CONN_01X03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897312F</tstamp>
+    </comp>
+    <comp ref="P6">
+      <value>CONN_01X03</value>
+      <footprint>kalilnik:CONN_3x1x2.54</footprint>
+      <libsource lib="conn" part="CONN_01X03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58973154</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>4.7k</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897316B</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>4.7k</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5897361E</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>4.7k</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>589736B8</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>4.7k</value>
+      <footprint>kalilnik:R_0603_HandSoldering</footprint>
+      <libsource lib="kalilnik" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58973749</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="atmel" part="ATTINY24A-SS">
+      <aliases>
+        <alias>ATTINY44A-SS</alias>
+        <alias>ATTINY84A-SS</alias>
+      </aliases>
+      <description>SO14, 2k Flash, 128B SRAM, 128B EEPROM, dW</description>
+      <docs>http://www.atmel.com/Images/doc8183.pdf</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">ATTINY24A-SS</field>
+        <field name="Footprint">SO14</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC" type="power_in"/>
+        <pin num="2" name="(PCINT8/CLKI/XTAL1)PB0" type="BiDi"/>
+        <pin num="3" name="(PCINT9/XTAL2)PB1" type="BiDi"/>
+        <pin num="4" name="(PCINT11/dW/~RESET~)PB3" type="BiDi"/>
+        <pin num="5" name="(PCINT10/CKOUT/OC0A/INT0)PB2" type="BiDi"/>
+        <pin num="6" name="(PCINT7/ICP/OC0B/ADC7)PA7" type="BiDi"/>
+        <pin num="7" name="(PCINT6/SDA/DI/MOSI/OC1A/ADC6)PA6" type="BiDi"/>
+        <pin num="8" name="(PCINT5/DO/MISO/OC1B/ADC5)PA5" type="BiDi"/>
+        <pin num="9" name="(PCINT4/USCK/SCL/T1/ADC4)PA4" type="BiDi"/>
+        <pin num="10" name="(PCINT3/T0/ADC3)PA3" type="BiDi"/>
+        <pin num="11" name="(PCINT2/AIN1/ADC2)PA2" type="BiDi"/>
+        <pin num="12" name="(PCINT1/AIN0/ADC1)PA1" type="BiDi"/>
+        <pin num="13" name="(PCINT0/AREF/ADC0)PA0" type="BiDi"/>
+        <pin num="14" name="GND" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="C">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="CONN_01X02">
+      <description>Connector, single row, 01x02</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X02</fp>
+        <fp>Pin_Header_Angled_1X02</fp>
+        <fp>Socket_Strip_Straight_1X02</fp>
+        <fp>Socket_Strip_Angled_1X02</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X02</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X03">
+      <description>Connector, single row, 01x03</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X03</fp>
+        <fp>Pin_Header_Angled_1X03</fp>
+        <fp>Socket_Strip_Straight_1X03</fp>
+        <fp>Socket_Strip_Angled_1X03</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X03</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="CONN_01X04">
+      <description>Connector, single row, 01x04</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X04</fp>
+        <fp>Pin_Header_Angled_1X04</fp>
+        <fp>Socket_Strip_Straight_1X04</fp>
+        <fp>Socket_Strip_Angled_1X04</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X05">
+      <description>Connector, single row, 01x05</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X05</fp>
+        <fp>Pin_Header_Angled_1X05</fp>
+        <fp>Socket_Strip_Straight_1X05</fp>
+        <fp>Socket_Strip_Angled_1X05</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X05</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="CONN_02X03">
+      <description>Connector, double row, 02x03</description>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_02X03</field>
+        <field name="Footprint">kalilnik:IDC_Header_Straight_6pins</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="ESD_1CH">
+      <description>LSD 1 channel</description>
+      <footprints>
+        <fp>CP*</fp>
+        <fp>SM*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">ESD_1CH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="Led_Small">
+      <description>Led</description>
+      <footprints>
+        <fp>CP*</fp>
+        <fp>SM*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">Led_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="Q_NMOS_GDS">
+      <description>Transistor N-MOSFET (general)</description>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_NMOS_GDS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="D" type="passive"/>
+        <pin num="3" name="S" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="kalilnik" part="SW_PUSH">
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_PUSH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="input"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="kalilnik">
+      <uri>/home/urban/Documents/Projekti/Kalilnik/kalilnik.lib</uri>
+    </library>
+    <library logical="conn">
+      <uri>/usr/share/kicad/library/conn.lib</uri>
+    </library>
+    <library logical="atmel">
+      <uri>/usr/share/kicad/library/atmel.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(D3-Pad2)">
+      <node ref="D3" pin="2"/>
+      <node ref="R2" pin="2"/>
+    </net>
+    <net code="2" name="GND">
+      <node ref="P1" pin="4"/>
+      <node ref="P7" pin="3"/>
+      <node ref="P6" pin="3"/>
+      <node ref="Q4" pin="3"/>
+      <node ref="Q5" pin="3"/>
+      <node ref="D2" pin="1"/>
+      <node ref="D1" pin="1"/>
+      <node ref="P3" pin="6"/>
+      <node ref="SW1" pin="4"/>
+      <node ref="C1" pin="2"/>
+      <node ref="P5" pin="3"/>
+      <node ref="C2" pin="2"/>
+      <node ref="SW1" pin="3"/>
+      <node ref="P4" pin="3"/>
+      <node ref="D4" pin="1"/>
+      <node ref="IC1" pin="14"/>
+      <node ref="Q1" pin="3"/>
+      <node ref="Q2" pin="3"/>
+      <node ref="Q3" pin="3"/>
+      <node ref="D3" pin="1"/>
+    </net>
+    <net code="3" name="+5V">
+      <node ref="P1" pin="2"/>
+      <node ref="P9" pin="1"/>
+      <node ref="R2" pin="1"/>
+    </net>
+    <net code="4" name="Net-(D4-Pad2)">
+      <node ref="R3" pin="2"/>
+      <node ref="D4" pin="2"/>
+    </net>
+    <net code="5" name="Net-(P9-Pad2)">
+      <node ref="Q1" pin="2"/>
+      <node ref="P9" pin="2"/>
+    </net>
+    <net code="6" name="Net-(P9-Pad3)">
+      <node ref="Q3" pin="2"/>
+      <node ref="P9" pin="3"/>
+    </net>
+    <net code="7" name="Net-(P9-Pad4)">
+      <node ref="Q4" pin="2"/>
+      <node ref="P9" pin="4"/>
+    </net>
+    <net code="8" name="Net-(Q2-Pad1)">
+      <node ref="Q2" pin="1"/>
+      <node ref="R11" pin="1"/>
+    </net>
+    <net code="9" name="MISO">
+      <node ref="IC1" pin="8"/>
+      <node ref="R11" pin="2"/>
+      <node ref="P3" pin="1"/>
+    </net>
+    <net code="10" name="Net-(P9-Pad5)">
+      <node ref="Q5" pin="2"/>
+      <node ref="P9" pin="5"/>
+    </net>
+    <net code="11" name="+12V">
+      <node ref="P1" pin="1"/>
+      <node ref="P8" pin="1"/>
+      <node ref="R3" pin="1"/>
+    </net>
+    <net code="12" name="Net-(Q3-Pad1)">
+      <node ref="R12" pin="1"/>
+      <node ref="Q3" pin="1"/>
+    </net>
+    <net code="13" name="PH1">
+      <node ref="IC1" pin="3"/>
+      <node ref="R12" pin="2"/>
+    </net>
+    <net code="14" name="Net-(Q1-Pad1)">
+      <node ref="R10" pin="1"/>
+      <node ref="Q1" pin="1"/>
+    </net>
+    <net code="15" name="PH0">
+      <node ref="R10" pin="2"/>
+      <node ref="IC1" pin="2"/>
+    </net>
+    <net code="16" name="PH3">
+      <node ref="IC1" pin="6"/>
+      <node ref="R14" pin="2"/>
+    </net>
+    <net code="17" name="Net-(Q5-Pad1)">
+      <node ref="Q5" pin="1"/>
+      <node ref="R14" pin="1"/>
+    </net>
+    <net code="18" name="Net-(P8-Pad2)">
+      <node ref="P8" pin="2"/>
+      <node ref="Q2" pin="2"/>
+    </net>
+    <net code="19" name="Net-(Q4-Pad1)">
+      <node ref="Q4" pin="1"/>
+      <node ref="R13" pin="1"/>
+    </net>
+    <net code="20" name="PH2">
+      <node ref="R13" pin="2"/>
+      <node ref="IC1" pin="5"/>
+    </net>
+    <net code="21" name="+3V3">
+      <node ref="C1" pin="1"/>
+      <node ref="R5" pin="2"/>
+      <node ref="R1" pin="1"/>
+      <node ref="IC1" pin="1"/>
+      <node ref="P1" pin="3"/>
+      <node ref="P3" pin="2"/>
+      <node ref="C2" pin="1"/>
+      <node ref="P5" pin="1"/>
+      <node ref="P4" pin="1"/>
+      <node ref="R7" pin="2"/>
+      <node ref="R9" pin="2"/>
+      <node ref="R6" pin="2"/>
+      <node ref="P7" pin="1"/>
+      <node ref="R8" pin="2"/>
+      <node ref="P6" pin="1"/>
+    </net>
+    <net code="22" name="S2">
+      <node ref="P7" pin="2"/>
+      <node ref="IC1" pin="11"/>
+      <node ref="R9" pin="1"/>
+    </net>
+    <net code="23" name="S0">
+      <node ref="R7" pin="1"/>
+      <node ref="P5" pin="2"/>
+      <node ref="IC1" pin="13"/>
+    </net>
+    <net code="24" name="S1">
+      <node ref="IC1" pin="12"/>
+      <node ref="R6" pin="1"/>
+      <node ref="P4" pin="2"/>
+    </net>
+    <net code="25" name="S3">
+      <node ref="IC1" pin="10"/>
+      <node ref="P6" pin="2"/>
+      <node ref="R8" pin="1"/>
+    </net>
+    <net code="27" name="Net-(D2-Pad2)">
+      <node ref="D2" pin="2"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="28" name="Net-(R4-Pad1)">
+      <node ref="R4" pin="1"/>
+      <node ref="R5" pin="1"/>
+      <node ref="SW1" pin="2"/>
+      <node ref="SW1" pin="1"/>
+    </net>
+    <net code="29" name="~RESET">
+      <node ref="IC1" pin="4"/>
+      <node ref="D1" pin="2"/>
+      <node ref="P3" pin="5"/>
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="30" name="SCK">
+      <node ref="IC1" pin="9"/>
+      <node ref="P3" pin="3"/>
+      <node ref="P2" pin="2"/>
+    </net>
+    <net code="31" name="MOSI">
+      <node ref="IC1" pin="7"/>
+      <node ref="P2" pin="1"/>
+      <node ref="P3" pin="4"/>
+    </net>
+  </nets>
+</export>

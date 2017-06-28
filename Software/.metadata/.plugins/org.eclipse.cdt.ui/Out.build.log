@@ -1,0 +1,66 @@
+21:38:17 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Out -D_AVR_ATtiny44_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny44 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:65:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[0].value;
+                              ^
+../Source/main.c:66:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&sensors[0].data[0];
+                              ^
+../Source/main.c:67:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[4]=&sensors[0].data[2];
+                              ^
+../Source/main.c:68:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[5]=&sensors[1].data[0];
+                              ^
+../Source/main.c:69:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[6]=&sensors[1].data[2];
+                              ^
+../Source/main.c:70:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[7]=&sensors[2].data[0];
+                              ^
+../Source/main.c:71:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[8]=&sensors[2].data[2];
+                              ^
+../Source/main.c:80:3: warning: implicit declaration of function ‘abs’ [-Wimplicit-function-declaration]
+   cnt1=abs(position-position_old)*0x0200;
+   ^
+../Source/main.c:33:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b=0;
+       ^
+Finished building: ../Source/main.c
+ 
+Building target: Out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Out.map -mmcu=attiny44 -o "Out.elf"  ./Source/blink.o ./Source/dht11.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Out.elf  >"Out.lss"
+Finished building: Out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Out.elf  "Out.hex"
+Finished building: Out.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2420 bytes (59.1% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+21:38:17 Build Finished (took 205ms)
+
