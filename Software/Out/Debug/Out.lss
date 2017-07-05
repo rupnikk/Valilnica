@@ -1,0 +1,1821 @@
+
+Out.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000972  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  00000972  00000a06  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000081  00800062  00800062  00000a08  2**0
+                  ALLOC
+  3 .stab         00001a34  00000000  00000000  00000a08  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      000011ab  00000000  00000000  0000243c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  000035e7  2**0
+                  CONTENTS, READONLY
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000035f8  2**2
+                  CONTENTS, READONLY
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	10 c0       	rjmp	.+32     	; 0x22 <__ctors_end>
+   2:	2a c0       	rjmp	.+84     	; 0x58 <__bad_interrupt>
+   4:	29 c0       	rjmp	.+82     	; 0x58 <__bad_interrupt>
+   6:	28 c0       	rjmp	.+80     	; 0x58 <__bad_interrupt>
+   8:	27 c0       	rjmp	.+78     	; 0x58 <__bad_interrupt>
+   a:	26 c0       	rjmp	.+76     	; 0x58 <__bad_interrupt>
+   c:	25 c0       	rjmp	.+74     	; 0x58 <__bad_interrupt>
+   e:	24 c0       	rjmp	.+72     	; 0x58 <__bad_interrupt>
+  10:	23 c0       	rjmp	.+70     	; 0x58 <__bad_interrupt>
+  12:	22 c0       	rjmp	.+68     	; 0x58 <__bad_interrupt>
+  14:	21 c0       	rjmp	.+66     	; 0x58 <__bad_interrupt>
+  16:	20 c0       	rjmp	.+64     	; 0x58 <__bad_interrupt>
+  18:	1f c0       	rjmp	.+62     	; 0x58 <__bad_interrupt>
+  1a:	1e c0       	rjmp	.+60     	; 0x58 <__bad_interrupt>
+  1c:	1d c0       	rjmp	.+58     	; 0x58 <__bad_interrupt>
+  1e:	f7 c3       	rjmp	.+2030   	; 0x80e <__vector_15>
+  20:	1a c4       	rjmp	.+2100   	; 0x856 <__vector_16>
+
+00000022 <__ctors_end>:
+  22:	11 24       	eor	r1, r1
+  24:	1f be       	out	0x3f, r1	; 63
+  26:	cf e5       	ldi	r28, 0x5F	; 95
+  28:	d1 e0       	ldi	r29, 0x01	; 1
+  2a:	de bf       	out	0x3e, r29	; 62
+  2c:	cd bf       	out	0x3d, r28	; 61
+
+0000002e <__do_copy_data>:
+  2e:	10 e0       	ldi	r17, 0x00	; 0
+  30:	a0 e6       	ldi	r26, 0x60	; 96
+  32:	b0 e0       	ldi	r27, 0x00	; 0
+  34:	e2 e7       	ldi	r30, 0x72	; 114
+  36:	f9 e0       	ldi	r31, 0x09	; 9
+  38:	02 c0       	rjmp	.+4      	; 0x3e <__SP_H__>
+  3a:	05 90       	lpm	r0, Z+
+  3c:	0d 92       	st	X+, r0
+  3e:	a2 36       	cpi	r26, 0x62	; 98
+  40:	b1 07       	cpc	r27, r17
+  42:	d9 f7       	brne	.-10     	; 0x3a <__do_copy_data+0xc>
+
+00000044 <__do_clear_bss>:
+  44:	20 e0       	ldi	r18, 0x00	; 0
+  46:	a2 e6       	ldi	r26, 0x62	; 98
+  48:	b0 e0       	ldi	r27, 0x00	; 0
+  4a:	01 c0       	rjmp	.+2      	; 0x4e <.do_clear_bss_start>
+
+0000004c <.do_clear_bss_loop>:
+  4c:	1d 92       	st	X+, r1
+
+0000004e <.do_clear_bss_start>:
+  4e:	a3 3e       	cpi	r26, 0xE3	; 227
+  50:	b2 07       	cpc	r27, r18
+  52:	e1 f7       	brne	.-8      	; 0x4c <.do_clear_bss_loop>
+  54:	dd d2       	rcall	.+1466   	; 0x610 <main>
+  56:	8b c4       	rjmp	.+2326   	; 0x96e <_exit>
+
+00000058 <__bad_interrupt>:
+  58:	d3 cf       	rjmp	.-90     	; 0x0 <__vectors>
+
+0000005a <BlinkCfg>:
+
+
+/*******************************
+ ************FUNKCIJE***********
+ *******************************/
+void BlinkCfg(Blink *ledica){
+  5a:	ef 92       	push	r14
+  5c:	ff 92       	push	r15
+  5e:	0f 93       	push	r16
+  60:	1f 93       	push	r17
+  62:	cf 93       	push	r28
+  64:	df 93       	push	r29
+  66:	fc 01       	movw	r30, r24
+	SETBIT(*(ledica->dir_port), ledica->pin);
+  68:	80 81       	ld	r24, Z
+  6a:	c3 81       	ldd	r28, Z+3	; 0x03
+  6c:	d4 81       	ldd	r29, Z+4	; 0x04
+  6e:	28 81       	ld	r18, Y
+  70:	41 e0       	ldi	r20, 0x01	; 1
+  72:	50 e0       	ldi	r21, 0x00	; 0
+  74:	60 e0       	ldi	r22, 0x00	; 0
+  76:	70 e0       	ldi	r23, 0x00	; 0
+  78:	7a 01       	movw	r14, r20
+  7a:	8b 01       	movw	r16, r22
+  7c:	04 c0       	rjmp	.+8      	; 0x86 <BlinkCfg+0x2c>
+  7e:	ee 0c       	add	r14, r14
+  80:	ff 1c       	adc	r15, r15
+  82:	00 1f       	adc	r16, r16
+  84:	11 1f       	adc	r17, r17
+  86:	8a 95       	dec	r24
+  88:	d2 f7       	brpl	.-12     	; 0x7e <BlinkCfg+0x24>
+  8a:	d8 01       	movw	r26, r16
+  8c:	c7 01       	movw	r24, r14
+  8e:	82 2b       	or	r24, r18
+  90:	88 83       	st	Y, r24
+	if(ledica->value==1)SETBIT(*(ledica->port), ledica->pin);
+  92:	85 81       	ldd	r24, Z+5	; 0x05
+  94:	90 81       	ld	r25, Z
+  96:	01 80       	ldd	r0, Z+1	; 0x01
+  98:	f2 81       	ldd	r31, Z+2	; 0x02
+  9a:	e0 2d       	mov	r30, r0
+  9c:	81 30       	cpi	r24, 0x01	; 1
+  9e:	a9 f0       	breq	.+42     	; 0xca <BlinkCfg+0x70>
+	else CLEARBIT(*(ledica->port), ledica->pin);
+  a0:	80 81       	ld	r24, Z
+  a2:	04 c0       	rjmp	.+8      	; 0xac <BlinkCfg+0x52>
+  a4:	44 0f       	add	r20, r20
+  a6:	55 1f       	adc	r21, r21
+  a8:	66 1f       	adc	r22, r22
+  aa:	77 1f       	adc	r23, r23
+  ac:	9a 95       	dec	r25
+  ae:	d2 f7       	brpl	.-12     	; 0xa4 <BlinkCfg+0x4a>
+  b0:	40 95       	com	r20
+  b2:	50 95       	com	r21
+  b4:	60 95       	com	r22
+  b6:	70 95       	com	r23
+  b8:	48 23       	and	r20, r24
+  ba:	40 83       	st	Z, r20
+}
+  bc:	df 91       	pop	r29
+  be:	cf 91       	pop	r28
+  c0:	1f 91       	pop	r17
+  c2:	0f 91       	pop	r16
+  c4:	ff 90       	pop	r15
+  c6:	ef 90       	pop	r14
+  c8:	08 95       	ret
+/*******************************
+ ************FUNKCIJE***********
+ *******************************/
+void BlinkCfg(Blink *ledica){
+	SETBIT(*(ledica->dir_port), ledica->pin);
+	if(ledica->value==1)SETBIT(*(ledica->port), ledica->pin);
+  ca:	80 81       	ld	r24, Z
+  cc:	04 c0       	rjmp	.+8      	; 0xd6 <BlinkCfg+0x7c>
+  ce:	44 0f       	add	r20, r20
+  d0:	55 1f       	adc	r21, r21
+  d2:	66 1f       	adc	r22, r22
+  d4:	77 1f       	adc	r23, r23
+  d6:	9a 95       	dec	r25
+  d8:	d2 f7       	brpl	.-12     	; 0xce <BlinkCfg+0x74>
+  da:	48 2b       	or	r20, r24
+  dc:	40 83       	st	Z, r20
+	else CLEARBIT(*(ledica->port), ledica->pin);
+}
+  de:	df 91       	pop	r29
+  e0:	cf 91       	pop	r28
+  e2:	1f 91       	pop	r17
+  e4:	0f 91       	pop	r16
+  e6:	ff 90       	pop	r15
+  e8:	ef 90       	pop	r14
+  ea:	08 95       	ret
+
+000000ec <IOCfg>:
+
+Blink leds[LED_NUM];
+Senzor sensors[SEN_NUM];
+
+
+void IOCfg(){
+  ec:	ef 92       	push	r14
+  ee:	ff 92       	push	r15
+  f0:	0f 93       	push	r16
+  f2:	1f 93       	push	r17
+  f4:	cf 93       	push	r28
+  f6:	df 93       	push	r29
+	uint8_t i;
+
+	leds[0].pin = VENT;
+  f8:	63 e0       	ldi	r22, 0x03	; 3
+  fa:	60 93 64 00 	sts	0x0064, r22	; 0x800064 <leds>
+	leds[0].port=&VENT_PORT;
+  fe:	28 e3       	ldi	r18, 0x38	; 56
+ 100:	30 e0       	ldi	r19, 0x00	; 0
+ 102:	30 93 66 00 	sts	0x0066, r19	; 0x800066 <leds+0x2>
+ 106:	20 93 65 00 	sts	0x0065, r18	; 0x800065 <leds+0x1>
+	leds[0].dir_port=&VENT_DIR_PORT;
+ 10a:	87 e3       	ldi	r24, 0x37	; 55
+ 10c:	90 e0       	ldi	r25, 0x00	; 0
+ 10e:	90 93 68 00 	sts	0x0068, r25	; 0x800068 <leds+0x4>
+ 112:	80 93 67 00 	sts	0x0067, r24	; 0x800067 <leds+0x3>
+	leds[0].value=0;
+ 116:	10 92 69 00 	sts	0x0069, r1	; 0x800069 <leds+0x5>
+
+	leds[1].pin = PH0;
+ 11a:	10 92 6d 00 	sts	0x006D, r1	; 0x80006d <leds+0x9>
+	leds[1].port=&PH0_PORT;
+ 11e:	30 93 6f 00 	sts	0x006F, r19	; 0x80006f <leds+0xb>
+ 122:	20 93 6e 00 	sts	0x006E, r18	; 0x80006e <leds+0xa>
+	leds[1].dir_port=&PH0_DIR_PORT;
+ 126:	90 93 71 00 	sts	0x0071, r25	; 0x800071 <leds+0xd>
+ 12a:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <leds+0xc>
+	leds[1].value=0;
+ 12e:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <leds+0xe>
+
+	leds[2].pin = PH1;
+ 132:	41 e0       	ldi	r20, 0x01	; 1
+ 134:	40 93 76 00 	sts	0x0076, r20	; 0x800076 <leds+0x12>
+	leds[2].port=&PH1_PORT;
+ 138:	30 93 78 00 	sts	0x0078, r19	; 0x800078 <leds+0x14>
+ 13c:	20 93 77 00 	sts	0x0077, r18	; 0x800077 <leds+0x13>
+	leds[2].dir_port=&PH1_DIR_PORT;
+ 140:	90 93 7a 00 	sts	0x007A, r25	; 0x80007a <leds+0x16>
+ 144:	80 93 79 00 	sts	0x0079, r24	; 0x800079 <leds+0x15>
+	leds[2].value=0;
+ 148:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <leds+0x17>
+
+	leds[3].pin = PH2;
+ 14c:	72 e0       	ldi	r23, 0x02	; 2
+ 14e:	70 93 7f 00 	sts	0x007F, r23	; 0x80007f <leds+0x1b>
+	leds[3].port=&PH2_PORT;
+ 152:	30 93 81 00 	sts	0x0081, r19	; 0x800081 <leds+0x1d>
+ 156:	20 93 80 00 	sts	0x0080, r18	; 0x800080 <leds+0x1c>
+	leds[3].dir_port=&PH2_DIR_PORT;
+ 15a:	90 93 83 00 	sts	0x0083, r25	; 0x800083 <leds+0x1f>
+ 15e:	80 93 82 00 	sts	0x0082, r24	; 0x800082 <leds+0x1e>
+	leds[3].value=0;
+ 162:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <leds+0x20>
+
+	leds[4].pin = PH3;
+ 166:	87 e0       	ldi	r24, 0x07	; 7
+ 168:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <leds+0x24>
+	leds[4].port=&PH3_PORT;
+ 16c:	2b e3       	ldi	r18, 0x3B	; 59
+ 16e:	30 e0       	ldi	r19, 0x00	; 0
+ 170:	30 93 8a 00 	sts	0x008A, r19	; 0x80008a <leds+0x26>
+ 174:	20 93 89 00 	sts	0x0089, r18	; 0x800089 <leds+0x25>
+	leds[4].dir_port=&PH3_DIR_PORT;
+ 178:	8a e3       	ldi	r24, 0x3A	; 58
+ 17a:	90 e0       	ldi	r25, 0x00	; 0
+ 17c:	90 93 8c 00 	sts	0x008C, r25	; 0x80008c <leds+0x28>
+ 180:	80 93 8b 00 	sts	0x008B, r24	; 0x80008b <leds+0x27>
+	leds[4].value=0;
+ 184:	10 92 8d 00 	sts	0x008D, r1	; 0x80008d <leds+0x29>
+
+
+	sensors[0].pin=S1;
+ 188:	40 93 91 00 	sts	0x0091, r20	; 0x800091 <sensors>
+	sensors[0].port=&S1_PORT;
+ 18c:	30 93 93 00 	sts	0x0093, r19	; 0x800093 <sensors+0x2>
+ 190:	20 93 92 00 	sts	0x0092, r18	; 0x800092 <sensors+0x1>
+	sensors[0].dir_port=&S1_DIR_PORT;
+ 194:	90 93 95 00 	sts	0x0095, r25	; 0x800095 <sensors+0x4>
+ 198:	80 93 94 00 	sts	0x0094, r24	; 0x800094 <sensors+0x3>
+	sensors[0].in_port=&S1_VALUE_REG;
+ 19c:	49 e3       	ldi	r20, 0x39	; 57
+ 19e:	50 e0       	ldi	r21, 0x00	; 0
+ 1a0:	50 93 97 00 	sts	0x0097, r21	; 0x800097 <sensors+0x6>
+ 1a4:	40 93 96 00 	sts	0x0096, r20	; 0x800096 <sensors+0x5>
+	sensors[0].type=DHT11;
+ 1a8:	10 92 9d 00 	sts	0x009D, r1	; 0x80009d <sensors+0xc>
+	for (i=0; i<5;i++){
+		sensors[0].data[i]=0;
+ 1ac:	10 92 98 00 	sts	0x0098, r1	; 0x800098 <sensors+0x7>
+ 1b0:	10 92 99 00 	sts	0x0099, r1	; 0x800099 <sensors+0x8>
+ 1b4:	10 92 9a 00 	sts	0x009A, r1	; 0x80009a <sensors+0x9>
+ 1b8:	10 92 9b 00 	sts	0x009B, r1	; 0x80009b <sensors+0xa>
+ 1bc:	10 92 9c 00 	sts	0x009C, r1	; 0x80009c <sensors+0xb>
+	}
+
+	sensors[1].pin=S2;
+ 1c0:	70 93 9e 00 	sts	0x009E, r23	; 0x80009e <sensors+0xd>
+	sensors[1].port=&S2_PORT;
+ 1c4:	30 93 a0 00 	sts	0x00A0, r19	; 0x8000a0 <sensors+0xf>
+ 1c8:	20 93 9f 00 	sts	0x009F, r18	; 0x80009f <sensors+0xe>
+	sensors[1].dir_port=&S2_DIR_PORT;
+ 1cc:	90 93 a2 00 	sts	0x00A2, r25	; 0x8000a2 <sensors+0x11>
+ 1d0:	80 93 a1 00 	sts	0x00A1, r24	; 0x8000a1 <sensors+0x10>
+	sensors[1].in_port=&S2_VALUE_REG;
+ 1d4:	50 93 a4 00 	sts	0x00A4, r21	; 0x8000a4 <sensors+0x13>
+ 1d8:	40 93 a3 00 	sts	0x00A3, r20	; 0x8000a3 <sensors+0x12>
+	sensors[1].type=DHT11;
+ 1dc:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <sensors+0x19>
+	for (i=0; i<5;i++){
+		sensors[1].data[i]=0;
+ 1e0:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <sensors+0x14>
+ 1e4:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <sensors+0x15>
+ 1e8:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <sensors+0x16>
+ 1ec:	10 92 a8 00 	sts	0x00A8, r1	; 0x8000a8 <sensors+0x17>
+ 1f0:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <sensors+0x18>
+	}
+
+	sensors[2].pin=S3;
+ 1f4:	60 93 ab 00 	sts	0x00AB, r22	; 0x8000ab <sensors+0x1a>
+	sensors[2].port=&S3_PORT;
+ 1f8:	30 93 ad 00 	sts	0x00AD, r19	; 0x8000ad <sensors+0x1c>
+ 1fc:	20 93 ac 00 	sts	0x00AC, r18	; 0x8000ac <sensors+0x1b>
+	sensors[2].dir_port=&S3_DIR_PORT;
+ 200:	90 93 af 00 	sts	0x00AF, r25	; 0x8000af <sensors+0x1e>
+ 204:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <sensors+0x1d>
+	sensors[2].in_port=&S3_VALUE_REG;
+ 208:	50 93 b1 00 	sts	0x00B1, r21	; 0x8000b1 <sensors+0x20>
+ 20c:	40 93 b0 00 	sts	0x00B0, r20	; 0x8000b0 <sensors+0x1f>
+	sensors[2].type=DHT11;
+ 210:	10 92 b7 00 	sts	0x00B7, r1	; 0x8000b7 <sensors+0x26>
+	for (i=0; i<5;i++){
+		sensors[2].data[i]=0;
+ 214:	10 92 b2 00 	sts	0x00B2, r1	; 0x8000b2 <sensors+0x21>
+ 218:	10 92 b3 00 	sts	0x00B3, r1	; 0x8000b3 <sensors+0x22>
+ 21c:	10 92 b4 00 	sts	0x00B4, r1	; 0x8000b4 <sensors+0x23>
+ 220:	10 92 b5 00 	sts	0x00B5, r1	; 0x8000b5 <sensors+0x24>
+ 224:	10 92 b6 00 	sts	0x00B6, r1	; 0x8000b6 <sensors+0x25>
+ 228:	c4 e6       	ldi	r28, 0x64	; 100
+ 22a:	d0 e0       	ldi	r29, 0x00	; 0
+	}
+
+	for ( i=0; i<LED_NUM;i++){
+		BlinkCfg(&leds[i]);
+ 22c:	ce 01       	movw	r24, r28
+ 22e:	15 df       	rcall	.-470    	; 0x5a <BlinkCfg>
+ 230:	29 96       	adiw	r28, 0x09	; 9
+	sensors[2].type=DHT11;
+	for (i=0; i<5;i++){
+		sensors[2].data[i]=0;
+	}
+
+	for ( i=0; i<LED_NUM;i++){
+ 232:	00 e0       	ldi	r16, 0x00	; 0
+ 234:	c1 39       	cpi	r28, 0x91	; 145
+ 236:	d0 07       	cpc	r29, r16
+ 238:	c9 f7       	brne	.-14     	; 0x22c <__stack+0xcd>
+ 23a:	e1 e9       	ldi	r30, 0x91	; 145
+ 23c:	f0 e0       	ldi	r31, 0x00	; 0
+		CLEARBIT(*(ledica->port), ledica->pin);
+	}
+}
+
+void InputCfg(Input *button){
+	CLEARBIT(*(button->dir_port), button->pin);
+ 23e:	41 e0       	ldi	r20, 0x01	; 1
+ 240:	50 e0       	ldi	r21, 0x00	; 0
+ 242:	60 e0       	ldi	r22, 0x00	; 0
+ 244:	70 e0       	ldi	r23, 0x00	; 0
+ 246:	80 81       	ld	r24, Z
+ 248:	c3 81       	ldd	r28, Z+3	; 0x03
+ 24a:	d4 81       	ldd	r29, Z+4	; 0x04
+ 24c:	28 81       	ld	r18, Y
+ 24e:	7a 01       	movw	r14, r20
+ 250:	8b 01       	movw	r16, r22
+ 252:	04 c0       	rjmp	.+8      	; 0x25c <__stack+0xfd>
+ 254:	ee 0c       	add	r14, r14
+ 256:	ff 1c       	adc	r15, r15
+ 258:	00 1f       	adc	r16, r16
+ 25a:	11 1f       	adc	r17, r17
+ 25c:	8a 95       	dec	r24
+ 25e:	d2 f7       	brpl	.-12     	; 0x254 <__stack+0xf5>
+ 260:	d8 01       	movw	r26, r16
+ 262:	c7 01       	movw	r24, r14
+ 264:	80 95       	com	r24
+ 266:	90 95       	com	r25
+ 268:	a0 95       	com	r26
+ 26a:	b0 95       	com	r27
+ 26c:	82 23       	and	r24, r18
+ 26e:	88 83       	st	Y, r24
+	SETBIT(*(button->port), button->pin);
+ 270:	80 81       	ld	r24, Z
+ 272:	c1 81       	ldd	r28, Z+1	; 0x01
+ 274:	d2 81       	ldd	r29, Z+2	; 0x02
+ 276:	28 81       	ld	r18, Y
+ 278:	7a 01       	movw	r14, r20
+ 27a:	8b 01       	movw	r16, r22
+ 27c:	04 c0       	rjmp	.+8      	; 0x286 <__stack+0x127>
+ 27e:	ee 0c       	add	r14, r14
+ 280:	ff 1c       	adc	r15, r15
+ 282:	00 1f       	adc	r16, r16
+ 284:	11 1f       	adc	r17, r17
+ 286:	8a 95       	dec	r24
+ 288:	d2 f7       	brpl	.-12     	; 0x27e <__stack+0x11f>
+ 28a:	d8 01       	movw	r26, r16
+ 28c:	c7 01       	movw	r24, r14
+ 28e:	82 2b       	or	r24, r18
+ 290:	88 83       	st	Y, r24
+ 292:	3d 96       	adiw	r30, 0x0d	; 13
+	}
+
+	for ( i=0; i<LED_NUM;i++){
+		BlinkCfg(&leds[i]);
+	}
+	for ( i=0; i<SEN_NUM;i++){
+ 294:	00 e0       	ldi	r16, 0x00	; 0
+ 296:	e8 3b       	cpi	r30, 0xB8	; 184
+ 298:	f0 07       	cpc	r31, r16
+ 29a:	a9 f6       	brne	.-86     	; 0x246 <__stack+0xe7>
+		InputCfg(&sensors[i]);
+	}
+
+};
+ 29c:	df 91       	pop	r29
+ 29e:	cf 91       	pop	r28
+ 2a0:	1f 91       	pop	r17
+ 2a2:	0f 91       	pop	r16
+ 2a4:	ff 90       	pop	r15
+ 2a6:	ef 90       	pop	r14
+ 2a8:	08 95       	ret
+
+000002aa <SetValue>:
+	SETBIT(*(ledica->dir_port), ledica->pin);
+	if(ledica->value==1)SETBIT(*(ledica->port), ledica->pin);
+	else CLEARBIT(*(ledica->port), ledica->pin);
+}
+
+void SetValue(Blink *ledica){
+ 2aa:	fc 01       	movw	r30, r24
+	if(ledica->value==1){
+ 2ac:	85 81       	ldd	r24, Z+5	; 0x05
+		SETBIT(*(ledica->port), ledica->pin);
+ 2ae:	30 81       	ld	r19, Z
+ 2b0:	01 80       	ldd	r0, Z+1	; 0x01
+ 2b2:	f2 81       	ldd	r31, Z+2	; 0x02
+ 2b4:	e0 2d       	mov	r30, r0
+ 2b6:	20 81       	ld	r18, Z
+	if(ledica->value==1)SETBIT(*(ledica->port), ledica->pin);
+	else CLEARBIT(*(ledica->port), ledica->pin);
+}
+
+void SetValue(Blink *ledica){
+	if(ledica->value==1){
+ 2b8:	81 30       	cpi	r24, 0x01	; 1
+ 2ba:	91 f0       	breq	.+36     	; 0x2e0 <SetValue+0x36>
+		SETBIT(*(ledica->port), ledica->pin);
+	}
+	else {
+		CLEARBIT(*(ledica->port), ledica->pin);
+ 2bc:	81 e0       	ldi	r24, 0x01	; 1
+ 2be:	90 e0       	ldi	r25, 0x00	; 0
+ 2c0:	a0 e0       	ldi	r26, 0x00	; 0
+ 2c2:	b0 e0       	ldi	r27, 0x00	; 0
+ 2c4:	04 c0       	rjmp	.+8      	; 0x2ce <SetValue+0x24>
+ 2c6:	88 0f       	add	r24, r24
+ 2c8:	99 1f       	adc	r25, r25
+ 2ca:	aa 1f       	adc	r26, r26
+ 2cc:	bb 1f       	adc	r27, r27
+ 2ce:	3a 95       	dec	r19
+ 2d0:	d2 f7       	brpl	.-12     	; 0x2c6 <SetValue+0x1c>
+ 2d2:	80 95       	com	r24
+ 2d4:	90 95       	com	r25
+ 2d6:	a0 95       	com	r26
+ 2d8:	b0 95       	com	r27
+ 2da:	82 23       	and	r24, r18
+ 2dc:	80 83       	st	Z, r24
+ 2de:	08 95       	ret
+	else CLEARBIT(*(ledica->port), ledica->pin);
+}
+
+void SetValue(Blink *ledica){
+	if(ledica->value==1){
+		SETBIT(*(ledica->port), ledica->pin);
+ 2e0:	81 e0       	ldi	r24, 0x01	; 1
+ 2e2:	90 e0       	ldi	r25, 0x00	; 0
+ 2e4:	a0 e0       	ldi	r26, 0x00	; 0
+ 2e6:	b0 e0       	ldi	r27, 0x00	; 0
+ 2e8:	04 c0       	rjmp	.+8      	; 0x2f2 <SetValue+0x48>
+ 2ea:	88 0f       	add	r24, r24
+ 2ec:	99 1f       	adc	r25, r25
+ 2ee:	aa 1f       	adc	r26, r26
+ 2f0:	bb 1f       	adc	r27, r27
+ 2f2:	3a 95       	dec	r19
+ 2f4:	d2 f7       	brpl	.-12     	; 0x2ea <SetValue+0x40>
+ 2f6:	82 2b       	or	r24, r18
+ 2f8:	80 83       	st	Z, r24
+ 2fa:	08 95       	ret
+
+000002fc <InputCfg>:
+	else {
+		CLEARBIT(*(ledica->port), ledica->pin);
+	}
+}
+
+void InputCfg(Input *button){
+ 2fc:	0f 93       	push	r16
+ 2fe:	1f 93       	push	r17
+ 300:	fc 01       	movw	r30, r24
+	CLEARBIT(*(button->dir_port), button->pin);
+ 302:	90 81       	ld	r25, Z
+ 304:	a3 81       	ldd	r26, Z+3	; 0x03
+ 306:	b4 81       	ldd	r27, Z+4	; 0x04
+ 308:	8c 91       	ld	r24, X
+ 30a:	41 e0       	ldi	r20, 0x01	; 1
+ 30c:	50 e0       	ldi	r21, 0x00	; 0
+ 30e:	60 e0       	ldi	r22, 0x00	; 0
+ 310:	70 e0       	ldi	r23, 0x00	; 0
+ 312:	8a 01       	movw	r16, r20
+ 314:	9b 01       	movw	r18, r22
+ 316:	04 c0       	rjmp	.+8      	; 0x320 <InputCfg+0x24>
+ 318:	00 0f       	add	r16, r16
+ 31a:	11 1f       	adc	r17, r17
+ 31c:	22 1f       	adc	r18, r18
+ 31e:	33 1f       	adc	r19, r19
+ 320:	9a 95       	dec	r25
+ 322:	d2 f7       	brpl	.-12     	; 0x318 <InputCfg+0x1c>
+ 324:	00 95       	com	r16
+ 326:	10 95       	com	r17
+ 328:	20 95       	com	r18
+ 32a:	30 95       	com	r19
+ 32c:	08 23       	and	r16, r24
+ 32e:	0c 93       	st	X, r16
+	SETBIT(*(button->port), button->pin);
+ 330:	90 81       	ld	r25, Z
+ 332:	01 80       	ldd	r0, Z+1	; 0x01
+ 334:	f2 81       	ldd	r31, Z+2	; 0x02
+ 336:	e0 2d       	mov	r30, r0
+ 338:	80 81       	ld	r24, Z
+ 33a:	04 c0       	rjmp	.+8      	; 0x344 <InputCfg+0x48>
+ 33c:	44 0f       	add	r20, r20
+ 33e:	55 1f       	adc	r21, r21
+ 340:	66 1f       	adc	r22, r22
+ 342:	77 1f       	adc	r23, r23
+ 344:	9a 95       	dec	r25
+ 346:	d2 f7       	brpl	.-12     	; 0x33c <InputCfg+0x40>
+ 348:	48 2b       	or	r20, r24
+ 34a:	40 83       	st	Z, r20
+}
+ 34c:	1f 91       	pop	r17
+ 34e:	0f 91       	pop	r16
+ 350:	08 95       	ret
+
+00000352 <initDHT>:
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 352:	2f ef       	ldi	r18, 0xFF	; 255
+ 354:	83 ed       	ldi	r24, 0xD3	; 211
+ 356:	90 e3       	ldi	r25, 0x30	; 48
+ 358:	21 50       	subi	r18, 0x01	; 1
+ 35a:	80 40       	sbci	r24, 0x00	; 0
+ 35c:	90 40       	sbci	r25, 0x00	; 0
+ 35e:	e1 f7       	brne	.-8      	; 0x358 <initDHT+0x6>
+ 360:	00 c0       	rjmp	.+0      	; 0x362 <initDHT+0x10>
+ 362:	00 00       	nop
+ 364:	08 95       	ret
+
+00000366 <fetchData>:
+}
+
+
+//uint8_t fetchData(uint8_t* arr)
+uint8_t fetchData(Senzor *sensor)
+{
+ 366:	8f 92       	push	r8
+ 368:	9f 92       	push	r9
+ 36a:	af 92       	push	r10
+ 36c:	bf 92       	push	r11
+ 36e:	cf 92       	push	r12
+ 370:	df 92       	push	r13
+ 372:	ef 92       	push	r14
+ 374:	ff 92       	push	r15
+ 376:	1f 93       	push	r17
+ 378:	cf 93       	push	r28
+ 37a:	df 93       	push	r29
+ 37c:	00 d0       	rcall	.+0      	; 0x37e <fetchData+0x18>
+ 37e:	00 d0       	rcall	.+0      	; 0x380 <fetchData+0x1a>
+ 380:	1f 92       	push	r1
+ 382:	cd b7       	in	r28, 0x3d	; 61
+ 384:	de b7       	in	r29, 0x3e	; 62
+ 386:	fc 01       	movw	r30, r24
+    int8_t i,j;
+    //return 1;
+    /******************* Sensor communication start *******************/
+    
+    /* Set data pin as output first */
+    SETBIT(*(sensor->dir_port),sensor->pin);
+ 388:	40 81       	ld	r20, Z
+ 38a:	23 81       	ldd	r18, Z+3	; 0x03
+ 38c:	34 81       	ldd	r19, Z+4	; 0x04
+ 38e:	d9 01       	movw	r26, r18
+ 390:	1c 91       	ld	r17, X
+ 392:	81 2c       	mov	r8, r1
+ 394:	91 2c       	mov	r9, r1
+ 396:	54 01       	movw	r10, r8
+ 398:	83 94       	inc	r8
+ 39a:	75 01       	movw	r14, r10
+ 39c:	64 01       	movw	r12, r8
+ 39e:	04 c0       	rjmp	.+8      	; 0x3a8 <fetchData+0x42>
+ 3a0:	cc 0c       	add	r12, r12
+ 3a2:	dd 1c       	adc	r13, r13
+ 3a4:	ee 1c       	adc	r14, r14
+ 3a6:	ff 1c       	adc	r15, r15
+ 3a8:	4a 95       	dec	r20
+ 3aa:	d2 f7       	brpl	.-12     	; 0x3a0 <fetchData+0x3a>
+ 3ac:	b7 01       	movw	r22, r14
+ 3ae:	a6 01       	movw	r20, r12
+ 3b0:	41 2b       	or	r20, r17
+ 3b2:	4c 93       	st	X, r20
+    
+    /* First we need milliseconds delay, so set clk/1024 prescaler */
+    TCCR0B = 0x05;
+ 3b4:	25 e0       	ldi	r18, 0x05	; 5
+ 3b6:	23 bf       	out	0x33, r18	; 51
+    
+    TCNT0 = 0;
+ 3b8:	12 be       	out	0x32, r1	; 50
+    
+     /* Clear bit for 20 ms */
+ 	//CLEAR_BIT(DHT_PORT_OUT,LED);
+    //CLEAR_BIT(DHT_PORT_OUT,DHT_PIN);
+    CLEARBIT(*(sensor->port), sensor->pin);
+ 3ba:	50 81       	ld	r21, Z
+ 3bc:	21 81       	ldd	r18, Z+1	; 0x01
+ 3be:	32 81       	ldd	r19, Z+2	; 0x02
+ 3c0:	d9 01       	movw	r26, r18
+ 3c2:	4c 91       	ld	r20, X
+ 3c4:	d5 01       	movw	r26, r10
+ 3c6:	c4 01       	movw	r24, r8
+ 3c8:	04 c0       	rjmp	.+8      	; 0x3d2 <fetchData+0x6c>
+ 3ca:	88 0f       	add	r24, r24
+ 3cc:	99 1f       	adc	r25, r25
+ 3ce:	aa 1f       	adc	r26, r26
+ 3d0:	bb 1f       	adc	r27, r27
+ 3d2:	5a 95       	dec	r21
+ 3d4:	d2 f7       	brpl	.-12     	; 0x3ca <fetchData+0x64>
+ 3d6:	80 95       	com	r24
+ 3d8:	90 95       	com	r25
+ 3da:	a0 95       	com	r26
+ 3dc:	b0 95       	com	r27
+ 3de:	84 23       	and	r24, r20
+ 3e0:	d9 01       	movw	r26, r18
+ 3e2:	8c 93       	st	X, r24
+//     
+ //   return 1;
+//     /* Wait about 20 ms */
+     while(TCNT0 < 160);
+ 3e4:	82 b7       	in	r24, 0x32	; 50
+ 3e6:	80 3a       	cpi	r24, 0xA0	; 160
+ 3e8:	e8 f3       	brcs	.-6      	; 0x3e4 <fetchData+0x7e>
+//     
+//     /* Now set Timer0 with clk/8 prescaling.
+//      Gives 1µs per cycle @8Mhz */
+     TCCR0B = 0x02;
+ 3ea:	82 e0       	ldi	r24, 0x02	; 2
+ 3ec:	83 bf       	out	0x33, r24	; 51
+//     
+    TCNT0 = 0;
+ 3ee:	12 be       	out	0x32, r1	; 50
+//     
+//     /* Pull high again */
+    SETBIT(*(sensor->port),sensor->pin);
+ 3f0:	40 81       	ld	r20, Z
+ 3f2:	21 81       	ldd	r18, Z+1	; 0x01
+ 3f4:	32 81       	ldd	r19, Z+2	; 0x02
+ 3f6:	d9 01       	movw	r26, r18
+ 3f8:	1c 91       	ld	r17, X
+ 3fa:	81 2c       	mov	r8, r1
+ 3fc:	91 2c       	mov	r9, r1
+ 3fe:	54 01       	movw	r10, r8
+ 400:	83 94       	inc	r8
+ 402:	75 01       	movw	r14, r10
+ 404:	64 01       	movw	r12, r8
+ 406:	04 c0       	rjmp	.+8      	; 0x410 <__FUSE_REGION_LENGTH__+0x10>
+ 408:	cc 0c       	add	r12, r12
+ 40a:	dd 1c       	adc	r13, r13
+ 40c:	ee 1c       	adc	r14, r14
+ 40e:	ff 1c       	adc	r15, r15
+ 410:	4a 95       	dec	r20
+ 412:	d2 f7       	brpl	.-12     	; 0x408 <__FUSE_REGION_LENGTH__+0x8>
+ 414:	b7 01       	movw	r22, r14
+ 416:	a6 01       	movw	r20, r12
+ 418:	41 2b       	or	r20, r17
+ 41a:	4c 93       	st	X, r20
+  // while(TCNT0 < 30);
+//     /* And set data pin as input */
+    CLEARBIT(*(sensor->dir_port),sensor->pin);
+ 41c:	40 81       	ld	r20, Z
+ 41e:	23 81       	ldd	r18, Z+3	; 0x03
+ 420:	34 81       	ldd	r19, Z+4	; 0x04
+ 422:	d9 01       	movw	r26, r18
+ 424:	1c 91       	ld	r17, X
+ 426:	75 01       	movw	r14, r10
+ 428:	64 01       	movw	r12, r8
+ 42a:	04 c0       	rjmp	.+8      	; 0x434 <__FUSE_REGION_LENGTH__+0x34>
+ 42c:	cc 0c       	add	r12, r12
+ 42e:	dd 1c       	adc	r13, r13
+ 430:	ee 1c       	adc	r14, r14
+ 432:	ff 1c       	adc	r15, r15
+ 434:	4a 95       	dec	r20
+ 436:	d2 f7       	brpl	.-12     	; 0x42c <__FUSE_REGION_LENGTH__+0x2c>
+ 438:	b7 01       	movw	r22, r14
+ 43a:	a6 01       	movw	r20, r12
+ 43c:	40 95       	com	r20
+ 43e:	50 95       	com	r21
+ 440:	60 95       	com	r22
+ 442:	70 95       	com	r23
+ 444:	41 23       	and	r20, r17
+ 446:	4c 93       	st	X, r20
+ 	CLEARBIT(*(sensor->port), sensor->pin);
+ 448:	50 81       	ld	r21, Z
+ 44a:	21 81       	ldd	r18, Z+1	; 0x01
+ 44c:	32 81       	ldd	r19, Z+2	; 0x02
+ 44e:	d9 01       	movw	r26, r18
+ 450:	4c 91       	ld	r20, X
+ 452:	d5 01       	movw	r26, r10
+ 454:	c4 01       	movw	r24, r8
+ 456:	04 c0       	rjmp	.+8      	; 0x460 <__FUSE_REGION_LENGTH__+0x60>
+ 458:	88 0f       	add	r24, r24
+ 45a:	99 1f       	adc	r25, r25
+ 45c:	aa 1f       	adc	r26, r26
+ 45e:	bb 1f       	adc	r27, r27
+ 460:	5a 95       	dec	r21
+ 462:	d2 f7       	brpl	.-12     	; 0x458 <__FUSE_REGION_LENGTH__+0x58>
+ 464:	80 95       	com	r24
+ 466:	90 95       	com	r25
+ 468:	a0 95       	com	r26
+ 46a:	b0 95       	com	r27
+ 46c:	84 23       	and	r24, r20
+ 46e:	d9 01       	movw	r26, r18
+ 470:	8c 93       	st	X, r24
+//     
+
+// 	
+ 	TCNT0 = 0;
+ 472:	12 be       	out	0x32, r1	; 50
+//     /* Wait for response from sensor, 20-40µs according to datasheet */
+     while(BITSET(*(sensor->in_port),sensor->pin))
+ 474:	04 c0       	rjmp	.+8      	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+     { if (TCNT0 >= 60) return 0; }
+ 476:	82 b7       	in	r24, 0x32	; 50
+ 478:	8c 33       	cpi	r24, 0x3C	; 60
+ 47a:	08 f0       	brcs	.+2      	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+ 47c:	a4 c0       	rjmp	.+328    	; 0x5c6 <__FUSE_REGION_LENGTH__+0x1c6>
+//     
+
+// 	
+ 	TCNT0 = 0;
+//     /* Wait for response from sensor, 20-40µs according to datasheet */
+     while(BITSET(*(sensor->in_port),sensor->pin))
+ 47e:	a5 81       	ldd	r26, Z+5	; 0x05
+ 480:	b6 81       	ldd	r27, Z+6	; 0x06
+ 482:	4c 91       	ld	r20, X
+ 484:	80 81       	ld	r24, Z
+ 486:	50 e0       	ldi	r21, 0x00	; 0
+ 488:	60 e0       	ldi	r22, 0x00	; 0
+ 48a:	70 e0       	ldi	r23, 0x00	; 0
+ 48c:	04 c0       	rjmp	.+8      	; 0x496 <__FUSE_REGION_LENGTH__+0x96>
+ 48e:	76 95       	lsr	r23
+ 490:	67 95       	ror	r22
+ 492:	57 95       	ror	r21
+ 494:	47 95       	ror	r20
+ 496:	8a 95       	dec	r24
+ 498:	d2 f7       	brpl	.-12     	; 0x48e <__FUSE_REGION_LENGTH__+0x8e>
+ 49a:	40 fd       	sbrc	r20, 0
+ 49c:	ec cf       	rjmp	.-40     	; 0x476 <__FUSE_REGION_LENGTH__+0x76>
+     { if (TCNT0 >= 60) return 0; }
+     //return 1;
+//     /************************* Sensor preamble *************************/
+//     
+     TCNT0 = 0;
+ 49e:	12 be       	out	0x32, r1	; 50
+//     
+//     /* Now wait for the first response to finish, low ~80µs */
+     while(!BITSET(*(sensor->in_port),sensor->pin))
+ 4a0:	04 c0       	rjmp	.+8      	; 0x4aa <__FUSE_REGION_LENGTH__+0xaa>
+     { if (TCNT0 >= 100) return 0; }
+ 4a2:	82 b7       	in	r24, 0x32	; 50
+ 4a4:	84 36       	cpi	r24, 0x64	; 100
+ 4a6:	08 f0       	brcs	.+2      	; 0x4aa <__FUSE_REGION_LENGTH__+0xaa>
+ 4a8:	8e c0       	rjmp	.+284    	; 0x5c6 <__FUSE_REGION_LENGTH__+0x1c6>
+//     /************************* Sensor preamble *************************/
+//     
+     TCNT0 = 0;
+//     
+//     /* Now wait for the first response to finish, low ~80µs */
+     while(!BITSET(*(sensor->in_port),sensor->pin))
+ 4aa:	a5 81       	ldd	r26, Z+5	; 0x05
+ 4ac:	b6 81       	ldd	r27, Z+6	; 0x06
+ 4ae:	8c 91       	ld	r24, X
+ 4b0:	20 81       	ld	r18, Z
+ 4b2:	90 e0       	ldi	r25, 0x00	; 0
+ 4b4:	a0 e0       	ldi	r26, 0x00	; 0
+ 4b6:	b0 e0       	ldi	r27, 0x00	; 0
+ 4b8:	04 c0       	rjmp	.+8      	; 0x4c2 <__FUSE_REGION_LENGTH__+0xc2>
+ 4ba:	b6 95       	lsr	r27
+ 4bc:	a7 95       	ror	r26
+ 4be:	97 95       	ror	r25
+ 4c0:	87 95       	ror	r24
+ 4c2:	2a 95       	dec	r18
+ 4c4:	d2 f7       	brpl	.-12     	; 0x4ba <__FUSE_REGION_LENGTH__+0xba>
+ 4c6:	80 ff       	sbrs	r24, 0
+ 4c8:	ec cf       	rjmp	.-40     	; 0x4a2 <__FUSE_REGION_LENGTH__+0xa2>
+     { if (TCNT0 >= 100) return 0; }
+//     
+
+     TCNT0 = 0;
+ 4ca:	12 be       	out	0x32, r1	; 50
+//     
+//     /* Then wait for the second response to finish, high ~80µs */
+     while(BITSET(*(sensor->in_port),sensor->pin))
+ 4cc:	04 c0       	rjmp	.+8      	; 0x4d6 <__FUSE_REGION_LENGTH__+0xd6>
+     { if (TCNT0 >= 100) return 0; }
+ 4ce:	82 b7       	in	r24, 0x32	; 50
+ 4d0:	84 36       	cpi	r24, 0x64	; 100
+ 4d2:	08 f0       	brcs	.+2      	; 0x4d6 <__FUSE_REGION_LENGTH__+0xd6>
+ 4d4:	78 c0       	rjmp	.+240    	; 0x5c6 <__FUSE_REGION_LENGTH__+0x1c6>
+//     
+
+     TCNT0 = 0;
+//     
+//     /* Then wait for the second response to finish, high ~80µs */
+     while(BITSET(*(sensor->in_port),sensor->pin))
+ 4d6:	a5 81       	ldd	r26, Z+5	; 0x05
+ 4d8:	b6 81       	ldd	r27, Z+6	; 0x06
+ 4da:	8c 91       	ld	r24, X
+ 4dc:	20 81       	ld	r18, Z
+ 4de:	90 e0       	ldi	r25, 0x00	; 0
+ 4e0:	a0 e0       	ldi	r26, 0x00	; 0
+ 4e2:	b0 e0       	ldi	r27, 0x00	; 0
+ 4e4:	04 c0       	rjmp	.+8      	; 0x4ee <__FUSE_REGION_LENGTH__+0xee>
+ 4e6:	b6 95       	lsr	r27
+ 4e8:	a7 95       	ror	r26
+ 4ea:	97 95       	ror	r25
+ 4ec:	87 95       	ror	r24
+ 4ee:	2a 95       	dec	r18
+ 4f0:	d2 f7       	brpl	.-12     	; 0x4e6 <__FUSE_REGION_LENGTH__+0xe6>
+ 4f2:	80 fd       	sbrc	r24, 0
+ 4f4:	ec cf       	rjmp	.-40     	; 0x4ce <__FUSE_REGION_LENGTH__+0xce>
+ 4f6:	ae 01       	movw	r20, r28
+ 4f8:	4f 5f       	subi	r20, 0xFF	; 255
+ 4fa:	5f 4f       	sbci	r21, 0xFF	; 255
+ 4fc:	be 01       	movw	r22, r28
+ 4fe:	6a 5f       	subi	r22, 0xFA	; 250
+ 500:	7f 4f       	sbci	r23, 0xFF	; 255
+            cnt = TCNT0;
+            if ((cnt >=10) && (cnt <= 45))
+            { CLEARBIT(data[i],j);}
+            
+            else if ((cnt > 45) && (cnt <= 85))
+            { SETBIT(data[i],j); }
+ 502:	c1 2c       	mov	r12, r1
+ 504:	d1 2c       	mov	r13, r1
+ 506:	76 01       	movw	r14, r12
+ 508:	c3 94       	inc	r12
+}
+
+
+//uint8_t fetchData(uint8_t* arr)
+uint8_t fetchData(Senzor *sensor)
+{
+ 50a:	27 e0       	ldi	r18, 0x07	; 7
+ 50c:	30 e0       	ldi	r19, 0x00	; 0
+
+    for (i = 0; i < 5; i++)
+    {
+        for(j = 7; j >= 0; j--)
+        {
+            TCNT0 = 0;
+ 50e:	12 be       	out	0x32, r1	; 50
+            
+            /* First there is always a 50µs low period */
+            while(!BITSET(*(sensor->in_port),sensor->pin))
+ 510:	04 c0       	rjmp	.+8      	; 0x51a <__FUSE_REGION_LENGTH__+0x11a>
+            { if (TCNT0 >= 70) { return 0;} }
+ 512:	82 b7       	in	r24, 0x32	; 50
+ 514:	86 34       	cpi	r24, 0x46	; 70
+ 516:	08 f0       	brcs	.+2      	; 0x51a <__FUSE_REGION_LENGTH__+0x11a>
+ 518:	56 c0       	rjmp	.+172    	; 0x5c6 <__FUSE_REGION_LENGTH__+0x1c6>
+        for(j = 7; j >= 0; j--)
+        {
+            TCNT0 = 0;
+            
+            /* First there is always a 50µs low period */
+            while(!BITSET(*(sensor->in_port),sensor->pin))
+ 51a:	a5 81       	ldd	r26, Z+5	; 0x05
+ 51c:	b6 81       	ldd	r27, Z+6	; 0x06
+ 51e:	8c 91       	ld	r24, X
+ 520:	10 81       	ld	r17, Z
+ 522:	90 e0       	ldi	r25, 0x00	; 0
+ 524:	a0 e0       	ldi	r26, 0x00	; 0
+ 526:	b0 e0       	ldi	r27, 0x00	; 0
+ 528:	04 c0       	rjmp	.+8      	; 0x532 <__FUSE_REGION_LENGTH__+0x132>
+ 52a:	b6 95       	lsr	r27
+ 52c:	a7 95       	ror	r26
+ 52e:	97 95       	ror	r25
+ 530:	87 95       	ror	r24
+ 532:	1a 95       	dec	r17
+ 534:	d2 f7       	brpl	.-12     	; 0x52a <__FUSE_REGION_LENGTH__+0x12a>
+ 536:	80 ff       	sbrs	r24, 0
+ 538:	ec cf       	rjmp	.-40     	; 0x512 <__FUSE_REGION_LENGTH__+0x112>
+            { if (TCNT0 >= 70) { return 0;} }
+
+            TCNT0 = 0;
+ 53a:	12 be       	out	0x32, r1	; 50
+            
+            /* Then the data signal is sent. 26 to 28µs (ideally)
+             indicate a low bit, and around 70µs a high bit */
+            while(BITSET(*(sensor->in_port),sensor->pin))
+ 53c:	04 c0       	rjmp	.+8      	; 0x546 <__FUSE_REGION_LENGTH__+0x146>
+            { if (TCNT0 >= 90) return 0; }
+ 53e:	82 b7       	in	r24, 0x32	; 50
+ 540:	8a 35       	cpi	r24, 0x5A	; 90
+ 542:	08 f0       	brcs	.+2      	; 0x546 <__FUSE_REGION_LENGTH__+0x146>
+ 544:	40 c0       	rjmp	.+128    	; 0x5c6 <__FUSE_REGION_LENGTH__+0x1c6>
+
+            TCNT0 = 0;
+            
+            /* Then the data signal is sent. 26 to 28µs (ideally)
+             indicate a low bit, and around 70µs a high bit */
+            while(BITSET(*(sensor->in_port),sensor->pin))
+ 546:	a5 81       	ldd	r26, Z+5	; 0x05
+ 548:	b6 81       	ldd	r27, Z+6	; 0x06
+ 54a:	8c 91       	ld	r24, X
+ 54c:	10 81       	ld	r17, Z
+ 54e:	90 e0       	ldi	r25, 0x00	; 0
+ 550:	a0 e0       	ldi	r26, 0x00	; 0
+ 552:	b0 e0       	ldi	r27, 0x00	; 0
+ 554:	04 c0       	rjmp	.+8      	; 0x55e <__FUSE_REGION_LENGTH__+0x15e>
+ 556:	b6 95       	lsr	r27
+ 558:	a7 95       	ror	r26
+ 55a:	97 95       	ror	r25
+ 55c:	87 95       	ror	r24
+ 55e:	1a 95       	dec	r17
+ 560:	d2 f7       	brpl	.-12     	; 0x556 <__FUSE_REGION_LENGTH__+0x156>
+ 562:	80 fd       	sbrc	r24, 0
+ 564:	ec cf       	rjmp	.-40     	; 0x53e <__FUSE_REGION_LENGTH__+0x13e>
+            
+            /* Store the value now so that the whole checking doesn't
+             move the TCNT0 forward by too much to make the data look
+             bad */
+
+            cnt = TCNT0;
+ 566:	82 b7       	in	r24, 0x32	; 50
+            if ((cnt >=10) && (cnt <= 45))
+ 568:	96 ef       	ldi	r25, 0xF6	; 246
+ 56a:	98 0f       	add	r25, r24
+ 56c:	94 32       	cpi	r25, 0x24	; 36
+ 56e:	08 f0       	brcs	.+2      	; 0x572 <__FUSE_REGION_LENGTH__+0x172>
+ 570:	3c c0       	rjmp	.+120    	; 0x5ea <__FUSE_REGION_LENGTH__+0x1ea>
+            { CLEARBIT(data[i],j);}
+ 572:	d7 01       	movw	r26, r14
+ 574:	c6 01       	movw	r24, r12
+ 576:	02 2e       	mov	r0, r18
+ 578:	04 c0       	rjmp	.+8      	; 0x582 <__FUSE_REGION_LENGTH__+0x182>
+ 57a:	88 0f       	add	r24, r24
+ 57c:	99 1f       	adc	r25, r25
+ 57e:	aa 1f       	adc	r26, r26
+ 580:	bb 1f       	adc	r27, r27
+ 582:	0a 94       	dec	r0
+ 584:	d2 f7       	brpl	.-12     	; 0x57a <__FUSE_REGION_LENGTH__+0x17a>
+ 586:	80 95       	com	r24
+ 588:	da 01       	movw	r26, r20
+ 58a:	9c 91       	ld	r25, X
+ 58c:	89 23       	and	r24, r25
+ 58e:	8c 93       	st	X, r24
+ 590:	21 50       	subi	r18, 0x01	; 1
+ 592:	31 09       	sbc	r19, r1
+ 594:	08 f0       	brcs	.+2      	; 0x598 <__FUSE_REGION_LENGTH__+0x198>
+ 596:	bb cf       	rjmp	.-138    	; 0x50e <__FUSE_REGION_LENGTH__+0x10e>
+ 598:	4f 5f       	subi	r20, 0xFF	; 255
+ 59a:	5f 4f       	sbci	r21, 0xFF	; 255
+     { if (TCNT0 >= 100) return 0; }
+//     /********************* Data transmission start **********************/
+// 
+//    
+
+    for (i = 0; i < 5; i++)
+ 59c:	46 17       	cp	r20, r22
+ 59e:	57 07       	cpc	r21, r23
+ 5a0:	09 f0       	breq	.+2      	; 0x5a4 <__FUSE_REGION_LENGTH__+0x1a4>
+ 5a2:	b3 cf       	rjmp	.-154    	; 0x50a <__FUSE_REGION_LENGTH__+0x10a>
+
+// 	
+//    
+//     /********************* Sensor communication end *********************/
+// 
+     check = (data[0] + data[1] + data[2] + data[3]) & 0xFF;
+ 5a4:	49 81       	ldd	r20, Y+1	; 0x01
+ 5a6:	3a 81       	ldd	r19, Y+2	; 0x02
+ 5a8:	84 2f       	mov	r24, r20
+ 5aa:	83 0f       	add	r24, r19
+ 5ac:	2b 81       	ldd	r18, Y+3	; 0x03
+ 5ae:	82 0f       	add	r24, r18
+ 5b0:	9c 81       	ldd	r25, Y+4	; 0x04
+ 5b2:	89 0f       	add	r24, r25
+
+// 	
+    // return 1;
+    if (check != data[4])return 0;
+ 5b4:	5d 81       	ldd	r21, Y+5	; 0x05
+ 5b6:	58 13       	cpse	r21, r24
+ 5b8:	06 c0       	rjmp	.+12     	; 0x5c6 <__FUSE_REGION_LENGTH__+0x1c6>
+     //sensor->data[2] = 0x25;
+//     
+    for(i = 0; i < 4; i++)
+    { sensor->data[i] = data[i]; }
+ 5ba:	47 83       	std	Z+7, r20	; 0x07
+ 5bc:	30 87       	std	Z+8, r19	; 0x08
+ 5be:	21 87       	std	Z+9, r18	; 0x09
+ 5c0:	92 87       	std	Z+10, r25	; 0x0a
+   // SET_BIT(DHT_PORT_OUT,LED);
+     return 1;
+ 5c2:	81 e0       	ldi	r24, 0x01	; 1
+ 5c4:	01 c0       	rjmp	.+2      	; 0x5c8 <__FUSE_REGION_LENGTH__+0x1c8>
+
+// 	
+ 	TCNT0 = 0;
+//     /* Wait for response from sensor, 20-40µs according to datasheet */
+     while(BITSET(*(sensor->in_port),sensor->pin))
+     { if (TCNT0 >= 60) return 0; }
+ 5c6:	80 e0       	ldi	r24, 0x00	; 0
+//     
+    for(i = 0; i < 4; i++)
+    { sensor->data[i] = data[i]; }
+   // SET_BIT(DHT_PORT_OUT,LED);
+     return 1;
+}
+ 5c8:	0f 90       	pop	r0
+ 5ca:	0f 90       	pop	r0
+ 5cc:	0f 90       	pop	r0
+ 5ce:	0f 90       	pop	r0
+ 5d0:	0f 90       	pop	r0
+ 5d2:	df 91       	pop	r29
+ 5d4:	cf 91       	pop	r28
+ 5d6:	1f 91       	pop	r17
+ 5d8:	ff 90       	pop	r15
+ 5da:	ef 90       	pop	r14
+ 5dc:	df 90       	pop	r13
+ 5de:	cf 90       	pop	r12
+ 5e0:	bf 90       	pop	r11
+ 5e2:	af 90       	pop	r10
+ 5e4:	9f 90       	pop	r9
+ 5e6:	8f 90       	pop	r8
+ 5e8:	08 95       	ret
+
+            cnt = TCNT0;
+            if ((cnt >=10) && (cnt <= 45))
+            { CLEARBIT(data[i],j);}
+            
+            else if ((cnt > 45) && (cnt <= 85))
+ 5ea:	8e 52       	subi	r24, 0x2E	; 46
+ 5ec:	88 32       	cpi	r24, 0x28	; 40
+ 5ee:	58 f7       	brcc	.-42     	; 0x5c6 <__FUSE_REGION_LENGTH__+0x1c6>
+            { SETBIT(data[i],j); }
+ 5f0:	da 01       	movw	r26, r20
+ 5f2:	1c 91       	ld	r17, X
+ 5f4:	d7 01       	movw	r26, r14
+ 5f6:	c6 01       	movw	r24, r12
+ 5f8:	02 2e       	mov	r0, r18
+ 5fa:	04 c0       	rjmp	.+8      	; 0x604 <__FUSE_REGION_LENGTH__+0x204>
+ 5fc:	88 0f       	add	r24, r24
+ 5fe:	99 1f       	adc	r25, r25
+ 600:	aa 1f       	adc	r26, r26
+ 602:	bb 1f       	adc	r27, r27
+ 604:	0a 94       	dec	r0
+ 606:	d2 f7       	brpl	.-12     	; 0x5fc <__FUSE_REGION_LENGTH__+0x1fc>
+ 608:	81 2b       	or	r24, r17
+ 60a:	da 01       	movw	r26, r20
+ 60c:	8c 93       	st	X, r24
+ 60e:	c0 cf       	rjmp	.-128    	; 0x590 <__FUSE_REGION_LENGTH__+0x190>
+
+00000610 <main>:
+	TWO,
+	THREE,
+	FOUR
+}stepper;
+
+int main(void){
+ 610:	cf 93       	push	r28
+ 612:	df 93       	push	r29
+ 614:	00 d0       	rcall	.+0      	; 0x616 <main+0x6>
+ 616:	00 d0       	rcall	.+0      	; 0x618 <main+0x8>
+ 618:	1f 92       	push	r1
+ 61a:	cd b7       	in	r28, 0x3d	; 61
+ 61c:	de b7       	in	r29, 0x3e	; 62
+	sei();
+ 61e:	78 94       	sei
+	char a=0;
+ 620:	1d 82       	std	Y+5, r1	; 0x05
+	char b=0;
+	char c=0x02;
+ 622:	82 e0       	ldi	r24, 0x02	; 2
+ 624:	8c 83       	std	Y+4, r24	; 0x04
+
+	// default pozicija za koračni motor
+	stepper my_stepper=ONE;
+
+	// konfiguracija vhodnih in izhodnih pinov
+	IOCfg();
+ 626:	62 dd       	rcall	.-1340   	; 0xec <IOCfg>
+	//uint8_t data[4];
+
+	//initDHT();
+
+	// inicializacija na I2C
+	USI_I2C_Init(0x40);
+ 628:	80 e4       	ldi	r24, 0x40	; 64
+ 62a:	e5 d0       	rcall	.+458    	; 0x7f6 <USI_I2C_Init>
+	//sensors[0].data[0]=0x15;
+	//sensors[0].data[2]=0x18;
+
+
+	// I2C register povežemo z naslovi spremenljivk
+	USI_Slave_register_buffer[0]=&a;
+ 62c:	ce 01       	movw	r24, r28
+ 62e:	05 96       	adiw	r24, 0x05	; 5
+ 630:	90 93 bb 00 	sts	0x00BB, r25	; 0x8000bb <USI_Slave_register_buffer+0x1>
+ 634:	80 93 ba 00 	sts	0x00BA, r24	; 0x8000ba <USI_Slave_register_buffer>
+	USI_Slave_register_buffer[1]=&c;
+ 638:	01 97       	sbiw	r24, 0x01	; 1
+ 63a:	90 93 bd 00 	sts	0x00BD, r25	; 0x8000bd <USI_Slave_register_buffer+0x3>
+ 63e:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <USI_Slave_register_buffer+0x2>
+
+	// 12V izhod
+	USI_Slave_register_buffer[2]=&leds[0].value;
+ 642:	89 e6       	ldi	r24, 0x69	; 105
+ 644:	90 e0       	ldi	r25, 0x00	; 0
+ 646:	90 93 bf 00 	sts	0x00BF, r25	; 0x8000bf <USI_Slave_register_buffer+0x5>
+ 64a:	80 93 be 00 	sts	0x00BE, r24	; 0x8000be <USI_Slave_register_buffer+0x4>
+	// senzor 0 -> vlaga
+	USI_Slave_register_buffer[3]=&sensors[0].data[0];
+ 64e:	88 e9       	ldi	r24, 0x98	; 152
+ 650:	90 e0       	ldi	r25, 0x00	; 0
+ 652:	90 93 c1 00 	sts	0x00C1, r25	; 0x8000c1 <USI_Slave_register_buffer+0x7>
+ 656:	80 93 c0 00 	sts	0x00C0, r24	; 0x8000c0 <USI_Slave_register_buffer+0x6>
+	// senzor 0 -> temperatura
+	USI_Slave_register_buffer[4]=&sensors[0].data[2];
+ 65a:	8a e9       	ldi	r24, 0x9A	; 154
+ 65c:	90 e0       	ldi	r25, 0x00	; 0
+ 65e:	90 93 c3 00 	sts	0x00C3, r25	; 0x8000c3 <USI_Slave_register_buffer+0x9>
+ 662:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <USI_Slave_register_buffer+0x8>
+	// senzor 1 -> vlaga
+	USI_Slave_register_buffer[5]=&sensors[1].data[0];
+ 666:	85 ea       	ldi	r24, 0xA5	; 165
+ 668:	90 e0       	ldi	r25, 0x00	; 0
+ 66a:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <USI_Slave_register_buffer+0xb>
+ 66e:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <USI_Slave_register_buffer+0xa>
+	// senzor 1 -> temperatura
+	USI_Slave_register_buffer[6]=&sensors[1].data[2];
+ 672:	87 ea       	ldi	r24, 0xA7	; 167
+ 674:	90 e0       	ldi	r25, 0x00	; 0
+ 676:	90 93 c7 00 	sts	0x00C7, r25	; 0x8000c7 <USI_Slave_register_buffer+0xd>
+ 67a:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <USI_Slave_register_buffer+0xc>
+	// senzor 2 -> vlaga
+	USI_Slave_register_buffer[7]=&sensors[2].data[0];
+ 67e:	82 eb       	ldi	r24, 0xB2	; 178
+ 680:	90 e0       	ldi	r25, 0x00	; 0
+ 682:	90 93 c9 00 	sts	0x00C9, r25	; 0x8000c9 <USI_Slave_register_buffer+0xf>
+ 686:	80 93 c8 00 	sts	0x00C8, r24	; 0x8000c8 <USI_Slave_register_buffer+0xe>
+	// senzor 2 -> temperatura
+	USI_Slave_register_buffer[8]=&sensors[2].data[2];
+ 68a:	84 eb       	ldi	r24, 0xB4	; 180
+ 68c:	90 e0       	ldi	r25, 0x00	; 0
+ 68e:	90 93 cb 00 	sts	0x00CB, r25	; 0x8000cb <USI_Slave_register_buffer+0x11>
+ 692:	80 93 ca 00 	sts	0x00CA, r24	; 0x8000ca <USI_Slave_register_buffer+0x10>
+	// register za napake
+	USI_Slave_register_buffer[9]=&error;
+ 696:	ce 01       	movw	r24, r28
+ 698:	03 96       	adiw	r24, 0x03	; 3
+ 69a:	90 93 cd 00 	sts	0x00CD, r25	; 0x8000cd <USI_Slave_register_buffer+0x13>
+ 69e:	80 93 cc 00 	sts	0x00CC, r24	; 0x8000cc <USI_Slave_register_buffer+0x12>
+	// watchdog (ni še uporabljen)
+	USI_Slave_register_buffer[10]=&wtchdog;
+ 6a2:	02 97       	sbiw	r24, 0x02	; 2
+ 6a4:	90 93 cf 00 	sts	0x00CF, r25	; 0x8000cf <USI_Slave_register_buffer+0x15>
+ 6a8:	80 93 ce 00 	sts	0x00CE, r24	; 0x8000ce <USI_Slave_register_buffer+0x14>
+	// pozicija motorja
+	USI_Slave_register_buffer[11]=&position;
+ 6ac:	01 96       	adiw	r24, 0x01	; 1
+ 6ae:	90 93 d1 00 	sts	0x00D1, r25	; 0x8000d1 <USI_Slave_register_buffer+0x17>
+ 6b2:	80 93 d0 00 	sts	0x00D0, r24	; 0x8000d0 <USI_Slave_register_buffer+0x16>
+ 6b6:	2f ef       	ldi	r18, 0xFF	; 255
+ 6b8:	89 e6       	ldi	r24, 0x69	; 105
+ 6ba:	98 e1       	ldi	r25, 0x18	; 24
+ 6bc:	21 50       	subi	r18, 0x01	; 1
+ 6be:	80 40       	sbci	r24, 0x00	; 0
+ 6c0:	90 40       	sbci	r25, 0x00	; 0
+ 6c2:	e1 f7       	brne	.-8      	; 0x6bc <main+0xac>
+ 6c4:	00 c0       	rjmp	.+0      	; 0x6c6 <main+0xb6>
+ 6c6:	00 00       	nop
+	//uint8_t step=10;
+	uint16_t cnt=0;
+	uint16_t cnt1=0;
+
+	// default pozicija za koračni motor
+	stepper my_stepper=ONE;
+ 6c8:	10 e0       	ldi	r17, 0x00	; 0
+				}
+
+				// izbirni stavek za nastavitev registrov
+				switch(my_stepper){
+					case ONE:
+						leds[1].value=1;
+ 6ca:	01 e0       	ldi	r16, 0x01	; 1
+
+	_delay_ms(1000);
+
+	for(;;){
+		//cnt1=(c<<8)|b;
+		cnt1=abs(position-position_old)*0x0200;
+ 6cc:	ca 80       	ldd	r12, Y+2	; 0x02
+
+
+		// zajem podatkov za posamezni senzor
+		// vrne 0, če je zajem z napako oziroma ni uspel
+		// in ponastavi vse registre na 0
+		v=fetchData(&sensors[0]);
+ 6ce:	81 e9       	ldi	r24, 0x91	; 145
+ 6d0:	90 e0       	ldi	r25, 0x00	; 0
+ 6d2:	49 de       	rcall	.-878    	; 0x366 <fetchData>
+		if (v==0){
+ 6d4:	81 11       	cpse	r24, r1
+ 6d6:	0a c0       	rjmp	.+20     	; 0x6ec <main+0xdc>
+			for (uint8_t i=0; i<5;i++){
+				sensors[0].data[i]=0;
+ 6d8:	10 92 98 00 	sts	0x0098, r1	; 0x800098 <sensors+0x7>
+ 6dc:	10 92 99 00 	sts	0x0099, r1	; 0x800099 <sensors+0x8>
+ 6e0:	10 92 9a 00 	sts	0x009A, r1	; 0x80009a <sensors+0x9>
+ 6e4:	10 92 9b 00 	sts	0x009B, r1	; 0x80009b <sensors+0xa>
+ 6e8:	10 92 9c 00 	sts	0x009C, r1	; 0x80009c <sensors+0xb>
+			}
+		}
+
+		v=fetchData(&sensors[1]);
+ 6ec:	8e e9       	ldi	r24, 0x9E	; 158
+ 6ee:	90 e0       	ldi	r25, 0x00	; 0
+ 6f0:	3a de       	rcall	.-908    	; 0x366 <fetchData>
+		if (v==0){
+ 6f2:	81 11       	cpse	r24, r1
+ 6f4:	0a c0       	rjmp	.+20     	; 0x70a <main+0xfa>
+			for (uint8_t i=0; i<5;i++){
+				sensors[1].data[i]=0;
+ 6f6:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <sensors+0x14>
+ 6fa:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <sensors+0x15>
+ 6fe:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <sensors+0x16>
+ 702:	10 92 a8 00 	sts	0x00A8, r1	; 0x8000a8 <sensors+0x17>
+ 706:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <sensors+0x18>
+			}
+		}
+
+
+		v=fetchData(&sensors[2]);
+ 70a:	8b ea       	ldi	r24, 0xAB	; 171
+ 70c:	90 e0       	ldi	r25, 0x00	; 0
+ 70e:	2b de       	rcall	.-938    	; 0x366 <fetchData>
+		if (v==0){
+ 710:	81 11       	cpse	r24, r1
+ 712:	0a c0       	rjmp	.+20     	; 0x728 <main+0x118>
+			for (uint8_t i=0; i<5;i++){
+				sensors[2].data[i]=0;
+ 714:	10 92 b2 00 	sts	0x00B2, r1	; 0x8000b2 <sensors+0x21>
+ 718:	10 92 b3 00 	sts	0x00B3, r1	; 0x8000b3 <sensors+0x22>
+ 71c:	10 92 b4 00 	sts	0x00B4, r1	; 0x8000b4 <sensors+0x23>
+ 720:	10 92 b5 00 	sts	0x00B5, r1	; 0x8000b5 <sensors+0x24>
+ 724:	10 92 b6 00 	sts	0x00B6, r1	; 0x8000b6 <sensors+0x25>
+			}
+		}
+
+		// nastavi 12V izhod na vrednost
+		SetValue(&leds[0]);
+ 728:	84 e6       	ldi	r24, 0x64	; 100
+ 72a:	90 e0       	ldi	r25, 0x00	; 0
+ 72c:	be dd       	rcall	.-1156   	; 0x2aa <SetValue>
+
+		// krmiljenje koračnega motorja
+		if (a==0){
+ 72e:	8d 81       	ldd	r24, Y+5	; 0x05
+ 730:	88 23       	and	r24, r24
+ 732:	09 f4       	brne	.+2      	; 0x736 <main+0x126>
+ 734:	52 c0       	rjmp	.+164    	; 0x7da <main+0x1ca>
+
+	_delay_ms(1000);
+
+	for(;;){
+		//cnt1=(c<<8)|b;
+		cnt1=abs(position-position_old)*0x0200;
+ 736:	d1 2c       	mov	r13, r1
+ 738:	21 e0       	ldi	r18, 0x01	; 1
+ 73a:	c2 1a       	sub	r12, r18
+ 73c:	d1 08       	sbc	r13, r1
+ 73e:	d7 fc       	sbrc	r13, 7
+ 740:	56 c0       	rjmp	.+172    	; 0x7ee <main+0x1de>
+ 742:	dc 2c       	mov	r13, r12
+ 744:	cc 24       	eor	r12, r12
+ 746:	dd 0c       	add	r13, r13
+		// krmiljenje koračnega motorja
+		if (a==0){
+			_delay_ms(1000);
+		}
+		else {
+			while (cnt<cnt1){
+ 748:	c1 14       	cp	r12, r1
+ 74a:	d1 04       	cpc	r13, r1
+ 74c:	79 f1       	breq	.+94     	; 0x7ac <main+0x19c>
+ 74e:	e1 2c       	mov	r14, r1
+ 750:	f1 2c       	mov	r15, r1
+ 752:	8f e0       	ldi	r24, 0x0F	; 15
+ 754:	97 e2       	ldi	r25, 0x27	; 39
+ 756:	01 97       	sbiw	r24, 0x01	; 1
+ 758:	f1 f7       	brne	.-4      	; 0x756 <main+0x146>
+ 75a:	00 c0       	rjmp	.+0      	; 0x75c <main+0x14c>
+ 75c:	00 00       	nop
+				// hitrost stepper motorja
+				_delay_ms(5);
+
+				// pobrišemo vse registre izhodov koračnega motorja
+				for (uint8_t i=1; i<LED_NUM;i++){
+					leds[i].value=0;
+ 75e:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <leds+0xe>
+ 762:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <leds+0x17>
+ 766:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <leds+0x20>
+ 76a:	10 92 8d 00 	sts	0x008D, r1	; 0x80008d <leds+0x29>
+				}
+
+				// izbirni stavek za nastavitev registrov
+				switch(my_stepper){
+ 76e:	11 30       	cpi	r17, 0x01	; 1
+ 770:	f9 f0       	breq	.+62     	; 0x7b0 <main+0x1a0>
+ 772:	60 f1       	brcs	.+88     	; 0x7cc <main+0x1bc>
+ 774:	12 30       	cpi	r17, 0x02	; 2
+ 776:	19 f1       	breq	.+70     	; 0x7be <main+0x1ae>
+ 778:	13 30       	cpi	r17, 0x03	; 3
+ 77a:	31 f4       	brne	.+12     	; 0x788 <main+0x178>
+						leds[3].value=1;
+						if (a==1) my_stepper=FOUR;
+						else my_stepper=TWO;
+						break;
+					case FOUR:
+						leds[4].value=1;
+ 77c:	00 93 8d 00 	sts	0x008D, r16	; 0x80008d <leds+0x29>
+						if (a==1) my_stepper=ONE;
+ 780:	8d 81       	ldd	r24, Y+5	; 0x05
+ 782:	81 30       	cpi	r24, 0x01	; 1
+ 784:	d1 f0       	breq	.+52     	; 0x7ba <main+0x1aa>
+						if (a==1) my_stepper=TWO;
+						else my_stepper=FOUR;
+						break;
+					case TWO:
+						leds[2].value=1;
+						if (a==1) my_stepper=THREE;
+ 786:	12 e0       	ldi	r17, 0x02	; 2
+						break;
+
+				}
+				// na koncu te registre še zapišemo na prave naslove
+				for (uint8_t i=1; i<LED_NUM;i++){
+					SetValue(&leds[i]);
+ 788:	8d e6       	ldi	r24, 0x6D	; 109
+ 78a:	90 e0       	ldi	r25, 0x00	; 0
+ 78c:	8e dd       	rcall	.-1252   	; 0x2aa <SetValue>
+ 78e:	86 e7       	ldi	r24, 0x76	; 118
+ 790:	90 e0       	ldi	r25, 0x00	; 0
+ 792:	8b dd       	rcall	.-1258   	; 0x2aa <SetValue>
+ 794:	8f e7       	ldi	r24, 0x7F	; 127
+ 796:	90 e0       	ldi	r25, 0x00	; 0
+ 798:	88 dd       	rcall	.-1264   	; 0x2aa <SetValue>
+ 79a:	88 e8       	ldi	r24, 0x88	; 136
+ 79c:	90 e0       	ldi	r25, 0x00	; 0
+ 79e:	85 dd       	rcall	.-1270   	; 0x2aa <SetValue>
+				}
+
+				cnt++;
+ 7a0:	9f ef       	ldi	r25, 0xFF	; 255
+ 7a2:	e9 1a       	sub	r14, r25
+ 7a4:	f9 0a       	sbc	r15, r25
+		// krmiljenje koračnega motorja
+		if (a==0){
+			_delay_ms(1000);
+		}
+		else {
+			while (cnt<cnt1){
+ 7a6:	ce 14       	cp	r12, r14
+ 7a8:	df 04       	cpc	r13, r15
+ 7aa:	99 f6       	brne	.-90     	; 0x752 <main+0x142>
+				}
+
+				cnt++;
+
+			}
+			a=0;
+ 7ac:	1d 82       	std	Y+5, r1	; 0x05
+ 7ae:	8e cf       	rjmp	.-228    	; 0x6cc <main+0xbc>
+						leds[1].value=1;
+						if (a==1) my_stepper=TWO;
+						else my_stepper=FOUR;
+						break;
+					case TWO:
+						leds[2].value=1;
+ 7b0:	10 93 7b 00 	sts	0x007B, r17	; 0x80007b <leds+0x17>
+						if (a==1) my_stepper=THREE;
+ 7b4:	8d 81       	ldd	r24, Y+5	; 0x05
+ 7b6:	81 30       	cpi	r24, 0x01	; 1
+ 7b8:	31 f3       	breq	.-52     	; 0x786 <main+0x176>
+						if (a==1) my_stepper=FOUR;
+						else my_stepper=TWO;
+						break;
+					case FOUR:
+						leds[4].value=1;
+						if (a==1) my_stepper=ONE;
+ 7ba:	10 e0       	ldi	r17, 0x00	; 0
+ 7bc:	e5 cf       	rjmp	.-54     	; 0x788 <main+0x178>
+						leds[2].value=1;
+						if (a==1) my_stepper=THREE;
+						else my_stepper=ONE;
+						break;
+					case THREE:
+						leds[3].value=1;
+ 7be:	00 93 84 00 	sts	0x0084, r16	; 0x800084 <leds+0x20>
+						if (a==1) my_stepper=FOUR;
+ 7c2:	8d 81       	ldd	r24, Y+5	; 0x05
+ 7c4:	81 30       	cpi	r24, 0x01	; 1
+ 7c6:	39 f0       	breq	.+14     	; 0x7d6 <main+0x1c6>
+
+				// izbirni stavek za nastavitev registrov
+				switch(my_stepper){
+					case ONE:
+						leds[1].value=1;
+						if (a==1) my_stepper=TWO;
+ 7c8:	11 e0       	ldi	r17, 0x01	; 1
+ 7ca:	de cf       	rjmp	.-68     	; 0x788 <main+0x178>
+				}
+
+				// izbirni stavek za nastavitev registrov
+				switch(my_stepper){
+					case ONE:
+						leds[1].value=1;
+ 7cc:	00 93 72 00 	sts	0x0072, r16	; 0x800072 <leds+0xe>
+						if (a==1) my_stepper=TWO;
+ 7d0:	8d 81       	ldd	r24, Y+5	; 0x05
+ 7d2:	81 30       	cpi	r24, 0x01	; 1
+ 7d4:	c9 f3       	breq	.-14     	; 0x7c8 <main+0x1b8>
+						if (a==1) my_stepper=THREE;
+						else my_stepper=ONE;
+						break;
+					case THREE:
+						leds[3].value=1;
+						if (a==1) my_stepper=FOUR;
+ 7d6:	13 e0       	ldi	r17, 0x03	; 3
+ 7d8:	d7 cf       	rjmp	.-82     	; 0x788 <main+0x178>
+ 7da:	8f ef       	ldi	r24, 0xFF	; 255
+ 7dc:	99 e6       	ldi	r25, 0x69	; 105
+ 7de:	28 e1       	ldi	r18, 0x18	; 24
+ 7e0:	81 50       	subi	r24, 0x01	; 1
+ 7e2:	90 40       	sbci	r25, 0x00	; 0
+ 7e4:	20 40       	sbci	r18, 0x00	; 0
+ 7e6:	e1 f7       	brne	.-8      	; 0x7e0 <main+0x1d0>
+ 7e8:	00 c0       	rjmp	.+0      	; 0x7ea <main+0x1da>
+ 7ea:	00 00       	nop
+ 7ec:	6f cf       	rjmp	.-290    	; 0x6cc <main+0xbc>
+
+	_delay_ms(1000);
+
+	for(;;){
+		//cnt1=(c<<8)|b;
+		cnt1=abs(position-position_old)*0x0200;
+ 7ee:	d1 94       	neg	r13
+ 7f0:	c1 94       	neg	r12
+ 7f2:	d1 08       	sbc	r13, r1
+ 7f4:	a6 cf       	rjmp	.-180    	; 0x742 <main+0x132>
+
+000007f6 <USI_I2C_Init>:
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void USI_I2C_Init(char address)
+{
+	PORT_USI &= ~(1 << PORT_USI_SCL);
+ 7f6:	dc 98       	cbi	0x1b, 4	; 27
+	PORT_USI &= ~(1 << PORT_USI_SDA);
+ 7f8:	de 98       	cbi	0x1b, 6	; 27
+
+	usi_i2c_slave_address = address;
+ 7fa:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+
+	USI_SET_BOTH_INPUT();
+ 7fe:	8a b3       	in	r24, 0x1a	; 26
+ 800:	8f 7a       	andi	r24, 0xAF	; 175
+ 802:	8a bb       	out	0x1a, r24	; 26
+
+	USICR = (1 << USISIE) | (0 << USIOIE) | (1 << USIWM1) | (0 << USIWM0) | (1 << USICS1) | (0 << USICS0) | (0 << USICLK) | (0 << USITC);
+ 804:	88 ea       	ldi	r24, 0xA8	; 168
+ 806:	8d b9       	out	0x0d, r24	; 13
+	USISR = (1 << USISIF) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC);
+ 808:	80 ef       	ldi	r24, 0xF0	; 240
+ 80a:	8e b9       	out	0x0e, r24	; 14
+ 80c:	08 95       	ret
+
+0000080e <__vector_15>:
+//  triggering the first state table interrupt.  If a stop condition occurs,   //
+//  reset the start condition detector to detect the next start condition.     //
+/////////////////////////////////////////////////////////////////////////////////
+
+ISR(USI_START_vect)
+{
+ 80e:	1f 92       	push	r1
+ 810:	0f 92       	push	r0
+ 812:	0f b6       	in	r0, 0x3f	; 63
+ 814:	0f 92       	push	r0
+ 816:	11 24       	eor	r1, r1
+ 818:	8f 93       	push	r24
+	USI_I2C_Slave_State = USI_SLAVE_CHECK_ADDRESS;
+ 81a:	10 92 b9 00 	sts	0x00B9, r1	; 0x8000b9 <USI_I2C_Slave_State>
+	USI_SET_SDA_INPUT();
+ 81e:	d6 98       	cbi	0x1a, 6	; 26
+	// wait for SCL to go low to ensure the Start Condition has completed (the
+	// start detector will hold SCL low ) - if a Stop Condition arises then leave
+	// the interrupt to prevent waiting forever - don't use USISR to test for Stop
+	// Condition as in Application Note AVR312 because the Stop Condition Flag is
+	// going to be set from the last TWI sequence
+	while((PIN_USI & (1 << PIN_USI_SCL)) && !((PIN_USI & (1 << PIN_USI_SDA))));
+ 820:	02 c0       	rjmp	.+4      	; 0x826 <__vector_15+0x18>
+ 822:	ce 99       	sbic	0x19, 6	; 25
+ 824:	02 c0       	rjmp	.+4      	; 0x82a <__vector_15+0x1c>
+ 826:	cc 99       	sbic	0x19, 4	; 25
+ 828:	fc cf       	rjmp	.-8      	; 0x822 <__vector_15+0x14>
+	if(!(PIN_USI & (1 << PIN_USI_SDA)))
+ 82a:	ce 9b       	sbis	0x19, 6	; 25
+ 82c:	0a c0       	rjmp	.+20     	; 0x842 <__vector_15+0x34>
+		USICR = USI_SLAVE_STOP_NOT_OCCUR_USICR;
+	}
+	else
+	{
+		// a Stop Condition did occur
+    	USICR = USI_SLAVE_STOP_DID_OCCUR_USICR;
+ 82e:	88 eb       	ldi	r24, 0xB8	; 184
+ 830:	8d b9       	out	0x0d, r24	; 13
+	}
+	USISR = USI_SLAVE_CLEAR_START_USISR;
+ 832:	80 ef       	ldi	r24, 0xF0	; 240
+ 834:	8e b9       	out	0x0e, r24	; 14
+}
+ 836:	8f 91       	pop	r24
+ 838:	0f 90       	pop	r0
+ 83a:	0f be       	out	0x3f, r0	; 63
+ 83c:	0f 90       	pop	r0
+ 83e:	1f 90       	pop	r1
+ 840:	18 95       	reti
+	// going to be set from the last TWI sequence
+	while((PIN_USI & (1 << PIN_USI_SCL)) && !((PIN_USI & (1 << PIN_USI_SDA))));
+	if(!(PIN_USI & (1 << PIN_USI_SDA)))
+	{
+		// a Stop Condition did not occur
+		USICR = USI_SLAVE_STOP_NOT_OCCUR_USICR;
+ 842:	88 ee       	ldi	r24, 0xE8	; 232
+ 844:	8d b9       	out	0x0d, r24	; 13
+	else
+	{
+		// a Stop Condition did occur
+    	USICR = USI_SLAVE_STOP_DID_OCCUR_USICR;
+	}
+	USISR = USI_SLAVE_CLEAR_START_USISR;
+ 846:	80 ef       	ldi	r24, 0xF0	; 240
+ 848:	8e b9       	out	0x0e, r24	; 14
+}
+ 84a:	8f 91       	pop	r24
+ 84c:	0f 90       	pop	r0
+ 84e:	0f be       	out	0x3f, r0	; 63
+ 850:	0f 90       	pop	r0
+ 852:	1f 90       	pop	r1
+ 854:	18 95       	reti
+
+00000856 <__vector_16>:
+//  This is used to set up a state table of I2C transmission states that fits  //
+//  the I2C protocol for proper transmission.                                  //
+/////////////////////////////////////////////////////////////////////////////////
+
+ISR(USI_OVF_vect)
+{
+ 856:	1f 92       	push	r1
+ 858:	0f 92       	push	r0
+ 85a:	0f b6       	in	r0, 0x3f	; 63
+ 85c:	0f 92       	push	r0
+ 85e:	11 24       	eor	r1, r1
+ 860:	8f 93       	push	r24
+ 862:	9f 93       	push	r25
+ 864:	ef 93       	push	r30
+ 866:	ff 93       	push	r31
+	switch (USI_I2C_Slave_State)
+ 868:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <USI_I2C_Slave_State>
+ 86c:	82 30       	cpi	r24, 0x02	; 2
+ 86e:	09 f4       	brne	.+2      	; 0x872 <__vector_16+0x1c>
+ 870:	51 c0       	rjmp	.+162    	; 0x914 <__vector_16+0xbe>
+ 872:	00 f1       	brcs	.+64     	; 0x8b4 <__vector_16+0x5e>
+ 874:	84 30       	cpi	r24, 0x04	; 4
+ 876:	a1 f1       	breq	.+104    	; 0x8e0 <__vector_16+0x8a>
+ 878:	08 f4       	brcc	.+2      	; 0x87c <__vector_16+0x26>
+ 87a:	44 c0       	rjmp	.+136    	; 0x904 <__vector_16+0xae>
+ 87c:	85 30       	cpi	r24, 0x05	; 5
+ 87e:	89 f4       	brne	.+34     	; 0x8a2 <__vector_16+0x4c>
+		//  After waiting for the master to finish transmission, this reads    //
+		//  USIDR into either the i2c buffer or internal address, then sends   //
+		//  an acknowledgement to the master.                                  //
+		/////////////////////////////////////////////////////////////////////////
+		case USI_SLAVE_RECV_DATA_ACK_SEND:
+			USI_I2C_Slave_State = USI_SLAVE_RECV_DATA_WAIT;
+ 880:	84 e0       	ldi	r24, 0x04	; 4
+ 882:	80 93 b9 00 	sts	0x00B9, r24	; 0x8000b9 <USI_I2C_Slave_State>
+
+			if(USI_Slave_internal_address_set == 0)
+ 886:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <__data_end>
+ 88a:	81 11       	cpse	r24, r1
+ 88c:	5a c0       	rjmp	.+180    	; 0x942 <__vector_16+0xec>
+			{
+				USI_Slave_internal_address = USIDR;
+ 88e:	8f b1       	in	r24, 0x0f	; 15
+ 890:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <USI_Slave_internal_address>
+				USI_Slave_internal_address_set = 1;
+ 894:	81 e0       	ldi	r24, 0x01	; 1
+ 896:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
+			else if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
+			{
+				*(USI_Slave_register_buffer[USI_Slave_internal_address]) = USIDR;
+			}
+
+			USIDR = 0;
+ 89a:	1f b8       	out	0x0f, r1	; 15
+			USI_SET_SDA_OUTPUT();
+ 89c:	d6 9a       	sbi	0x1a, 6	; 26
+			USISR = USI_SLAVE_COUNT_ACK_USISR;
+ 89e:	8e e7       	ldi	r24, 0x7E	; 126
+ 8a0:	8e b9       	out	0x0e, r24	; 14
+			break;
+	}
+}
+ 8a2:	ff 91       	pop	r31
+ 8a4:	ef 91       	pop	r30
+ 8a6:	9f 91       	pop	r25
+ 8a8:	8f 91       	pop	r24
+ 8aa:	0f 90       	pop	r0
+ 8ac:	0f be       	out	0x3f, r0	; 63
+ 8ae:	0f 90       	pop	r0
+ 8b0:	1f 90       	pop	r1
+ 8b2:	18 95       	reti
+//  the I2C protocol for proper transmission.                                  //
+/////////////////////////////////////////////////////////////////////////////////
+
+ISR(USI_OVF_vect)
+{
+	switch (USI_I2C_Slave_State)
+ 8b4:	88 23       	and	r24, r24
+ 8b6:	b1 f1       	breq	.+108    	; 0x924 <__vector_16+0xce>
+ 8b8:	81 30       	cpi	r24, 0x01	; 1
+ 8ba:	99 f7       	brne	.-26     	; 0x8a2 <__vector_16+0x4c>
+		//  enable data transmission in the next 8 clocks.  Set to wait 8      //
+		//  clocks and proceed to wait for ACK.                                //
+		/////////////////////////////////////////////////////////////////////////
+		case USI_SLAVE_SEND_DATA:
+
+			if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
+ 8bc:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <USI_Slave_internal_address>
+ 8c0:	e5 31       	cpi	r30, 0x15	; 21
+ 8c2:	a8 f0       	brcs	.+42     	; 0x8ee <__vector_16+0x98>
+			{
+				USIDR = *(USI_Slave_register_buffer[USI_Slave_internal_address]);
+			}
+			else
+			{
+				USIDR = 0x00;
+ 8c4:	1f b8       	out	0x0f, r1	; 15
+			}
+			USI_Slave_internal_address++;
+ 8c6:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <USI_Slave_internal_address>
+ 8ca:	8f 5f       	subi	r24, 0xFF	; 255
+ 8cc:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <USI_Slave_internal_address>
+			USI_I2C_Slave_State = USI_SLAVE_SEND_DATA_ACK_WAIT;
+ 8d0:	82 e0       	ldi	r24, 0x02	; 2
+ 8d2:	80 93 b9 00 	sts	0x00B9, r24	; 0x8000b9 <USI_I2C_Slave_State>
+
+			//To send data, DDR for SDA must be 1 (Output) and PORT for SDA
+			//must also be 1 (line drives low on USIDR MSB = 0 or PORT = 0)
+			USI_SET_SDA_OUTPUT();
+ 8d6:	d6 9a       	sbi	0x1a, 6	; 26
+			PORT_USI |= (1 << PORT_USI_SDA);
+ 8d8:	de 9a       	sbi	0x1b, 6	; 27
+			USISR = USI_SLAVE_COUNT_BYTE_USISR;
+ 8da:	80 e7       	ldi	r24, 0x70	; 112
+ 8dc:	8e b9       	out	0x0e, r24	; 14
+			break;
+ 8de:	e1 cf       	rjmp	.-62     	; 0x8a2 <__vector_16+0x4c>
+		//                                                                     //
+		//  Prepares to wait 8 clocks to receive a data byte from the master.  //
+		/////////////////////////////////////////////////////////////////////////
+		case USI_SLAVE_RECV_DATA_WAIT:
+
+			USI_I2C_Slave_State = USI_SLAVE_RECV_DATA_ACK_SEND;
+ 8e0:	85 e0       	ldi	r24, 0x05	; 5
+ 8e2:	80 93 b9 00 	sts	0x00B9, r24	; 0x8000b9 <USI_I2C_Slave_State>
+
+			USI_SET_SDA_INPUT();
+ 8e6:	d6 98       	cbi	0x1a, 6	; 26
+			USISR = USI_SLAVE_COUNT_BYTE_USISR;
+ 8e8:	80 e7       	ldi	r24, 0x70	; 112
+ 8ea:	8e b9       	out	0x0e, r24	; 14
+			break;
+ 8ec:	da cf       	rjmp	.-76     	; 0x8a2 <__vector_16+0x4c>
+		/////////////////////////////////////////////////////////////////////////
+		case USI_SLAVE_SEND_DATA:
+
+			if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
+			{
+				USIDR = *(USI_Slave_register_buffer[USI_Slave_internal_address]);
+ 8ee:	f0 e0       	ldi	r31, 0x00	; 0
+ 8f0:	ee 0f       	add	r30, r30
+ 8f2:	ff 1f       	adc	r31, r31
+ 8f4:	e6 54       	subi	r30, 0x46	; 70
+ 8f6:	ff 4f       	sbci	r31, 0xFF	; 255
+ 8f8:	01 90       	ld	r0, Z+
+ 8fa:	f0 81       	ld	r31, Z
+ 8fc:	e0 2d       	mov	r30, r0
+ 8fe:	80 81       	ld	r24, Z
+ 900:	8f b9       	out	0x0f, r24	; 15
+ 902:	e1 cf       	rjmp	.-62     	; 0x8c6 <__vector_16+0x70>
+		//  a reset to START conditions, if ACK, fall through into SEND_DATA   //
+		//  to continue sending data.                                          //
+		/////////////////////////////////////////////////////////////////////////
+		case USI_SLAVE_SEND_DATA_ACK_CHECK:
+
+			if(USIDR)
+ 904:	8f b1       	in	r24, 0x0f	; 15
+ 906:	88 23       	and	r24, r24
+ 908:	c9 f2       	breq	.-78     	; 0x8bc <__vector_16+0x66>
+			{
+				//The master sent a NACK, indicating that it will not accept
+				//more data.  Reset into START condition state
+				USICR = USI_SLAVE_SET_START_COND_USICR;
+ 90a:	88 ea       	ldi	r24, 0xA8	; 168
+ 90c:	8d b9       	out	0x0d, r24	; 13
+				USISR = USI_SLAVE_SET_START_COND_USISR;
+ 90e:	80 e7       	ldi	r24, 0x70	; 112
+ 910:	8e b9       	out	0x0e, r24	; 14
+				return;
+ 912:	c7 cf       	rjmp	.-114    	; 0x8a2 <__vector_16+0x4c>
+		case USI_SLAVE_SEND_DATA_ACK_WAIT:
+
+			//After sending, immediately shut off PORT = 1 to prevent driving
+			//the line high (I2C should *NEVER* drive high, and could damage
+			//connected devices if operating at different voltage levels)
+			PORT_USI &= ~(1 << PORT_USI_SDA);
+ 914:	de 98       	cbi	0x1b, 6	; 27
+			USI_I2C_Slave_State = USI_SLAVE_SEND_DATA_ACK_CHECK;
+ 916:	83 e0       	ldi	r24, 0x03	; 3
+ 918:	80 93 b9 00 	sts	0x00B9, r24	; 0x8000b9 <USI_I2C_Slave_State>
+			USI_SET_SDA_INPUT();
+ 91c:	d6 98       	cbi	0x1a, 6	; 26
+			USISR = USI_SLAVE_COUNT_ACK_USISR;
+ 91e:	8e e7       	ldi	r24, 0x7E	; 126
+ 920:	8e b9       	out	0x0e, r24	; 14
+			break;
+ 922:	bf cf       	rjmp	.-130    	; 0x8a2 <__vector_16+0x4c>
+		//  If the address was not for this device, the USI system is          //
+		//  re-initialized for start condition.                                //
+		/////////////////////////////////////////////////////////////////////////
+		case USI_SLAVE_CHECK_ADDRESS:
+
+			if((USIDR == 0) || ((USIDR >> 1) == usi_i2c_slave_address))
+ 924:	8f b1       	in	r24, 0x0f	; 15
+ 926:	88 23       	and	r24, r24
+ 928:	31 f0       	breq	.+12     	; 0x936 <__vector_16+0xe0>
+ 92a:	8f b1       	in	r24, 0x0f	; 15
+ 92c:	86 95       	lsr	r24
+ 92e:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__data_start>
+ 932:	89 13       	cpse	r24, r25
+ 934:	ea cf       	rjmp	.-44     	; 0x90a <__vector_16+0xb4>
+			{
+				if (USIDR & 0x01)
+ 936:	78 9b       	sbis	0x0f, 0	; 15
+ 938:	14 c0       	rjmp	.+40     	; 0x962 <__vector_16+0x10c>
+				{
+					USI_I2C_Slave_State = USI_SLAVE_SEND_DATA;
+ 93a:	81 e0       	ldi	r24, 0x01	; 1
+ 93c:	80 93 b9 00 	sts	0x00B9, r24	; 0x8000b9 <USI_I2C_Slave_State>
+ 940:	ac cf       	rjmp	.-168    	; 0x89a <__vector_16+0x44>
+			if(USI_Slave_internal_address_set == 0)
+			{
+				USI_Slave_internal_address = USIDR;
+				USI_Slave_internal_address_set = 1;
+			}
+			else if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
+ 942:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <USI_Slave_internal_address>
+ 946:	e5 31       	cpi	r30, 0x15	; 21
+ 948:	08 f0       	brcs	.+2      	; 0x94c <__vector_16+0xf6>
+ 94a:	a7 cf       	rjmp	.-178    	; 0x89a <__vector_16+0x44>
+			{
+				*(USI_Slave_register_buffer[USI_Slave_internal_address]) = USIDR;
+ 94c:	f0 e0       	ldi	r31, 0x00	; 0
+ 94e:	ee 0f       	add	r30, r30
+ 950:	ff 1f       	adc	r31, r31
+ 952:	e6 54       	subi	r30, 0x46	; 70
+ 954:	ff 4f       	sbci	r31, 0xFF	; 255
+ 956:	01 90       	ld	r0, Z+
+ 958:	f0 81       	ld	r31, Z
+ 95a:	e0 2d       	mov	r30, r0
+ 95c:	8f b1       	in	r24, 0x0f	; 15
+ 95e:	80 83       	st	Z, r24
+ 960:	9c cf       	rjmp	.-200    	; 0x89a <__vector_16+0x44>
+					USI_I2C_Slave_State = USI_SLAVE_SEND_DATA;
+					//leds[2].value=1;
+				}
+				else
+				{
+					USI_Slave_internal_address_set = 0;
+ 962:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <__data_end>
+					USI_I2C_Slave_State = USI_SLAVE_RECV_DATA_WAIT;
+ 966:	84 e0       	ldi	r24, 0x04	; 4
+ 968:	80 93 b9 00 	sts	0x00B9, r24	; 0x8000b9 <USI_I2C_Slave_State>
+ 96c:	96 cf       	rjmp	.-212    	; 0x89a <__vector_16+0x44>
+
+0000096e <_exit>:
+ 96e:	f8 94       	cli
+
+00000970 <__stop_program>:
+ 970:	ff cf       	rjmp	.-2      	; 0x970 <__stop_program>
