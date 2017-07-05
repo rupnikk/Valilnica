@@ -16,10 +16,15 @@
 #include "dht11.h"
 
 
+// določimo I2C naslov (0x40)
 extern char usi_i2c_slave_address;
 extern char* USI_Slave_register_buffer[USI_SLAVE_REGISTER_COUNT];
 char usi_i2c_slave_address=0x40;
 
+
+/*
+ * enum tip za koračne motorje
+ */
 typedef enum{
 	ONE,
 	TWO,
@@ -44,14 +49,17 @@ int main(void){
 	uint16_t cnt=0;
 	uint16_t cnt1=0;
 
-
+	// default pozicija za koračni motor
 	stepper my_stepper=ONE;
+
+	// konfiguracija vhodnih in izhodnih pinov
 	IOCfg();
 
 	//uint8_t data[4];
 
 	//initDHT();
 
+	// inicializacija na I2C
 	USI_I2C_Init(0x40);
 
 
@@ -59,18 +67,29 @@ int main(void){
 	//sensors[0].data[2]=0x18;
 
 
-	//USI_Slave_register_buffer[0] = &(sensors[0].data[0]);
+	// I2C register povežemo z naslovi spremenljivk
 	USI_Slave_register_buffer[0]=&a;
 	USI_Slave_register_buffer[1]=&c;
+
+	// 12V izhod
 	USI_Slave_register_buffer[2]=&leds[0].value;
+	// senzor 0 -> vlaga
 	USI_Slave_register_buffer[3]=&sensors[0].data[0];
+	// senzor 0 -> temperatura
 	USI_Slave_register_buffer[4]=&sensors[0].data[2];
+	// senzor 1 -> vlaga
 	USI_Slave_register_buffer[5]=&sensors[1].data[0];
+	// senzor 1 -> temperatura
 	USI_Slave_register_buffer[6]=&sensors[1].data[2];
+	// senzor 2 -> vlaga
 	USI_Slave_register_buffer[7]=&sensors[2].data[0];
+	// senzor 2 -> temperatura
 	USI_Slave_register_buffer[8]=&sensors[2].data[2];
+	// register za napake
 	USI_Slave_register_buffer[9]=&error;
+	// watchdog (ni še uporabljen)
 	USI_Slave_register_buffer[10]=&wtchdog;
+	// pozicija motorja
 	USI_Slave_register_buffer[11]=&position;
 
 	_delay_ms(1000);
@@ -79,6 +98,10 @@ int main(void){
 		//cnt1=(c<<8)|b;
 		cnt1=abs(position-position_old)*0x0200;
 
+
+		// zajem podatkov za posamezni senzor
+		// vrne 0, če je zajem z napako oziroma ni uspel
+		// in ponastavi vse registre na 0
 		v=fetchData(&sensors[0]);
 		if (v==0){
 			for (uint8_t i=0; i<5;i++){
@@ -101,47 +124,55 @@ int main(void){
 			}
 		}
 
+		// nastavi 12V izhod na vrednost
 		SetValue(&leds[0]);
+
+		// krmiljenje koračnega motorja
 		if (a==0){
 			_delay_ms(1000);
 		}
-
 		else {
 			while (cnt<cnt1){
-			_delay_ms(5);
+				// hitrost stepper motorja
+				_delay_ms(5);
 
-			for (uint8_t i=1; i<LED_NUM;i++){
-				leds[i].value=0;
-			}
-			switch(my_stepper){
-				case ONE:
-					leds[1].value=1;
-					if (a==1) my_stepper=TWO;
-					else my_stepper=FOUR;
-					break;
-				case TWO:
-					leds[2].value=1;
-					if (a==1) my_stepper=THREE;
-					else my_stepper=ONE;
-					break;
-				case THREE:
-					leds[3].value=1;
-					if (a==1) my_stepper=FOUR;
-					else my_stepper=TWO;
-					break;
-				case FOUR:
-					leds[4].value=1;
-					if (a==1) my_stepper=ONE;
-					else my_stepper=THREE;
-					break;
+				// pobrišemo vse registre izhodov koračnega motorja
+				for (uint8_t i=1; i<LED_NUM;i++){
+					leds[i].value=0;
+				}
+
+				// izbirni stavek za nastavitev registrov
+				switch(my_stepper){
+					case ONE:
+						leds[1].value=1;
+						if (a==1) my_stepper=TWO;
+						else my_stepper=FOUR;
+						break;
+					case TWO:
+						leds[2].value=1;
+						if (a==1) my_stepper=THREE;
+						else my_stepper=ONE;
+						break;
+					case THREE:
+						leds[3].value=1;
+						if (a==1) my_stepper=FOUR;
+						else my_stepper=TWO;
+						break;
+					case FOUR:
+						leds[4].value=1;
+						if (a==1) my_stepper=ONE;
+						else my_stepper=THREE;
+						break;
+
+				}
+				// na koncu te registre še zapišemo na prave naslove
+				for (uint8_t i=1; i<LED_NUM;i++){
+					SetValue(&leds[i]);
+				}
+
+				cnt++;
 
 			}
-			for (uint8_t i=1; i<LED_NUM;i++){
-				SetValue(&leds[i]);
-			}
-			cnt++;
-
-		}
 			a=0;
 			cnt=0;
 		}

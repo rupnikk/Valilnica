@@ -13,10 +13,12 @@
 #include "bittop.h"
 #include "usi_i2c_slave.h"
 
+// določimo I2C naslov (0x41)
 
 extern char usi_i2c_slave_address;
 extern char* USI_Slave_register_buffer[USI_SLAVE_REGISTER_COUNT];
 char usi_i2c_slave_address=0x41;
+
 uint8_t cnt;
 Input zero;
 
@@ -28,6 +30,7 @@ int main(void){
 	char error;
 	char wtchdog;
 
+	// inicializacija vhodnih in izhodnih pinov ter struktur
 	IOCfg();
 
 	// interrupt od zero
@@ -44,14 +47,19 @@ int main(void){
 	//SETBIT(TIMSK, OCIE1A);
 
 
-
+	// I2C inicializacija z naslovom 0x41
 	USI_I2C_Init(0x41);
 
 
+	// interni registri I2C komunikacije
 
+	// izhod za grelec
 	USI_Slave_register_buffer[0]=&leds[0].value;
+	// izhod za luc
 	USI_Slave_register_buffer[1]=&leds[1].value;
+	// register za napake
 	USI_Slave_register_buffer[2]=&error;
+	// watchdog (ni še)
 	USI_Slave_register_buffer[3]=&wtchdog;
 
 	_delay_ms(1000);
@@ -69,15 +77,15 @@ int main(void){
 }
 
 
-/*ISR(PCINT0_vect){
+ISR(PCINT0_vect){
 	if(BITVAL(*zero.value_reg,zero.pin)){
 		cnt=0;
 		for (uint8_t i=0; i<LED_NUM;i++){
-			if(!leds[i].duty){
+//			if(!leds[i].duty){
+//				leds[i].value=1;
+//			}
+//			else
 				leds[i].value=1;
-			}
-			else
-				leds[i].value=0;
 
 			SetValue(&leds[i]);
 		}
@@ -87,11 +95,9 @@ int main(void){
 ISR(TIM1_COMPA_vect){
 	cnt++;
 	for (uint8_t i=0; i<LED_NUM;i++){
-		if(leds[i].duty==cnt){
-			leds[i].value=1;
+		if((100-leds[i].duty)<=cnt){
+			leds[i].value=0;
 			SetValue(&leds[i]);
 		}
 	}
 }
-*/
-

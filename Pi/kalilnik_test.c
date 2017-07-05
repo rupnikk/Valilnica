@@ -8,7 +8,7 @@
 #include <wiringPiI2C.h>
 
 // definiranje naslovov I2C
-#define OUT 			0x40
+#define OUT 	0x40
 #define POW_OUT	0x41
 
 
@@ -18,16 +18,16 @@
 #define STEP_CNT	0x01
 #define VENT		0x02
 #define S0_H		0x03
-#define S0_T			0x04
+#define S0_T		0x04
 #define S1_H		0x05
-#define S1_T			0x06
+#define S1_T		0x06
 #define S2_H		0x07
-#define S2_T			0x08
+#define S2_T		0x08
 #define ERROR		0x09
-#define WTCH		0x0A		
+#define WTCH		0x0A
 #define POS			0x0B
 
-#define CNT 			0x02
+#define CNT 		0x02
 
 // definicije internih naslovov za POW_OUT
 
@@ -44,6 +44,11 @@ int main (void)
 
 	uint8_t temp[3];
 	uint8_t hum[3];
+	uint8_t temp_max;
+	uint8_t temp_min:
+	uint8_t max_t=33; 
+	uint8_t min_t=30;
+
 	time_t cnt=5;
 	time_t cnt2=2;
 
@@ -70,8 +75,8 @@ int main (void)
 	for( ; ; ){	
 	
 		sleep(1);
-		wiringPiI2CWriteReg8 (sens, WTCH, 0x01) ;
-		wiringPiI2CWriteReg8 (pow, WTCH_POW, 0x01) ;
+		//wiringPiI2CWriteReg8 (sens, WTCH, 0x01) ;
+		//wiringPiI2CWriteReg8 (pow, WTCH_POW, 0x01) ;
 		
 		sec=time(NULL);	
 		 if(sec != -1) {
@@ -116,6 +121,26 @@ int main (void)
 		}
 		else{
 			printf("There might be a time problem\n");
+		}
+
+
+		temp_max=temp[2];
+		temp min=temp[0];
+
+		hum_av=(hum[0]+hum[1]+hum[2])/3;
+		
+		if (temp_max < min_t)
+		{
+			wiringPiI2CWriteReg8 (pow, HEAT, 0x01) ;
+			wiringPiI2CWriteReg8 (pow, VENT_POW, 0x01) ;
+		}
+		else if(temp_max > max_t && temp_max-temp_min > 4){
+			wiringPiI2CWriteReg8 (pow, HEAT, 0x00) ;
+			wiringPiI2CWriteReg8 (pow, VENT_POW, 0x01) ;
+		}
+		else{
+			wiringPiI2CWriteReg8 (pow, HEAT, 0x00) ;
+			wiringPiI2CWriteReg8 (pow, VENT_POW, 0x00) ;			
 		}
 
 		error_sens=wiringPiI2CReadReg8(sens,  ERROR);
