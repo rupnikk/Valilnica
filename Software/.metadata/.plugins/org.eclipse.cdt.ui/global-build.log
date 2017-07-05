@@ -36390,3 +36390,183 @@ Data:         50 bytes (9.8% Full)
 
 Finished building: sizedummy
  
+18:44:01 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+18:44:01 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2420 bytes (59.1% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+18:44:01 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Building file: ../Source/blink.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/blink.d" -MT"Source/blink.o" -c -o "Source/blink.o" "../Source/blink.c"
+Finished building: ../Source/blink.c
+ 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1236 bytes (15.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+18:44:02 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Building file: ../Source/blink.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Power_out -D_AVR_ATtiny85_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/blink.d" -MT"Source/blink.o" -c -o "Source/blink.o" "../Source/blink.c"
+Finished building: ../Source/blink.c
+ 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1374 bytes (16.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+18:44:43 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+18:44:44 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2420 bytes (59.1% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+18:44:44 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1236 bytes (15.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+18:44:44 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1374 bytes (16.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 

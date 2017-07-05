@@ -32,13 +32,13 @@ void IOCfg(){
 	leds[0].port=&GRELEC_PORT;
 	leds[0].dir_port=&GRELEC_DIR_PORT;
 	leds[0].value=1;
-	leds[0].duty=50;
+	leds[0].duty=0;
 
 	leds[1].pin = LUC;
 	leds[1].port=&LUC_PORT;
 	leds[1].dir_port=&LUC_DIR_PORT;
 	leds[1].value=1;
-	leds[1].duty=50;
+	leds[1].duty=0;
 
 	zero.pin=ZERO;
 	zero.dir_port=&ZERO_DIR_PORT;
