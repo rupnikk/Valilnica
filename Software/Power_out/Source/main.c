@@ -34,17 +34,17 @@ int main(void){
 	IOCfg();
 
 	// interrupt od zero
-	//SETBIT(GIMSK, PCIE);
-	//SETBIT(PCMSK, zero.pcint);
+	SETBIT(GIMSK, PCIE);
+	SETBIT(PCMSK, zero.pcint);
 
 
 	//Timer1 prescaler (8/8)
-	//SETBITS(TCCR1, BIT(CS12));
-	//CLEARBITS(TCCR1, BIT(CS12)|BIT(CS10)|BIT(CS11));
+	SETBITS(TCCR1, BIT(CS12));
+	CLEARBITS(TCCR1, BIT(CS12)|BIT(CS10)|BIT(CS11));
 
 	//interupt od timerja
-	//OCR1A=0x99;
-	//SETBIT(TIMSK, OCIE1A);
+	OCR1A=0x99;
+	SETBIT(TIMSK, OCIE1A);
 
 
 	// I2C inicializacija z naslovom 0x41
