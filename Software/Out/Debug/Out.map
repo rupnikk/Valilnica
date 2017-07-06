@@ -400,19 +400,19 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x1a34
+.stab           0x0000000000000000     0x1a64
  *(.stab)
  .stab          0x0000000000000000      0x840 ./Source/blink.o
  .stab          0x0000000000000840      0x54c ./Source/dht11.o
                                         0x780 (size before relaxing)
- .stab          0x0000000000000d8c      0x678 ./Source/main.o
-                                        0x8ac (size before relaxing)
- .stab          0x0000000000001404      0x630 ./Source/usi_i2c_slave.o
+ .stab          0x0000000000000d8c      0x6a8 ./Source/main.o
+                                        0x8dc (size before relaxing)
+ .stab          0x0000000000001434      0x630 ./Source/usi_i2c_slave.o
                                         0x864 (size before relaxing)
 
-.stabstr        0x0000000000000000     0x11ab
+.stabstr        0x0000000000000000     0x1239
  *(.stabstr)
- .stabstr       0x0000000000000000     0x11ab ./Source/blink.o
+ .stabstr       0x0000000000000000     0x1239 ./Source/blink.o
 
 .stab.excl
  *(.stab.excl)

@@ -3,19 +3,19 @@ Power_out.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000055c  00000000  00000000  00000094  2**1
+  0 .text         000005b0  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000002  00800060  0000055c  000005f0  2**0
+  1 .data         00000002  00800060  000005b0  00000644  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000030  00800062  00800062  000005f2  2**0
+  2 .bss          00000030  00800062  00800062  00000646  2**0
                   ALLOC
-  3 .stab         000011ac  00000000  00000000  000005f4  2**2
+  3 .stab         0000120c  00000000  00000000  00000648  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000fe7  00000000  00000000  000017a0  2**0
+  4 .stabstr      00000fe7  00000000  00000000  00001854  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  00002787  2**0
+  5 .comment      00000011  00000000  00000000  0000283b  2**0
                   CONTENTS, READONLY
-  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00002798  2**2
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000284c  2**2
                   CONTENTS, READONLY
 
 Disassembly of section .text:
@@ -23,8 +23,8 @@ Disassembly of section .text:
 00000000 <__vectors>:
    0:	0e c0       	rjmp	.+28     	; 0x1e <__ctors_end>
    2:	28 c0       	rjmp	.+80     	; 0x54 <__bad_interrupt>
-   4:	63 c1       	rjmp	.+710    	; 0x2cc <__vector_2>
-   6:	a2 c1       	rjmp	.+836    	; 0x34c <__vector_3>
+   4:	8d c1       	rjmp	.+794    	; 0x320 <__vector_2>
+   6:	cc c1       	rjmp	.+920    	; 0x3a0 <__vector_3>
    8:	25 c0       	rjmp	.+74     	; 0x54 <__bad_interrupt>
    a:	24 c0       	rjmp	.+72     	; 0x54 <__bad_interrupt>
    c:	23 c0       	rjmp	.+70     	; 0x54 <__bad_interrupt>
@@ -34,8 +34,8 @@ Disassembly of section .text:
   14:	1f c0       	rjmp	.+62     	; 0x54 <__bad_interrupt>
   16:	1e c0       	rjmp	.+60     	; 0x54 <__bad_interrupt>
   18:	1d c0       	rjmp	.+58     	; 0x54 <__bad_interrupt>
-  1a:	ee c1       	rjmp	.+988    	; 0x3f8 <__vector_13>
-  1c:	11 c2       	rjmp	.+1058   	; 0x440 <__vector_14>
+  1a:	18 c2       	rjmp	.+1072   	; 0x44c <__vector_13>
+  1c:	3b c2       	rjmp	.+1142   	; 0x494 <__vector_14>
 
 0000001e <__ctors_end>:
   1e:	11 24       	eor	r1, r1
@@ -49,7 +49,7 @@ Disassembly of section .text:
   2a:	10 e0       	ldi	r17, 0x00	; 0
   2c:	a0 e6       	ldi	r26, 0x60	; 96
   2e:	b0 e0       	ldi	r27, 0x00	; 0
-  30:	ec e5       	ldi	r30, 0x5C	; 92
+  30:	e0 eb       	ldi	r30, 0xB0	; 176
   32:	f5 e0       	ldi	r31, 0x05	; 5
   34:	02 c0       	rjmp	.+4      	; 0x3a <__do_copy_data+0x10>
   36:	05 90       	lpm	r0, Z+
@@ -72,7 +72,7 @@ Disassembly of section .text:
   4c:	b2 07       	cpc	r27, r18
   4e:	e1 f7       	brne	.-8      	; 0x48 <.do_clear_bss_loop>
   50:	04 d1       	rcall	.+520    	; 0x25a <main>
-  52:	82 c2       	rjmp	.+1284   	; 0x558 <_exit>
+  52:	ac c2       	rjmp	.+1368   	; 0x5ac <_exit>
 
 00000054 <__bad_interrupt>:
   54:	d5 cf       	rjmp	.-86     	; 0x0 <__vectors>
@@ -459,607 +459,660 @@ int main(void){
 	// inicializacija vhodnih in izhodnih pinov ter struktur
 	IOCfg();
  266:	40 df       	rcall	.-384    	; 0xe8 <IOCfg>
-	//OCR1A=0x99;
-	//SETBIT(TIMSK, OCIE1A);
+
+	// interrupt od zero
+	SETBIT(GIMSK, PCIE);
+ 268:	8b b7       	in	r24, 0x3b	; 59
+ 26a:	80 62       	ori	r24, 0x20	; 32
+ 26c:	8b bf       	out	0x3b, r24	; 59
+	SETBIT(PCMSK, zero.pcint);
+ 26e:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <zero+0x7>
+ 272:	25 b3       	in	r18, 0x15	; 21
+ 274:	81 e0       	ldi	r24, 0x01	; 1
+ 276:	90 e0       	ldi	r25, 0x00	; 0
+ 278:	a0 e0       	ldi	r26, 0x00	; 0
+ 27a:	b0 e0       	ldi	r27, 0x00	; 0
+ 27c:	04 c0       	rjmp	.+8      	; 0x286 <__stack+0x27>
+ 27e:	88 0f       	add	r24, r24
+ 280:	99 1f       	adc	r25, r25
+ 282:	aa 1f       	adc	r26, r26
+ 284:	bb 1f       	adc	r27, r27
+ 286:	3a 95       	dec	r19
+ 288:	d2 f7       	brpl	.-12     	; 0x27e <__stack+0x1f>
+ 28a:	82 2b       	or	r24, r18
+ 28c:	85 bb       	out	0x15, r24	; 21
+
+
+	//Timer1 prescaler (8/8)
+	SETBITS(TCCR1, BIT(CS12));
+ 28e:	80 b7       	in	r24, 0x30	; 48
+ 290:	84 60       	ori	r24, 0x04	; 4
+ 292:	80 bf       	out	0x30, r24	; 48
+	CLEARBITS(TCCR1, BIT(CS12)|BIT(CS10)|BIT(CS11));
+ 294:	80 b7       	in	r24, 0x30	; 48
+ 296:	88 7f       	andi	r24, 0xF8	; 248
+ 298:	80 bf       	out	0x30, r24	; 48
+
+	//interupt od timerja
+	OCR1A=0x99;
+ 29a:	89 e9       	ldi	r24, 0x99	; 153
+ 29c:	8e bd       	out	0x2e, r24	; 46
+	SETBIT(TIMSK, OCIE1A);
+ 29e:	89 b7       	in	r24, 0x39	; 57
+ 2a0:	80 64       	ori	r24, 0x40	; 64
+ 2a2:	89 bf       	out	0x39, r24	; 57
 
 
 	// I2C inicializacija z naslovom 0x41
 	USI_I2C_Init(0x41);
- 268:	81 e4       	ldi	r24, 0x41	; 65
- 26a:	ba d0       	rcall	.+372    	; 0x3e0 <USI_I2C_Init>
+ 2a4:	81 e4       	ldi	r24, 0x41	; 65
+ 2a6:	c6 d0       	rcall	.+396    	; 0x434 <USI_I2C_Init>
 
 
 	// interni registri I2C komunikacije
 
 	// izhod za grelec
 	USI_Slave_register_buffer[0]=&leds[0].value;
- 26c:	89 e6       	ldi	r24, 0x69	; 105
- 26e:	90 e0       	ldi	r25, 0x00	; 0
- 270:	90 93 82 00 	sts	0x0082, r25	; 0x800082 <USI_Slave_register_buffer+0x1>
- 274:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <USI_Slave_register_buffer>
+ 2a8:	89 e6       	ldi	r24, 0x69	; 105
+ 2aa:	90 e0       	ldi	r25, 0x00	; 0
+ 2ac:	90 93 82 00 	sts	0x0082, r25	; 0x800082 <USI_Slave_register_buffer+0x1>
+ 2b0:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <USI_Slave_register_buffer>
+	// duty za grelec
+	USI_Slave_register_buffer[1]=&leds[0].duty;
+ 2b4:	8c e6       	ldi	r24, 0x6C	; 108
+ 2b6:	90 e0       	ldi	r25, 0x00	; 0
+ 2b8:	90 93 84 00 	sts	0x0084, r25	; 0x800084 <USI_Slave_register_buffer+0x3>
+ 2bc:	80 93 83 00 	sts	0x0083, r24	; 0x800083 <USI_Slave_register_buffer+0x2>
 	// izhod za luc
-	USI_Slave_register_buffer[1]=&leds[1].value;
- 278:	82 e7       	ldi	r24, 0x72	; 114
- 27a:	90 e0       	ldi	r25, 0x00	; 0
- 27c:	90 93 84 00 	sts	0x0084, r25	; 0x800084 <USI_Slave_register_buffer+0x3>
- 280:	80 93 83 00 	sts	0x0083, r24	; 0x800083 <USI_Slave_register_buffer+0x2>
+	USI_Slave_register_buffer[2]=&leds[1].value;
+ 2c0:	82 e7       	ldi	r24, 0x72	; 114
+ 2c2:	90 e0       	ldi	r25, 0x00	; 0
+ 2c4:	90 93 86 00 	sts	0x0086, r25	; 0x800086 <USI_Slave_register_buffer+0x5>
+ 2c8:	80 93 85 00 	sts	0x0085, r24	; 0x800085 <USI_Slave_register_buffer+0x4>
+	// duty za luc
+	USI_Slave_register_buffer[3]=&leds[1].duty;
+ 2cc:	85 e7       	ldi	r24, 0x75	; 117
+ 2ce:	90 e0       	ldi	r25, 0x00	; 0
+ 2d0:	90 93 88 00 	sts	0x0088, r25	; 0x800088 <USI_Slave_register_buffer+0x7>
+ 2d4:	80 93 87 00 	sts	0x0087, r24	; 0x800087 <USI_Slave_register_buffer+0x6>
 	// register za napake
-	USI_Slave_register_buffer[2]=&error;
- 284:	ce 01       	movw	r24, r28
- 286:	02 96       	adiw	r24, 0x02	; 2
- 288:	90 93 86 00 	sts	0x0086, r25	; 0x800086 <USI_Slave_register_buffer+0x5>
- 28c:	80 93 85 00 	sts	0x0085, r24	; 0x800085 <USI_Slave_register_buffer+0x4>
+	USI_Slave_register_buffer[4]=&error;
+ 2d8:	ce 01       	movw	r24, r28
+ 2da:	02 96       	adiw	r24, 0x02	; 2
+ 2dc:	90 93 8a 00 	sts	0x008A, r25	; 0x80008a <USI_Slave_register_buffer+0x9>
+ 2e0:	80 93 89 00 	sts	0x0089, r24	; 0x800089 <USI_Slave_register_buffer+0x8>
 	// watchdog (ni še)
-	USI_Slave_register_buffer[3]=&wtchdog;
- 290:	01 97       	sbiw	r24, 0x01	; 1
- 292:	90 93 88 00 	sts	0x0088, r25	; 0x800088 <USI_Slave_register_buffer+0x7>
- 296:	80 93 87 00 	sts	0x0087, r24	; 0x800087 <USI_Slave_register_buffer+0x6>
+	USI_Slave_register_buffer[5]=&wtchdog;
+ 2e4:	01 97       	sbiw	r24, 0x01	; 1
+ 2e6:	90 93 8c 00 	sts	0x008C, r25	; 0x80008c <USI_Slave_register_buffer+0xb>
+ 2ea:	80 93 8b 00 	sts	0x008B, r24	; 0x80008b <USI_Slave_register_buffer+0xa>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 29a:	2f ef       	ldi	r18, 0xFF	; 255
- 29c:	89 e6       	ldi	r24, 0x69	; 105
- 29e:	98 e1       	ldi	r25, 0x18	; 24
- 2a0:	21 50       	subi	r18, 0x01	; 1
- 2a2:	80 40       	sbci	r24, 0x00	; 0
- 2a4:	90 40       	sbci	r25, 0x00	; 0
- 2a6:	e1 f7       	brne	.-8      	; 0x2a0 <__stack+0x41>
- 2a8:	00 c0       	rjmp	.+0      	; 0x2aa <__stack+0x4b>
- 2aa:	00 00       	nop
+ 2ee:	2f ef       	ldi	r18, 0xFF	; 255
+ 2f0:	89 e6       	ldi	r24, 0x69	; 105
+ 2f2:	98 e1       	ldi	r25, 0x18	; 24
+ 2f4:	21 50       	subi	r18, 0x01	; 1
+ 2f6:	80 40       	sbci	r24, 0x00	; 0
+ 2f8:	90 40       	sbci	r25, 0x00	; 0
+ 2fa:	e1 f7       	brne	.-8      	; 0x2f4 <__stack+0x95>
+ 2fc:	00 c0       	rjmp	.+0      	; 0x2fe <__stack+0x9f>
+ 2fe:	00 00       	nop
 	for(;;){
 		//_delay_ms(100);
 		//leds[0].duty=50;
 		//leds[1].duty=50;
 		for (uint8_t i=0; i<LED_NUM;i++){
 			SetValue(&leds[i]);
- 2ac:	84 e6       	ldi	r24, 0x64	; 100
- 2ae:	90 e0       	ldi	r25, 0x00	; 0
- 2b0:	80 df       	rcall	.-256    	; 0x1b2 <SetValue>
- 2b2:	8d e6       	ldi	r24, 0x6D	; 109
- 2b4:	90 e0       	ldi	r25, 0x00	; 0
- 2b6:	7d df       	rcall	.-262    	; 0x1b2 <SetValue>
- 2b8:	2f ef       	ldi	r18, 0xFF	; 255
- 2ba:	89 e6       	ldi	r24, 0x69	; 105
- 2bc:	98 e1       	ldi	r25, 0x18	; 24
- 2be:	21 50       	subi	r18, 0x01	; 1
- 2c0:	80 40       	sbci	r24, 0x00	; 0
- 2c2:	90 40       	sbci	r25, 0x00	; 0
- 2c4:	e1 f7       	brne	.-8      	; 0x2be <__stack+0x5f>
- 2c6:	00 c0       	rjmp	.+0      	; 0x2c8 <__stack+0x69>
- 2c8:	00 00       	nop
- 2ca:	f0 cf       	rjmp	.-32     	; 0x2ac <__stack+0x4d>
+ 300:	84 e6       	ldi	r24, 0x64	; 100
+ 302:	90 e0       	ldi	r25, 0x00	; 0
+ 304:	56 df       	rcall	.-340    	; 0x1b2 <SetValue>
+ 306:	8d e6       	ldi	r24, 0x6D	; 109
+ 308:	90 e0       	ldi	r25, 0x00	; 0
+ 30a:	53 df       	rcall	.-346    	; 0x1b2 <SetValue>
+ 30c:	2f ef       	ldi	r18, 0xFF	; 255
+ 30e:	89 e6       	ldi	r24, 0x69	; 105
+ 310:	98 e1       	ldi	r25, 0x18	; 24
+ 312:	21 50       	subi	r18, 0x01	; 1
+ 314:	80 40       	sbci	r24, 0x00	; 0
+ 316:	90 40       	sbci	r25, 0x00	; 0
+ 318:	e1 f7       	brne	.-8      	; 0x312 <__stack+0xb3>
+ 31a:	00 c0       	rjmp	.+0      	; 0x31c <__stack+0xbd>
+ 31c:	00 00       	nop
+ 31e:	f0 cf       	rjmp	.-32     	; 0x300 <__stack+0xa1>
 
-000002cc <__vector_2>:
+00000320 <__vector_2>:
 	}
 	return 0;
 }
 
 
 ISR(PCINT0_vect){
- 2cc:	1f 92       	push	r1
- 2ce:	0f 92       	push	r0
- 2d0:	0f b6       	in	r0, 0x3f	; 63
- 2d2:	0f 92       	push	r0
- 2d4:	11 24       	eor	r1, r1
- 2d6:	2f 93       	push	r18
- 2d8:	3f 93       	push	r19
- 2da:	4f 93       	push	r20
- 2dc:	5f 93       	push	r21
- 2de:	6f 93       	push	r22
- 2e0:	7f 93       	push	r23
- 2e2:	8f 93       	push	r24
- 2e4:	9f 93       	push	r25
- 2e6:	af 93       	push	r26
- 2e8:	bf 93       	push	r27
- 2ea:	cf 93       	push	r28
- 2ec:	ef 93       	push	r30
- 2ee:	ff 93       	push	r31
+ 320:	1f 92       	push	r1
+ 322:	0f 92       	push	r0
+ 324:	0f b6       	in	r0, 0x3f	; 63
+ 326:	0f 92       	push	r0
+ 328:	11 24       	eor	r1, r1
+ 32a:	2f 93       	push	r18
+ 32c:	3f 93       	push	r19
+ 32e:	4f 93       	push	r20
+ 330:	5f 93       	push	r21
+ 332:	6f 93       	push	r22
+ 334:	7f 93       	push	r23
+ 336:	8f 93       	push	r24
+ 338:	9f 93       	push	r25
+ 33a:	af 93       	push	r26
+ 33c:	bf 93       	push	r27
+ 33e:	cf 93       	push	r28
+ 340:	ef 93       	push	r30
+ 342:	ff 93       	push	r31
 	if(BITVAL(*zero.value_reg,zero.pin)){
- 2f0:	e0 91 7b 00 	lds	r30, 0x007B	; 0x80007b <zero+0x5>
- 2f4:	f0 91 7c 00 	lds	r31, 0x007C	; 0x80007c <zero+0x6>
- 2f8:	80 81       	ld	r24, Z
- 2fa:	20 91 76 00 	lds	r18, 0x0076	; 0x800076 <zero>
- 2fe:	90 e0       	ldi	r25, 0x00	; 0
- 300:	02 c0       	rjmp	.+4      	; 0x306 <__vector_2+0x3a>
- 302:	95 95       	asr	r25
- 304:	87 95       	ror	r24
- 306:	2a 95       	dec	r18
- 308:	e2 f7       	brpl	.-8      	; 0x302 <__vector_2+0x36>
- 30a:	80 ff       	sbrs	r24, 0
- 30c:	0d c0       	rjmp	.+26     	; 0x328 <__vector_2+0x5c>
+ 344:	e0 91 7b 00 	lds	r30, 0x007B	; 0x80007b <zero+0x5>
+ 348:	f0 91 7c 00 	lds	r31, 0x007C	; 0x80007c <zero+0x6>
+ 34c:	80 81       	ld	r24, Z
+ 34e:	20 91 76 00 	lds	r18, 0x0076	; 0x800076 <zero>
+ 352:	90 e0       	ldi	r25, 0x00	; 0
+ 354:	02 c0       	rjmp	.+4      	; 0x35a <__vector_2+0x3a>
+ 356:	95 95       	asr	r25
+ 358:	87 95       	ror	r24
+ 35a:	2a 95       	dec	r18
+ 35c:	e2 f7       	brpl	.-8      	; 0x356 <__vector_2+0x36>
+ 35e:	80 ff       	sbrs	r24, 0
+ 360:	0d c0       	rjmp	.+26     	; 0x37c <__vector_2+0x5c>
 		cnt=0;
- 30e:	10 92 7e 00 	sts	0x007E, r1	; 0x80007e <cnt>
+ 362:	10 92 7e 00 	sts	0x007E, r1	; 0x80007e <cnt>
 		for (uint8_t i=0; i<LED_NUM;i++){
 //			if(!leds[i].duty){
 //				leds[i].value=1;
 //			}
 //			else
 				leds[i].value=1;
- 312:	c1 e0       	ldi	r28, 0x01	; 1
- 314:	c0 93 69 00 	sts	0x0069, r28	; 0x800069 <leds+0x5>
+ 366:	c1 e0       	ldi	r28, 0x01	; 1
+ 368:	c0 93 69 00 	sts	0x0069, r28	; 0x800069 <leds+0x5>
 
 			SetValue(&leds[i]);
- 318:	84 e6       	ldi	r24, 0x64	; 100
- 31a:	90 e0       	ldi	r25, 0x00	; 0
- 31c:	4a df       	rcall	.-364    	; 0x1b2 <SetValue>
+ 36c:	84 e6       	ldi	r24, 0x64	; 100
+ 36e:	90 e0       	ldi	r25, 0x00	; 0
+ 370:	20 df       	rcall	.-448    	; 0x1b2 <SetValue>
 		for (uint8_t i=0; i<LED_NUM;i++){
 //			if(!leds[i].duty){
 //				leds[i].value=1;
 //			}
 //			else
 				leds[i].value=1;
- 31e:	c0 93 72 00 	sts	0x0072, r28	; 0x800072 <leds+0xe>
+ 372:	c0 93 72 00 	sts	0x0072, r28	; 0x800072 <leds+0xe>
 
 			SetValue(&leds[i]);
- 322:	8d e6       	ldi	r24, 0x6D	; 109
- 324:	90 e0       	ldi	r25, 0x00	; 0
- 326:	45 df       	rcall	.-374    	; 0x1b2 <SetValue>
+ 376:	8d e6       	ldi	r24, 0x6D	; 109
+ 378:	90 e0       	ldi	r25, 0x00	; 0
+ 37a:	1b df       	rcall	.-458    	; 0x1b2 <SetValue>
 		}
 	}
 }
- 328:	ff 91       	pop	r31
- 32a:	ef 91       	pop	r30
- 32c:	cf 91       	pop	r28
- 32e:	bf 91       	pop	r27
- 330:	af 91       	pop	r26
- 332:	9f 91       	pop	r25
- 334:	8f 91       	pop	r24
- 336:	7f 91       	pop	r23
- 338:	6f 91       	pop	r22
- 33a:	5f 91       	pop	r21
- 33c:	4f 91       	pop	r20
- 33e:	3f 91       	pop	r19
- 340:	2f 91       	pop	r18
- 342:	0f 90       	pop	r0
- 344:	0f be       	out	0x3f, r0	; 63
- 346:	0f 90       	pop	r0
- 348:	1f 90       	pop	r1
- 34a:	18 95       	reti
+ 37c:	ff 91       	pop	r31
+ 37e:	ef 91       	pop	r30
+ 380:	cf 91       	pop	r28
+ 382:	bf 91       	pop	r27
+ 384:	af 91       	pop	r26
+ 386:	9f 91       	pop	r25
+ 388:	8f 91       	pop	r24
+ 38a:	7f 91       	pop	r23
+ 38c:	6f 91       	pop	r22
+ 38e:	5f 91       	pop	r21
+ 390:	4f 91       	pop	r20
+ 392:	3f 91       	pop	r19
+ 394:	2f 91       	pop	r18
+ 396:	0f 90       	pop	r0
+ 398:	0f be       	out	0x3f, r0	; 63
+ 39a:	0f 90       	pop	r0
+ 39c:	1f 90       	pop	r1
+ 39e:	18 95       	reti
 
-0000034c <__vector_3>:
+000003a0 <__vector_3>:
 
 ISR(TIM1_COMPA_vect){
- 34c:	1f 92       	push	r1
- 34e:	0f 92       	push	r0
- 350:	0f b6       	in	r0, 0x3f	; 63
- 352:	0f 92       	push	r0
- 354:	11 24       	eor	r1, r1
- 356:	2f 93       	push	r18
- 358:	3f 93       	push	r19
- 35a:	4f 93       	push	r20
- 35c:	5f 93       	push	r21
- 35e:	6f 93       	push	r22
- 360:	7f 93       	push	r23
- 362:	8f 93       	push	r24
- 364:	9f 93       	push	r25
- 366:	af 93       	push	r26
- 368:	bf 93       	push	r27
- 36a:	ef 93       	push	r30
- 36c:	ff 93       	push	r31
+ 3a0:	1f 92       	push	r1
+ 3a2:	0f 92       	push	r0
+ 3a4:	0f b6       	in	r0, 0x3f	; 63
+ 3a6:	0f 92       	push	r0
+ 3a8:	11 24       	eor	r1, r1
+ 3aa:	2f 93       	push	r18
+ 3ac:	3f 93       	push	r19
+ 3ae:	4f 93       	push	r20
+ 3b0:	5f 93       	push	r21
+ 3b2:	6f 93       	push	r22
+ 3b4:	7f 93       	push	r23
+ 3b6:	8f 93       	push	r24
+ 3b8:	9f 93       	push	r25
+ 3ba:	af 93       	push	r26
+ 3bc:	bf 93       	push	r27
+ 3be:	ef 93       	push	r30
+ 3c0:	ff 93       	push	r31
 	cnt++;
- 36e:	80 91 7e 00 	lds	r24, 0x007E	; 0x80007e <cnt>
- 372:	8f 5f       	subi	r24, 0xFF	; 255
- 374:	80 93 7e 00 	sts	0x007E, r24	; 0x80007e <cnt>
+ 3c2:	80 91 7e 00 	lds	r24, 0x007E	; 0x80007e <cnt>
+ 3c6:	8f 5f       	subi	r24, 0xFF	; 255
+ 3c8:	80 93 7e 00 	sts	0x007E, r24	; 0x80007e <cnt>
 	for (uint8_t i=0; i<LED_NUM;i++){
-		if((100-leds[i].duty)<=cnt){
- 378:	90 91 6c 00 	lds	r25, 0x006C	; 0x80006c <leds+0x8>
- 37c:	24 e6       	ldi	r18, 0x64	; 100
- 37e:	30 e0       	ldi	r19, 0x00	; 0
- 380:	29 1b       	sub	r18, r25
- 382:	31 09       	sbc	r19, r1
- 384:	48 2f       	mov	r20, r24
- 386:	50 e0       	ldi	r21, 0x00	; 0
- 388:	42 17       	cp	r20, r18
- 38a:	53 07       	cpc	r21, r19
- 38c:	dc f4       	brge	.+54     	; 0x3c4 <__vector_3+0x78>
- 38e:	90 91 75 00 	lds	r25, 0x0075	; 0x800075 <leds+0x11>
- 392:	24 e6       	ldi	r18, 0x64	; 100
- 394:	30 e0       	ldi	r19, 0x00	; 0
- 396:	29 1b       	sub	r18, r25
- 398:	31 09       	sbc	r19, r1
- 39a:	90 e0       	ldi	r25, 0x00	; 0
- 39c:	82 17       	cp	r24, r18
- 39e:	93 07       	cpc	r25, r19
- 3a0:	cc f4       	brge	.+50     	; 0x3d4 <__vector_3+0x88>
+		if((100-leds[i].duty)<cnt){
+ 3cc:	90 91 6c 00 	lds	r25, 0x006C	; 0x80006c <leds+0x8>
+ 3d0:	24 e6       	ldi	r18, 0x64	; 100
+ 3d2:	30 e0       	ldi	r19, 0x00	; 0
+ 3d4:	29 1b       	sub	r18, r25
+ 3d6:	31 09       	sbc	r19, r1
+ 3d8:	48 2f       	mov	r20, r24
+ 3da:	50 e0       	ldi	r21, 0x00	; 0
+ 3dc:	24 17       	cp	r18, r20
+ 3de:	35 07       	cpc	r19, r21
+ 3e0:	dc f0       	brlt	.+54     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
+ 3e2:	90 91 75 00 	lds	r25, 0x0075	; 0x800075 <leds+0x11>
+ 3e6:	24 e6       	ldi	r18, 0x64	; 100
+ 3e8:	30 e0       	ldi	r19, 0x00	; 0
+ 3ea:	29 1b       	sub	r18, r25
+ 3ec:	31 09       	sbc	r19, r1
+ 3ee:	90 e0       	ldi	r25, 0x00	; 0
+ 3f0:	28 17       	cp	r18, r24
+ 3f2:	39 07       	cpc	r19, r25
+ 3f4:	cc f0       	brlt	.+50     	; 0x428 <__FUSE_REGION_LENGTH__+0x28>
 			leds[i].value=0;
 			SetValue(&leds[i]);
 		}
 	}
- 3a2:	ff 91       	pop	r31
- 3a4:	ef 91       	pop	r30
- 3a6:	bf 91       	pop	r27
- 3a8:	af 91       	pop	r26
- 3aa:	9f 91       	pop	r25
- 3ac:	8f 91       	pop	r24
- 3ae:	7f 91       	pop	r23
- 3b0:	6f 91       	pop	r22
- 3b2:	5f 91       	pop	r21
- 3b4:	4f 91       	pop	r20
- 3b6:	3f 91       	pop	r19
- 3b8:	2f 91       	pop	r18
- 3ba:	0f 90       	pop	r0
- 3bc:	0f be       	out	0x3f, r0	; 63
- 3be:	0f 90       	pop	r0
- 3c0:	1f 90       	pop	r1
- 3c2:	18 95       	reti
+}
+ 3f6:	ff 91       	pop	r31
+ 3f8:	ef 91       	pop	r30
+ 3fa:	bf 91       	pop	r27
+ 3fc:	af 91       	pop	r26
+ 3fe:	9f 91       	pop	r25
+ 400:	8f 91       	pop	r24
+ 402:	7f 91       	pop	r23
+ 404:	6f 91       	pop	r22
+ 406:	5f 91       	pop	r21
+ 408:	4f 91       	pop	r20
+ 40a:	3f 91       	pop	r19
+ 40c:	2f 91       	pop	r18
+ 40e:	0f 90       	pop	r0
+ 410:	0f be       	out	0x3f, r0	; 63
+ 412:	0f 90       	pop	r0
+ 414:	1f 90       	pop	r1
+ 416:	18 95       	reti
 
 ISR(TIM1_COMPA_vect){
 	cnt++;
 	for (uint8_t i=0; i<LED_NUM;i++){
-		if((100-leds[i].duty)<=cnt){
+		if((100-leds[i].duty)<cnt){
 			leds[i].value=0;
- 3c4:	10 92 69 00 	sts	0x0069, r1	; 0x800069 <leds+0x5>
+ 418:	10 92 69 00 	sts	0x0069, r1	; 0x800069 <leds+0x5>
 			SetValue(&leds[i]);
- 3c8:	84 e6       	ldi	r24, 0x64	; 100
- 3ca:	90 e0       	ldi	r25, 0x00	; 0
- 3cc:	f2 de       	rcall	.-540    	; 0x1b2 <SetValue>
- 3ce:	80 91 7e 00 	lds	r24, 0x007E	; 0x80007e <cnt>
- 3d2:	dd cf       	rjmp	.-70     	; 0x38e <__vector_3+0x42>
+ 41c:	84 e6       	ldi	r24, 0x64	; 100
+ 41e:	90 e0       	ldi	r25, 0x00	; 0
+ 420:	c8 de       	rcall	.-624    	; 0x1b2 <SetValue>
+ 422:	80 91 7e 00 	lds	r24, 0x007E	; 0x80007e <cnt>
+ 426:	dd cf       	rjmp	.-70     	; 0x3e2 <__vector_3+0x42>
 
 ISR(TIM1_COMPA_vect){
 	cnt++;
 	for (uint8_t i=0; i<LED_NUM;i++){
-		if((100-leds[i].duty)<=cnt){
+		if((100-leds[i].duty)<cnt){
 			leds[i].value=0;
- 3d4:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <leds+0xe>
+ 428:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <leds+0xe>
 			SetValue(&leds[i]);
- 3d8:	8d e6       	ldi	r24, 0x6D	; 109
- 3da:	90 e0       	ldi	r25, 0x00	; 0
- 3dc:	ea de       	rcall	.-556    	; 0x1b2 <SetValue>
- 3de:	e1 cf       	rjmp	.-62     	; 0x3a2 <__vector_3+0x56>
+ 42c:	8d e6       	ldi	r24, 0x6D	; 109
+ 42e:	90 e0       	ldi	r25, 0x00	; 0
+ 430:	c0 de       	rcall	.-640    	; 0x1b2 <SetValue>
+ 432:	e1 cf       	rjmp	.-62     	; 0x3f6 <__vector_3+0x56>
 
-000003e0 <USI_I2C_Init>:
+00000434 <USI_I2C_Init>:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void USI_I2C_Init(char address)
 {
 	PORT_USI &= ~(1 << PORT_USI_SCL);
- 3e0:	c2 98       	cbi	0x18, 2	; 24
+ 434:	c2 98       	cbi	0x18, 2	; 24
 	PORT_USI &= ~(1 << PORT_USI_SDA);
- 3e2:	c0 98       	cbi	0x18, 0	; 24
+ 436:	c0 98       	cbi	0x18, 0	; 24
 
 	usi_i2c_slave_address = address;
- 3e4:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+ 438:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
 
 	USI_SET_BOTH_INPUT();
- 3e8:	87 b3       	in	r24, 0x17	; 23
- 3ea:	8a 7f       	andi	r24, 0xFA	; 250
- 3ec:	87 bb       	out	0x17, r24	; 23
+ 43c:	87 b3       	in	r24, 0x17	; 23
+ 43e:	8a 7f       	andi	r24, 0xFA	; 250
+ 440:	87 bb       	out	0x17, r24	; 23
 
 	USICR = (1 << USISIE) | (0 << USIOIE) | (1 << USIWM1) | (0 << USIWM0) | (1 << USICS1) | (0 << USICS0) | (0 << USICLK) | (0 << USITC);
- 3ee:	88 ea       	ldi	r24, 0xA8	; 168
- 3f0:	8d b9       	out	0x0d, r24	; 13
+ 442:	88 ea       	ldi	r24, 0xA8	; 168
+ 444:	8d b9       	out	0x0d, r24	; 13
 	USISR = (1 << USISIF) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC);
- 3f2:	80 ef       	ldi	r24, 0xF0	; 240
- 3f4:	8e b9       	out	0x0e, r24	; 14
- 3f6:	08 95       	ret
+ 446:	80 ef       	ldi	r24, 0xF0	; 240
+ 448:	8e b9       	out	0x0e, r24	; 14
+ 44a:	08 95       	ret
 
-000003f8 <__vector_13>:
+0000044c <__vector_13>:
 //  triggering the first state table interrupt.  If a stop condition occurs,   //
 //  reset the start condition detector to detect the next start condition.     //
 /////////////////////////////////////////////////////////////////////////////////
 
 ISR(USI_START_vect)
 {
- 3f8:	1f 92       	push	r1
- 3fa:	0f 92       	push	r0
- 3fc:	0f b6       	in	r0, 0x3f	; 63
- 3fe:	0f 92       	push	r0
- 400:	11 24       	eor	r1, r1
- 402:	8f 93       	push	r24
+ 44c:	1f 92       	push	r1
+ 44e:	0f 92       	push	r0
+ 450:	0f b6       	in	r0, 0x3f	; 63
+ 452:	0f 92       	push	r0
+ 454:	11 24       	eor	r1, r1
+ 456:	8f 93       	push	r24
 	USI_I2C_Slave_State = USI_SLAVE_CHECK_ADDRESS;
- 404:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <USI_I2C_Slave_State>
+ 458:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <USI_I2C_Slave_State>
 	USI_SET_SDA_INPUT();
- 408:	b8 98       	cbi	0x17, 0	; 23
+ 45c:	b8 98       	cbi	0x17, 0	; 23
 	// wait for SCL to go low to ensure the Start Condition has completed (the
 	// start detector will hold SCL low ) - if a Stop Condition arises then leave
 	// the interrupt to prevent waiting forever - don't use USISR to test for Stop
 	// Condition as in Application Note AVR312 because the Stop Condition Flag is
 	// going to be set from the last TWI sequence
 	while((PIN_USI & (1 << PIN_USI_SCL)) && !((PIN_USI & (1 << PIN_USI_SDA))));
- 40a:	02 c0       	rjmp	.+4      	; 0x410 <__FUSE_REGION_LENGTH__+0x10>
- 40c:	b0 99       	sbic	0x16, 0	; 22
- 40e:	02 c0       	rjmp	.+4      	; 0x414 <__FUSE_REGION_LENGTH__+0x14>
- 410:	b2 99       	sbic	0x16, 2	; 22
- 412:	fc cf       	rjmp	.-8      	; 0x40c <__FUSE_REGION_LENGTH__+0xc>
+ 45e:	02 c0       	rjmp	.+4      	; 0x464 <__vector_13+0x18>
+ 460:	b0 99       	sbic	0x16, 0	; 22
+ 462:	02 c0       	rjmp	.+4      	; 0x468 <__vector_13+0x1c>
+ 464:	b2 99       	sbic	0x16, 2	; 22
+ 466:	fc cf       	rjmp	.-8      	; 0x460 <__vector_13+0x14>
 	if(!(PIN_USI & (1 << PIN_USI_SDA)))
- 414:	b0 9b       	sbis	0x16, 0	; 22
- 416:	0a c0       	rjmp	.+20     	; 0x42c <__FUSE_REGION_LENGTH__+0x2c>
+ 468:	b0 9b       	sbis	0x16, 0	; 22
+ 46a:	0a c0       	rjmp	.+20     	; 0x480 <__vector_13+0x34>
 		USICR = USI_SLAVE_STOP_NOT_OCCUR_USICR;
 	}
 	else
 	{
 		// a Stop Condition did occur
     	USICR = USI_SLAVE_STOP_DID_OCCUR_USICR;
- 418:	88 eb       	ldi	r24, 0xB8	; 184
- 41a:	8d b9       	out	0x0d, r24	; 13
+ 46c:	88 eb       	ldi	r24, 0xB8	; 184
+ 46e:	8d b9       	out	0x0d, r24	; 13
 	}
 	USISR = USI_SLAVE_CLEAR_START_USISR;
- 41c:	80 ef       	ldi	r24, 0xF0	; 240
- 41e:	8e b9       	out	0x0e, r24	; 14
+ 470:	80 ef       	ldi	r24, 0xF0	; 240
+ 472:	8e b9       	out	0x0e, r24	; 14
 }
- 420:	8f 91       	pop	r24
- 422:	0f 90       	pop	r0
- 424:	0f be       	out	0x3f, r0	; 63
- 426:	0f 90       	pop	r0
- 428:	1f 90       	pop	r1
- 42a:	18 95       	reti
+ 474:	8f 91       	pop	r24
+ 476:	0f 90       	pop	r0
+ 478:	0f be       	out	0x3f, r0	; 63
+ 47a:	0f 90       	pop	r0
+ 47c:	1f 90       	pop	r1
+ 47e:	18 95       	reti
 	// going to be set from the last TWI sequence
 	while((PIN_USI & (1 << PIN_USI_SCL)) && !((PIN_USI & (1 << PIN_USI_SDA))));
 	if(!(PIN_USI & (1 << PIN_USI_SDA)))
 	{
 		// a Stop Condition did not occur
 		USICR = USI_SLAVE_STOP_NOT_OCCUR_USICR;
- 42c:	88 ee       	ldi	r24, 0xE8	; 232
- 42e:	8d b9       	out	0x0d, r24	; 13
+ 480:	88 ee       	ldi	r24, 0xE8	; 232
+ 482:	8d b9       	out	0x0d, r24	; 13
 	else
 	{
 		// a Stop Condition did occur
     	USICR = USI_SLAVE_STOP_DID_OCCUR_USICR;
 	}
 	USISR = USI_SLAVE_CLEAR_START_USISR;
- 430:	80 ef       	ldi	r24, 0xF0	; 240
- 432:	8e b9       	out	0x0e, r24	; 14
+ 484:	80 ef       	ldi	r24, 0xF0	; 240
+ 486:	8e b9       	out	0x0e, r24	; 14
 }
- 434:	8f 91       	pop	r24
- 436:	0f 90       	pop	r0
- 438:	0f be       	out	0x3f, r0	; 63
- 43a:	0f 90       	pop	r0
- 43c:	1f 90       	pop	r1
- 43e:	18 95       	reti
+ 488:	8f 91       	pop	r24
+ 48a:	0f 90       	pop	r0
+ 48c:	0f be       	out	0x3f, r0	; 63
+ 48e:	0f 90       	pop	r0
+ 490:	1f 90       	pop	r1
+ 492:	18 95       	reti
 
-00000440 <__vector_14>:
+00000494 <__vector_14>:
 //  This is used to set up a state table of I2C transmission states that fits  //
 //  the I2C protocol for proper transmission.                                  //
 /////////////////////////////////////////////////////////////////////////////////
 
 ISR(USI_OVF_vect)
 {
- 440:	1f 92       	push	r1
- 442:	0f 92       	push	r0
- 444:	0f b6       	in	r0, 0x3f	; 63
- 446:	0f 92       	push	r0
- 448:	11 24       	eor	r1, r1
- 44a:	8f 93       	push	r24
- 44c:	9f 93       	push	r25
- 44e:	ef 93       	push	r30
- 450:	ff 93       	push	r31
+ 494:	1f 92       	push	r1
+ 496:	0f 92       	push	r0
+ 498:	0f b6       	in	r0, 0x3f	; 63
+ 49a:	0f 92       	push	r0
+ 49c:	11 24       	eor	r1, r1
+ 49e:	8f 93       	push	r24
+ 4a0:	9f 93       	push	r25
+ 4a2:	ef 93       	push	r30
+ 4a4:	ff 93       	push	r31
 	switch (USI_I2C_Slave_State)
- 452:	80 91 80 00 	lds	r24, 0x0080	; 0x800080 <USI_I2C_Slave_State>
- 456:	82 30       	cpi	r24, 0x02	; 2
- 458:	09 f4       	brne	.+2      	; 0x45c <__vector_14+0x1c>
- 45a:	51 c0       	rjmp	.+162    	; 0x4fe <__vector_14+0xbe>
- 45c:	00 f1       	brcs	.+64     	; 0x49e <__vector_14+0x5e>
- 45e:	84 30       	cpi	r24, 0x04	; 4
- 460:	a1 f1       	breq	.+104    	; 0x4ca <__vector_14+0x8a>
- 462:	08 f4       	brcc	.+2      	; 0x466 <__vector_14+0x26>
- 464:	44 c0       	rjmp	.+136    	; 0x4ee <__vector_14+0xae>
- 466:	85 30       	cpi	r24, 0x05	; 5
- 468:	89 f4       	brne	.+34     	; 0x48c <__vector_14+0x4c>
+ 4a6:	80 91 80 00 	lds	r24, 0x0080	; 0x800080 <USI_I2C_Slave_State>
+ 4aa:	82 30       	cpi	r24, 0x02	; 2
+ 4ac:	09 f4       	brne	.+2      	; 0x4b0 <__vector_14+0x1c>
+ 4ae:	51 c0       	rjmp	.+162    	; 0x552 <__vector_14+0xbe>
+ 4b0:	00 f1       	brcs	.+64     	; 0x4f2 <__vector_14+0x5e>
+ 4b2:	84 30       	cpi	r24, 0x04	; 4
+ 4b4:	a1 f1       	breq	.+104    	; 0x51e <__vector_14+0x8a>
+ 4b6:	08 f4       	brcc	.+2      	; 0x4ba <__vector_14+0x26>
+ 4b8:	44 c0       	rjmp	.+136    	; 0x542 <__vector_14+0xae>
+ 4ba:	85 30       	cpi	r24, 0x05	; 5
+ 4bc:	89 f4       	brne	.+34     	; 0x4e0 <__vector_14+0x4c>
 		//  After waiting for the master to finish transmission, this reads    //
 		//  USIDR into either the i2c buffer or internal address, then sends   //
 		//  an acknowledgement to the master.                                  //
 		/////////////////////////////////////////////////////////////////////////
 		case USI_SLAVE_RECV_DATA_ACK_SEND:
 			USI_I2C_Slave_State = USI_SLAVE_RECV_DATA_WAIT;
- 46a:	84 e0       	ldi	r24, 0x04	; 4
- 46c:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
+ 4be:	84 e0       	ldi	r24, 0x04	; 4
+ 4c0:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
 
 			if(USI_Slave_internal_address_set == 0)
- 470:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <__data_end>
- 474:	81 11       	cpse	r24, r1
- 476:	5a c0       	rjmp	.+180    	; 0x52c <__vector_14+0xec>
+ 4c4:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <__data_end>
+ 4c8:	81 11       	cpse	r24, r1
+ 4ca:	5a c0       	rjmp	.+180    	; 0x580 <__vector_14+0xec>
 			{
 				USI_Slave_internal_address = USIDR;
- 478:	8f b1       	in	r24, 0x0f	; 15
- 47a:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <USI_Slave_internal_address>
+ 4cc:	8f b1       	in	r24, 0x0f	; 15
+ 4ce:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <USI_Slave_internal_address>
 				USI_Slave_internal_address_set = 1;
- 47e:	81 e0       	ldi	r24, 0x01	; 1
- 480:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
+ 4d2:	81 e0       	ldi	r24, 0x01	; 1
+ 4d4:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
 			else if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
 			{
 				*(USI_Slave_register_buffer[USI_Slave_internal_address]) = USIDR;
 			}
 
 			USIDR = 0;
- 484:	1f b8       	out	0x0f, r1	; 15
+ 4d8:	1f b8       	out	0x0f, r1	; 15
 			USI_SET_SDA_OUTPUT();
- 486:	b8 9a       	sbi	0x17, 0	; 23
+ 4da:	b8 9a       	sbi	0x17, 0	; 23
 			USISR = USI_SLAVE_COUNT_ACK_USISR;
- 488:	8e e7       	ldi	r24, 0x7E	; 126
- 48a:	8e b9       	out	0x0e, r24	; 14
+ 4dc:	8e e7       	ldi	r24, 0x7E	; 126
+ 4de:	8e b9       	out	0x0e, r24	; 14
 			break;
 	}
 }
- 48c:	ff 91       	pop	r31
- 48e:	ef 91       	pop	r30
- 490:	9f 91       	pop	r25
- 492:	8f 91       	pop	r24
- 494:	0f 90       	pop	r0
- 496:	0f be       	out	0x3f, r0	; 63
- 498:	0f 90       	pop	r0
- 49a:	1f 90       	pop	r1
- 49c:	18 95       	reti
+ 4e0:	ff 91       	pop	r31
+ 4e2:	ef 91       	pop	r30
+ 4e4:	9f 91       	pop	r25
+ 4e6:	8f 91       	pop	r24
+ 4e8:	0f 90       	pop	r0
+ 4ea:	0f be       	out	0x3f, r0	; 63
+ 4ec:	0f 90       	pop	r0
+ 4ee:	1f 90       	pop	r1
+ 4f0:	18 95       	reti
 //  the I2C protocol for proper transmission.                                  //
 /////////////////////////////////////////////////////////////////////////////////
 
 ISR(USI_OVF_vect)
 {
 	switch (USI_I2C_Slave_State)
- 49e:	88 23       	and	r24, r24
- 4a0:	b1 f1       	breq	.+108    	; 0x50e <__vector_14+0xce>
- 4a2:	81 30       	cpi	r24, 0x01	; 1
- 4a4:	99 f7       	brne	.-26     	; 0x48c <__vector_14+0x4c>
+ 4f2:	88 23       	and	r24, r24
+ 4f4:	b1 f1       	breq	.+108    	; 0x562 <__vector_14+0xce>
+ 4f6:	81 30       	cpi	r24, 0x01	; 1
+ 4f8:	99 f7       	brne	.-26     	; 0x4e0 <__vector_14+0x4c>
 		//  enable data transmission in the next 8 clocks.  Set to wait 8      //
 		//  clocks and proceed to wait for ACK.                                //
 		/////////////////////////////////////////////////////////////////////////
 		case USI_SLAVE_SEND_DATA:
 
 			if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
- 4a6:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <USI_Slave_internal_address>
- 4aa:	e9 30       	cpi	r30, 0x09	; 9
- 4ac:	a8 f0       	brcs	.+42     	; 0x4d8 <__vector_14+0x98>
+ 4fa:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <USI_Slave_internal_address>
+ 4fe:	e9 30       	cpi	r30, 0x09	; 9
+ 500:	a8 f0       	brcs	.+42     	; 0x52c <__vector_14+0x98>
 			{
 				USIDR = *(USI_Slave_register_buffer[USI_Slave_internal_address]);
 			}
 			else
 			{
 				USIDR = 0x00;
- 4ae:	1f b8       	out	0x0f, r1	; 15
+ 502:	1f b8       	out	0x0f, r1	; 15
 			}
 			USI_Slave_internal_address++;
- 4b0:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <USI_Slave_internal_address>
- 4b4:	8f 5f       	subi	r24, 0xFF	; 255
- 4b6:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <USI_Slave_internal_address>
+ 504:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <USI_Slave_internal_address>
+ 508:	8f 5f       	subi	r24, 0xFF	; 255
+ 50a:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <USI_Slave_internal_address>
 			USI_I2C_Slave_State = USI_SLAVE_SEND_DATA_ACK_WAIT;
- 4ba:	82 e0       	ldi	r24, 0x02	; 2
- 4bc:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
+ 50e:	82 e0       	ldi	r24, 0x02	; 2
+ 510:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
 
 			//To send data, DDR for SDA must be 1 (Output) and PORT for SDA
 			//must also be 1 (line drives low on USIDR MSB = 0 or PORT = 0)
 			USI_SET_SDA_OUTPUT();
- 4c0:	b8 9a       	sbi	0x17, 0	; 23
+ 514:	b8 9a       	sbi	0x17, 0	; 23
 			PORT_USI |= (1 << PORT_USI_SDA);
- 4c2:	c0 9a       	sbi	0x18, 0	; 24
+ 516:	c0 9a       	sbi	0x18, 0	; 24
 			USISR = USI_SLAVE_COUNT_BYTE_USISR;
- 4c4:	80 e7       	ldi	r24, 0x70	; 112
- 4c6:	8e b9       	out	0x0e, r24	; 14
+ 518:	80 e7       	ldi	r24, 0x70	; 112
+ 51a:	8e b9       	out	0x0e, r24	; 14
 			break;
- 4c8:	e1 cf       	rjmp	.-62     	; 0x48c <__vector_14+0x4c>
+ 51c:	e1 cf       	rjmp	.-62     	; 0x4e0 <__vector_14+0x4c>
 		//                                                                     //
 		//  Prepares to wait 8 clocks to receive a data byte from the master.  //
 		/////////////////////////////////////////////////////////////////////////
 		case USI_SLAVE_RECV_DATA_WAIT:
 
 			USI_I2C_Slave_State = USI_SLAVE_RECV_DATA_ACK_SEND;
- 4ca:	85 e0       	ldi	r24, 0x05	; 5
- 4cc:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
+ 51e:	85 e0       	ldi	r24, 0x05	; 5
+ 520:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
 
 			USI_SET_SDA_INPUT();
- 4d0:	b8 98       	cbi	0x17, 0	; 23
+ 524:	b8 98       	cbi	0x17, 0	; 23
 			USISR = USI_SLAVE_COUNT_BYTE_USISR;
- 4d2:	80 e7       	ldi	r24, 0x70	; 112
- 4d4:	8e b9       	out	0x0e, r24	; 14
+ 526:	80 e7       	ldi	r24, 0x70	; 112
+ 528:	8e b9       	out	0x0e, r24	; 14
 			break;
- 4d6:	da cf       	rjmp	.-76     	; 0x48c <__vector_14+0x4c>
+ 52a:	da cf       	rjmp	.-76     	; 0x4e0 <__vector_14+0x4c>
 		/////////////////////////////////////////////////////////////////////////
 		case USI_SLAVE_SEND_DATA:
 
 			if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
 			{
 				USIDR = *(USI_Slave_register_buffer[USI_Slave_internal_address]);
- 4d8:	f0 e0       	ldi	r31, 0x00	; 0
- 4da:	ee 0f       	add	r30, r30
- 4dc:	ff 1f       	adc	r31, r31
- 4de:	ef 57       	subi	r30, 0x7F	; 127
- 4e0:	ff 4f       	sbci	r31, 0xFF	; 255
- 4e2:	01 90       	ld	r0, Z+
- 4e4:	f0 81       	ld	r31, Z
- 4e6:	e0 2d       	mov	r30, r0
- 4e8:	80 81       	ld	r24, Z
- 4ea:	8f b9       	out	0x0f, r24	; 15
- 4ec:	e1 cf       	rjmp	.-62     	; 0x4b0 <__vector_14+0x70>
+ 52c:	f0 e0       	ldi	r31, 0x00	; 0
+ 52e:	ee 0f       	add	r30, r30
+ 530:	ff 1f       	adc	r31, r31
+ 532:	ef 57       	subi	r30, 0x7F	; 127
+ 534:	ff 4f       	sbci	r31, 0xFF	; 255
+ 536:	01 90       	ld	r0, Z+
+ 538:	f0 81       	ld	r31, Z
+ 53a:	e0 2d       	mov	r30, r0
+ 53c:	80 81       	ld	r24, Z
+ 53e:	8f b9       	out	0x0f, r24	; 15
+ 540:	e1 cf       	rjmp	.-62     	; 0x504 <__vector_14+0x70>
 		//  a reset to START conditions, if ACK, fall through into SEND_DATA   //
 		//  to continue sending data.                                          //
 		/////////////////////////////////////////////////////////////////////////
 		case USI_SLAVE_SEND_DATA_ACK_CHECK:
 
 			if(USIDR)
- 4ee:	8f b1       	in	r24, 0x0f	; 15
- 4f0:	88 23       	and	r24, r24
- 4f2:	c9 f2       	breq	.-78     	; 0x4a6 <__vector_14+0x66>
+ 542:	8f b1       	in	r24, 0x0f	; 15
+ 544:	88 23       	and	r24, r24
+ 546:	c9 f2       	breq	.-78     	; 0x4fa <__vector_14+0x66>
 			{
 				//The master sent a NACK, indicating that it will not accept
 				//more data.  Reset into START condition state
 				USICR = USI_SLAVE_SET_START_COND_USICR;
- 4f4:	88 ea       	ldi	r24, 0xA8	; 168
- 4f6:	8d b9       	out	0x0d, r24	; 13
+ 548:	88 ea       	ldi	r24, 0xA8	; 168
+ 54a:	8d b9       	out	0x0d, r24	; 13
 				USISR = USI_SLAVE_SET_START_COND_USISR;
- 4f8:	80 e7       	ldi	r24, 0x70	; 112
- 4fa:	8e b9       	out	0x0e, r24	; 14
+ 54c:	80 e7       	ldi	r24, 0x70	; 112
+ 54e:	8e b9       	out	0x0e, r24	; 14
 				return;
- 4fc:	c7 cf       	rjmp	.-114    	; 0x48c <__vector_14+0x4c>
+ 550:	c7 cf       	rjmp	.-114    	; 0x4e0 <__vector_14+0x4c>
 		case USI_SLAVE_SEND_DATA_ACK_WAIT:
 
 			//After sending, immediately shut off PORT = 1 to prevent driving
 			//the line high (I2C should *NEVER* drive high, and could damage
 			//connected devices if operating at different voltage levels)
 			PORT_USI &= ~(1 << PORT_USI_SDA);
- 4fe:	c0 98       	cbi	0x18, 0	; 24
+ 552:	c0 98       	cbi	0x18, 0	; 24
 			USI_I2C_Slave_State = USI_SLAVE_SEND_DATA_ACK_CHECK;
- 500:	83 e0       	ldi	r24, 0x03	; 3
- 502:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
+ 554:	83 e0       	ldi	r24, 0x03	; 3
+ 556:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
 			USI_SET_SDA_INPUT();
- 506:	b8 98       	cbi	0x17, 0	; 23
+ 55a:	b8 98       	cbi	0x17, 0	; 23
 			USISR = USI_SLAVE_COUNT_ACK_USISR;
- 508:	8e e7       	ldi	r24, 0x7E	; 126
- 50a:	8e b9       	out	0x0e, r24	; 14
+ 55c:	8e e7       	ldi	r24, 0x7E	; 126
+ 55e:	8e b9       	out	0x0e, r24	; 14
 			break;
- 50c:	bf cf       	rjmp	.-130    	; 0x48c <__vector_14+0x4c>
+ 560:	bf cf       	rjmp	.-130    	; 0x4e0 <__vector_14+0x4c>
 		//  If the address was not for this device, the USI system is          //
 		//  re-initialized for start condition.                                //
 		/////////////////////////////////////////////////////////////////////////
 		case USI_SLAVE_CHECK_ADDRESS:
 
 			if((USIDR == 0) || ((USIDR >> 1) == usi_i2c_slave_address))
- 50e:	8f b1       	in	r24, 0x0f	; 15
- 510:	88 23       	and	r24, r24
- 512:	31 f0       	breq	.+12     	; 0x520 <__vector_14+0xe0>
- 514:	8f b1       	in	r24, 0x0f	; 15
- 516:	86 95       	lsr	r24
- 518:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__data_start>
- 51c:	89 13       	cpse	r24, r25
- 51e:	ea cf       	rjmp	.-44     	; 0x4f4 <__vector_14+0xb4>
+ 562:	8f b1       	in	r24, 0x0f	; 15
+ 564:	88 23       	and	r24, r24
+ 566:	31 f0       	breq	.+12     	; 0x574 <__vector_14+0xe0>
+ 568:	8f b1       	in	r24, 0x0f	; 15
+ 56a:	86 95       	lsr	r24
+ 56c:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__data_start>
+ 570:	89 13       	cpse	r24, r25
+ 572:	ea cf       	rjmp	.-44     	; 0x548 <__vector_14+0xb4>
 			{
 				if (USIDR & 0x01)
- 520:	78 9b       	sbis	0x0f, 0	; 15
- 522:	14 c0       	rjmp	.+40     	; 0x54c <__vector_14+0x10c>
+ 574:	78 9b       	sbis	0x0f, 0	; 15
+ 576:	14 c0       	rjmp	.+40     	; 0x5a0 <__vector_14+0x10c>
 				{
 					USI_I2C_Slave_State = USI_SLAVE_SEND_DATA;
- 524:	81 e0       	ldi	r24, 0x01	; 1
- 526:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
- 52a:	ac cf       	rjmp	.-168    	; 0x484 <__vector_14+0x44>
+ 578:	81 e0       	ldi	r24, 0x01	; 1
+ 57a:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
+ 57e:	ac cf       	rjmp	.-168    	; 0x4d8 <__vector_14+0x44>
 			if(USI_Slave_internal_address_set == 0)
 			{
 				USI_Slave_internal_address = USIDR;
 				USI_Slave_internal_address_set = 1;
 			}
 			else if(USI_Slave_internal_address <= USI_SLAVE_REGISTER_COUNT)
- 52c:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <USI_Slave_internal_address>
- 530:	e9 30       	cpi	r30, 0x09	; 9
- 532:	08 f0       	brcs	.+2      	; 0x536 <__vector_14+0xf6>
- 534:	a7 cf       	rjmp	.-178    	; 0x484 <__vector_14+0x44>
+ 580:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <USI_Slave_internal_address>
+ 584:	e9 30       	cpi	r30, 0x09	; 9
+ 586:	08 f0       	brcs	.+2      	; 0x58a <__vector_14+0xf6>
+ 588:	a7 cf       	rjmp	.-178    	; 0x4d8 <__vector_14+0x44>
 			{
 				*(USI_Slave_register_buffer[USI_Slave_internal_address]) = USIDR;
- 536:	f0 e0       	ldi	r31, 0x00	; 0
- 538:	ee 0f       	add	r30, r30
- 53a:	ff 1f       	adc	r31, r31
- 53c:	ef 57       	subi	r30, 0x7F	; 127
- 53e:	ff 4f       	sbci	r31, 0xFF	; 255
- 540:	01 90       	ld	r0, Z+
- 542:	f0 81       	ld	r31, Z
- 544:	e0 2d       	mov	r30, r0
- 546:	8f b1       	in	r24, 0x0f	; 15
- 548:	80 83       	st	Z, r24
- 54a:	9c cf       	rjmp	.-200    	; 0x484 <__vector_14+0x44>
+ 58a:	f0 e0       	ldi	r31, 0x00	; 0
+ 58c:	ee 0f       	add	r30, r30
+ 58e:	ff 1f       	adc	r31, r31
+ 590:	ef 57       	subi	r30, 0x7F	; 127
+ 592:	ff 4f       	sbci	r31, 0xFF	; 255
+ 594:	01 90       	ld	r0, Z+
+ 596:	f0 81       	ld	r31, Z
+ 598:	e0 2d       	mov	r30, r0
+ 59a:	8f b1       	in	r24, 0x0f	; 15
+ 59c:	80 83       	st	Z, r24
+ 59e:	9c cf       	rjmp	.-200    	; 0x4d8 <__vector_14+0x44>
 					USI_I2C_Slave_State = USI_SLAVE_SEND_DATA;
 					//leds[2].value=1;
 				}
 				else
 				{
 					USI_Slave_internal_address_set = 0;
- 54c:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <__data_end>
+ 5a0:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <__data_end>
 					USI_I2C_Slave_State = USI_SLAVE_RECV_DATA_WAIT;
- 550:	84 e0       	ldi	r24, 0x04	; 4
- 552:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
- 556:	96 cf       	rjmp	.-212    	; 0x484 <__vector_14+0x44>
+ 5a4:	84 e0       	ldi	r24, 0x04	; 4
+ 5a6:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <USI_I2C_Slave_State>
+ 5aa:	96 cf       	rjmp	.-212    	; 0x4d8 <__vector_14+0x44>
 
-00000558 <_exit>:
- 558:	f8 94       	cli
+000005ac <_exit>:
+ 5ac:	f8 94       	cli
 
-0000055a <__stop_program>:
- 55a:	ff cf       	rjmp	.-2      	; 0x55a <__stop_program>
+000005ae <__stop_program>:
+ 5ae:	ff cf       	rjmp	.-2      	; 0x5ae <__stop_program>

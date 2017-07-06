@@ -4,6 +4,10 @@ Urban Rupnik
 Zadlog 42, 5274 Črni Vrh
 Start: 6. 6. 2016
 
+Navodila za git:
+git add . -Af
+git commit -am "bla"
+
 
 Verzija 1.1: 6. 6. 2016
 Komentarji k shemi:

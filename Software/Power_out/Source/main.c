@@ -55,12 +55,16 @@ int main(void){
 
 	// izhod za grelec
 	USI_Slave_register_buffer[0]=&leds[0].value;
+	// duty za grelec
+	USI_Slave_register_buffer[1]=&leds[0].duty;
 	// izhod za luc
-	USI_Slave_register_buffer[1]=&leds[1].value;
+	USI_Slave_register_buffer[2]=&leds[1].value;
+	// duty za luc
+	USI_Slave_register_buffer[3]=&leds[1].duty;
 	// register za napake
-	USI_Slave_register_buffer[2]=&error;
+	USI_Slave_register_buffer[4]=&error;
 	// watchdog (ni še)
-	USI_Slave_register_buffer[3]=&wtchdog;
+	USI_Slave_register_buffer[5]=&wtchdog;
 
 	_delay_ms(1000);
 
@@ -95,7 +99,7 @@ ISR(PCINT0_vect){
 ISR(TIM1_COMPA_vect){
 	cnt++;
 	for (uint8_t i=0; i<LED_NUM;i++){
-		if((100-leds[i].duty)<=cnt){
+		if((100-leds[i].duty)<cnt){
 			leds[i].value=0;
 			SetValue(&leds[i]);
 		}

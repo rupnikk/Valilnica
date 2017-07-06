@@ -36570,3 +36570,1026 @@ Data:         50 bytes (9.8% Full)
 
 Finished building: sizedummy
  
+08:16:09 **** Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+08:16:10 **** Build of configuration Debug for project Out ****
+make all 
+Building target: Out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Out.map -mmcu=attiny44 -o "Out.elf"  ./Source/blink.o ./Source/dht11.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Out.elf  >"Out.lss"
+Finished building: Out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Out.elf  "Out.hex"
+Finished building: Out.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2420 bytes (59.1% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+08:16:10 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:57:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[0]=&leds[0].value;
+                              ^
+../Source/main.c:59:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[1]=&leds[0].duty;
+                              ^
+../Source/main.c:61:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[1].value;
+                              ^
+../Source/main.c:63:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&leds[1].duty;
+                              ^
+../Source/main.c:29:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b;
+       ^
+../Source/main.c:28:7: warning: unused variable ‘a’ [-Wunused-variable]
+  char a;
+       ^
+Finished building: ../Source/main.c
+ 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1320 bytes (16.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+08:16:10 **** Build of configuration Debug for project Power_out ****
+make all 
+Building file: ../Source/blink.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Power_out -D_AVR_ATtiny85_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/blink.d" -MT"Source/blink.o" -c -o "Source/blink.o" "../Source/blink.c"
+Finished building: ../Source/blink.c
+ 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Power_out -D_AVR_ATtiny85_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:57:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[0]=&leds[0].value;
+                              ^
+../Source/main.c:59:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+Finished building: ../Source/main.c
+  USI_Slave_register_buffer[1]=&leds[0].duty;
+                              ^
+ 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+../Source/main.c:61:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[1].value;
+                              ^
+../Source/main.c:63:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+  USI_Slave_register_buffer[3]=&leds[1].duty;
+Finished building target: Power_out.elf
+                              ^
+ 
+../Source/main.c:29:7: warning: unused variable ‘b’ [-Wunused-variable]
+Invoking: AVR Create Extended Listing
+  char b;
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+       ^
+Finished building: Power_out.lss
+../Source/main.c:28:7: warning: unused variable ‘a’ [-Wunused-variable]
+ 
+  char a;
+Create Flash image (ihex format)
+       ^
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1458 bytes (17.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:09:28 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:09:30 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Out -D_AVR_ATtiny44_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny44 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:90:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[0].value;
+                              ^
+../Source/main.c:92:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&sensors[0].data[0];
+                              ^
+../Source/main.c:94:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[4]=&sensors[0].data[2];
+                              ^
+../Source/main.c:96:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[5]=&sensors[1].data[0];
+                              ^
+../Source/main.c:98:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[6]=&sensors[1].data[2];
+                              ^
+../Source/main.c:100:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[7]=&sensors[2].data[0];
+                              ^
+../Source/main.c:102:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[8]=&sensors[2].data[2];
+                              ^
+../Source/main.c:117:11: error: expected expression before ‘stepper_run’
+   switch (stepper_run) {
+           ^
+../Source/main.c:121:17: error: expected identifier or ‘(’ before ‘=’ token
+      stepper_run=LOAD;
+                 ^
+../Source/main.c:130:16: error: expected identifier or ‘(’ before ‘=’ token
+     stepper_run=RUN;
+                ^
+../Source/main.c:167:17: error: expected identifier or ‘(’ before ‘=’ token
+      stepper_run=IDLE;
+                 ^
+../Source/main.c:68:14: warning: unused variable ‘states’ [-Wunused-variable]
+  stepper_run states=IDLE;
+              ^
+../Source/main.c:63:11: warning: unused variable ‘cnt1’ [-Wunused-variable]
+  uint16_t cnt1=0;
+           ^
+../Source/main.c:62:11: warning: unused variable ‘cnt’ [-Wunused-variable]
+Source/subdir.mk:27: recipe for target 'Source/main.o' failed
+  uint16_t cnt=0;
+           ^
+../Source/main.c:56:7: warning: unused variable ‘position_old’ [-Wunused-variable]
+  char position_old=1;
+       ^
+../Source/main.c:46:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b=0;
+       ^
+../Source/main.c:43:7: warning: unused variable ‘a’ [-Wunused-variable]
+  char a=0;
+       ^
+make: *** [Source/main.o] Error 1
+09:09:31 **** Clean-only build of configuration Release for project Power_out ****
+make clean 
+rm -rf  Power_out.hex  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o  Power_out.eep  sizedummy  Power_out.lss  ./Source/blink.d ./Source/main.d ./Source/usi_i2c_slave.d  Power_out.elf
+ 
+09:09:31 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Building file: ../Source/blink.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/blink.d" -MT"Source/blink.o" -c -o "Source/blink.o" "../Source/blink.c"
+Finished building: ../Source/blink.c
+ 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:57:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[0]=&leds[0].value;
+                              ^
+../Source/main.c:59:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[1]=&leds[0].duty;
+                              ^
+../Source/main.c:61:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[1].value;
+                              ^
+../Source/main.c:63:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&leds[1].duty;
+                              ^
+../Source/main.c:29:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b;
+       ^
+../Source/main.c:28:7: warning: unused variable ‘a’ [-Wunused-variable]
+  char a;
+       ^
+Finished building: ../Source/main.c
+ 
+Building file: ../Source/usi_i2c_slave.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/usi_i2c_slave.d" -MT"Source/usi_i2c_slave.o" -c -o "Source/usi_i2c_slave.o" "../Source/usi_i2c_slave.c"
+../Source/usi_i2c_slave.c: In function ‘__vector_14’:
+../Source/usi_i2c_slave.c:216:5: warning: array subscript has type ‘char’ [-Wchar-subscripts]
+     USIDR = *(USI_Slave_register_buffer[USI_Slave_internal_address]);
+     ^
+../Source/usi_i2c_slave.c:262:5: warning: array subscript has type ‘char’ [-Wchar-subscripts]
+     *(USI_Slave_register_buffer[USI_Slave_internal_address]) = USIDR;
+     ^
+Finished building: ../Source/usi_i2c_slave.c
+ 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1320 bytes (16.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:09:32 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1458 bytes (17.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:11:03 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:11:03 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Out -D_AVR_ATtiny44_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny44 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:90:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[0].value;
+                              ^
+Source/subdir.mk:27: recipe for target 'Source/main.o' failed
+../Source/main.c:92:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&sensors[0].data[0];
+                              ^
+../Source/main.c:94:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[4]=&sensors[0].data[2];
+                              ^
+../Source/main.c:96:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[5]=&sensors[1].data[0];
+                              ^
+../Source/main.c:98:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[6]=&sensors[1].data[2];
+                              ^
+../Source/main.c:100:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[7]=&sensors[2].data[0];
+                              ^
+../Source/main.c:102:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[8]=&sensors[2].data[2];
+                              ^
+../Source/main.c:117:11: error: expected expression before ‘stepper_run’
+   switch (stepper_run) {
+           ^
+../Source/main.c:121:17: error: expected identifier or ‘(’ before ‘=’ token
+      stepper_run=LOAD;
+                 ^
+../Source/main.c:130:16: error: expected identifier or ‘(’ before ‘=’ token
+     stepper_run=RUN;
+                ^
+../Source/main.c:167:17: error: expected identifier or ‘(’ before ‘=’ token
+      stepper_run=IDLE;
+                 ^
+../Source/main.c:68:14: warning: unused variable ‘states’ [-Wunused-variable]
+  stepper_run states=IDLE;
+              ^
+../Source/main.c:63:11: warning: unused variable ‘cnt1’ [-Wunused-variable]
+  uint16_t cnt1=0;
+           ^
+../Source/main.c:62:11: warning: unused variable ‘cnt’ [-Wunused-variable]
+  uint16_t cnt=0;
+           ^
+../Source/main.c:56:7: warning: unused variable ‘position_old’ [-Wunused-variable]
+  char position_old=1;
+       ^
+../Source/main.c:46:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b=0;
+       ^
+../Source/main.c:43:7: warning: unused variable ‘a’ [-Wunused-variable]
+  char a=0;
+       ^
+make: *** [Source/main.o] Error 1
+09:11:04 **** Clean-only build of configuration Release for project Power_out ****
+make clean 
+rm -rf  Power_out.hex  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o  Power_out.eep  sizedummy  Power_out.lss  ./Source/blink.d ./Source/main.d ./Source/usi_i2c_slave.d  Power_out.elf
+ 
+09:11:04 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Building file: ../Source/blink.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/blink.d" -MT"Source/blink.o" -c -o "Source/blink.o" "../Source/blink.c"
+Finished building: ../Source/blink.c
+ 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:57:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[0]=&leds[0].value;
+                              ^
+../Source/main.c:59:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[1]=&leds[0].duty;
+                              ^
+../Source/main.c:61:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[1].value;
+                              ^
+../Source/main.c:63:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&leds[1].duty;
+                              ^
+../Source/main.c:29:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b;
+       ^
+../Source/main.c:28:7: warning: unused variable ‘a’ [-Wunused-variable]
+  char a;
+       ^
+Finished building: ../Source/main.c
+ 
+Building file: ../Source/usi_i2c_slave.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny85 -DF_CPU=8000000UL -MMD -MP -MF"Source/usi_i2c_slave.d" -MT"Source/usi_i2c_slave.o" -c -o "Source/usi_i2c_slave.o" "../Source/usi_i2c_slave.c"
+../Source/usi_i2c_slave.c: In function ‘__vector_14’:
+../Source/usi_i2c_slave.c:216:5: warning: array subscript has type ‘char’ [-Wchar-subscripts]
+     USIDR = *(USI_Slave_register_buffer[USI_Slave_internal_address]);
+     ^
+../Source/usi_i2c_slave.c:262:5: warning: array subscript has type ‘char’ [-Wchar-subscripts]
+     *(USI_Slave_register_buffer[USI_Slave_internal_address]) = USIDR;
+     ^
+Finished building: ../Source/usi_i2c_slave.c
+ 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1320 bytes (16.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:11:05 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Building target: Power_out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Power_out.map -mmcu=attiny85 -o "Power_out.elf"  ./Source/blink.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Power_out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Power_out.elf  >"Power_out.lss"
+Finished building: Power_out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Power_out.elf  "Power_out.hex"
+Finished building: Power_out.hex
+ 
+Create eeprom image (ihex format)
+avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Power_out.elf  "Power_out.eep"
+Finished building: Power_out.eep
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1458 bytes (17.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:11:56 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:11:57 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Out -D_AVR_ATtiny44_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny44 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:90:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&leds[0].value;
+                              ^
+../Source/main.c:92:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&sensors[0].data[0];
+                              ^
+../Source/main.c:94:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[4]=&sensors[0].data[2];
+                              ^
+../Source/main.c:96:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[5]=&sensors[1].data[0];
+                              ^
+../Source/main.c:98:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[6]=&sensors[1].data[2];
+                              ^
+../Source/main.c:100:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[7]=&sensors[2].data[0];
+                              ^
+../Source/main.c:102:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[8]=&sensors[2].data[2];
+                              ^
+../Source/main.c:63:11: warning: unused variable ‘cnt1’ [-Wunused-variable]
+  uint16_t cnt1=0;
+           ^
+../Source/main.c:62:11: warning: unused variable ‘cnt’ [-Wunused-variable]
+  uint16_t cnt=0;
+           ^
+../Source/main.c:56:7: warning: unused variable ‘position_old’ [-Wunused-variable]
+  char position_old=1;
+       ^
+../Source/main.c:46:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b=0;
+       ^
+../Source/main.c:43:7: warning: unused variable ‘a’ [-Wunused-variable]
+  char a=0;
+       ^
+../Source/main.c:160:19: warning: ‘pos’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+      if(dir==1)pos++;
+                   ^
+../Source/main.c:133:7: warning: ‘pos_wnt’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     if((pos_wnt-pos)!=0){
+       ^
+Finished building: ../Source/main.c
+ 
+Building target: Out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Out.map -mmcu=attiny44 -o "Out.elf"  ./Source/blink.o ./Source/dht11.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Out.elf  >"Out.lss"
+Finished building: Out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Out.elf  "Out.hex"
+Finished building: Out.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2430 bytes (59.3% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:11:59 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1320 bytes (16.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:11:59 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1458 bytes (17.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:13:43 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:13:44 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Out -D_AVR_ATtiny44_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny44 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:81:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[0]=&leds[0].value;
+                              ^
+../Source/main.c:83:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[1]=&sensors[0].data[0];
+                              ^
+../Source/main.c:85:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&sensors[0].data[2];
+                              ^
+../Source/main.c:87:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&sensors[1].data[0];
+                              ^
+../Source/main.c:89:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[4]=&sensors[1].data[2];
+                              ^
+../Source/main.c:91:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[5]=&sensors[2].data[0];
+                              ^
+../Source/main.c:93:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[6]=&sensors[2].data[2];
+                              ^
+../Source/main.c:46:7: warning: unused variable ‘c’ [-Wunused-variable]
+  char c=0x02;
+       ^
+../Source/main.c:45:7: warning: unused variable ‘b’ [-Wunused-variable]
+  char b=0;
+       ^
+../Source/main.c:152:19: warning: ‘pos’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+      if(dir==1)pos++;
+                   ^
+../Source/main.c:125:7: warning: ‘pos_wnt’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     if((pos_wnt-pos)!=0){
+       ^
+Finished building: ../Source/main.c
+ 
+Building target: Out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Out.map -mmcu=attiny44 -o "Out.elf"  ./Source/blink.o ./Source/dht11.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Out.elf  >"Out.lss"
+Finished building: Out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Out.elf  "Out.hex"
+Finished building: Out.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2414 bytes (58.9% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:13:46 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1320 bytes (16.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:13:46 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1458 bytes (17.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:16:41 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:16:42 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Out -D_AVR_ATtiny44_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny44 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:79:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[0]=&leds[0].value;
+                              ^
+../Source/main.c:81:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[1]=&sensors[0].data[0];
+                              ^
+../Source/main.c:83:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&sensors[0].data[2];
+                              ^
+../Source/main.c:85:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&sensors[1].data[0];
+                              ^
+../Source/main.c:87:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[4]=&sensors[1].data[2];
+                              ^
+../Source/main.c:89:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[5]=&sensors[2].data[0];
+                              ^
+../Source/main.c:91:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[6]=&sensors[2].data[2];
+                              ^
+../Source/main.c:150:19: warning: ‘pos’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+      if(dir==1)pos++;
+                   ^
+../Source/main.c:123:7: warning: ‘pos_wnt’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     if((pos_wnt-pos)!=0){
+       ^
+Finished building: ../Source/main.c
+ 
+Building target: Out.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Out.map -mmcu=attiny44 -o "Out.elf"  ./Source/blink.o ./Source/dht11.o ./Source/main.o ./Source/usi_i2c_slave.o   
+Finished building target: Out.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Out.elf  >"Out.lss"
+Finished building: Out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Out.elf  "Out.hex"
+Finished building: Out.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2420 bytes (59.1% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:16:43 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1320 bytes (16.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:16:43 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1458 bytes (17.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:44:14 **** Incremental Build of configuration Debug for project MCU ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atxmega16c4 MCU.elf
+AVR Memory Usage
+----------------
+Device: atxmega16c4
+
+Program:     604 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:44:15 **** Incremental Build of configuration Debug for project Out ****
+make all 
+Building file: ../Source/main.c
+Invoking: AVR Compiler
+avr-gcc -I/home/urban/Documents/Projekti/Kalilnik/Kalilnik1_3/Software/Out -D_AVR_ATtiny44_ -U__AVR_ATmega16__ -Wall -g2 -gstabs -O2 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=attiny44 -DF_CPU=8000000UL -MMD -MP -MF"Source/main.d" -MT"Source/main.o" -c -o "Source/main.o" "../Source/main.c"
+../Source/main.c: In function ‘main’:
+../Source/main.c:79:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+Finished building: ../Source/main.c
+  USI_Slave_register_buffer[0]=&leds[0].value;
+                              ^
+../Source/main.c:81:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+ 
+Building target: Out.elf
+  USI_Slave_register_buffer[1]=&sensors[0].data[0];
+Invoking: AVR C Linker
+                              ^
+avr-gcc -Wl,-Map,Out.map -mmcu=attiny44 -o "Out.elf"  ./Source/blink.o ./Source/dht11.o ./Source/main.o ./Source/usi_i2c_slave.o   
+../Source/main.c:83:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[2]=&sensors[0].data[2];
+                              ^
+../Source/main.c:85:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[3]=&sensors[1].data[0];
+                              ^
+../Source/main.c:87:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+  USI_Slave_register_buffer[4]=&sensors[1].data[2];
+Finished building target: Out.elf
+                              ^
+../Source/main.c:89:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+ 
+  USI_Slave_register_buffer[5]=&sensors[2].data[0];
+                              ^
+Invoking: AVR Create Extended Listing
+../Source/main.c:91:30: warning: assignment discards ‘volatile’ qualifier from pointer target type
+avr-objdump -h -S Out.elf  >"Out.lss"
+  USI_Slave_register_buffer[6]=&sensors[2].data[2];
+                              ^
+../Source/main.c:150:19: warning: ‘pos’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+      if(dir==1)pos++;
+                   ^
+../Source/main.c:123:7: warning: ‘pos_wnt’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     if((pos_wnt-pos)!=0){
+       ^
+Finished building: Out.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Out.elf  "Out.hex"
+Finished building: Out.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny44 Out.elf
+AVR Memory Usage
+----------------
+Device: attiny44
+
+Program:    2420 bytes (59.1% Full)
+(.text + .data + .bootloader)
+
+Data:        131 bytes (51.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:44:16 **** Incremental Build of configuration Release for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1320 bytes (16.1% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+09:44:16 **** Incremental Build of configuration Debug for project Power_out ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=attiny85 Power_out.elf
+AVR Memory Usage
+----------------
+Device: attiny85
+
+Program:    1458 bytes (17.8% Full)
+(.text + .data + .bootloader)
+
+Data:         50 bytes (9.8% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 

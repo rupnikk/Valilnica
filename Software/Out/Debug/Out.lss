@@ -9,13 +9,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000081  00800062  00800062  00000a08  2**0
                   ALLOC
-  3 .stab         00001a34  00000000  00000000  00000a08  2**2
+  3 .stab         00001a64  00000000  00000000  00000a08  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      000011ab  00000000  00000000  0000243c  2**0
+  4 .stabstr      00001239  00000000  00000000  0000246c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  000035e7  2**0
+  5 .comment      00000011  00000000  00000000  000036a5  2**0
                   CONTENTS, READONLY
-  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000035f8  2**2
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000036b8  2**2
                   CONTENTS, READONLY
 
 Disassembly of section .text:
@@ -1069,403 +1069,385 @@ uint8_t fetchData(Senzor *sensor)
  60e:	c0 cf       	rjmp	.-128    	; 0x590 <__FUSE_REGION_LENGTH__+0x190>
 
 00000610 <main>:
-	TWO,
-	THREE,
-	FOUR
-}stepper;
+	IDLE,
+	LOAD,
+	RUN
+}stepper_run;
 
 int main(void){
  610:	cf 93       	push	r28
  612:	df 93       	push	r29
- 614:	00 d0       	rcall	.+0      	; 0x616 <main+0x6>
- 616:	00 d0       	rcall	.+0      	; 0x618 <main+0x8>
- 618:	1f 92       	push	r1
- 61a:	cd b7       	in	r28, 0x3d	; 61
- 61c:	de b7       	in	r29, 0x3e	; 62
+ 614:	cd b7       	in	r28, 0x3d	; 61
+ 616:	de b7       	in	r29, 0x3e	; 62
+ 618:	27 97       	sbiw	r28, 0x07	; 7
+ 61a:	0f b6       	in	r0, 0x3f	; 63
+ 61c:	f8 94       	cli
+ 61e:	de bf       	out	0x3e, r29	; 62
+ 620:	0f be       	out	0x3f, r0	; 63
+ 622:	cd bf       	out	0x3d, r28	; 61
 	sei();
- 61e:	78 94       	sei
-	char a=0;
- 620:	1d 82       	std	Y+5, r1	; 0x05
-	char b=0;
-	char c=0x02;
- 622:	82 e0       	ldi	r24, 0x02	; 2
- 624:	8c 83       	std	Y+4, r24	; 0x04
-
-	// default pozicija za koračni motor
+ 624:	78 94       	sei
+	char load=0x00;
+ 626:	1f 82       	std	Y+7, r1	; 0x07
+	char dir;
+	char v;
+	char error;
+	char position_up=0x02;
+ 628:	82 e0       	ldi	r24, 0x02	; 2
+ 62a:	8d 83       	std	Y+5, r24	; 0x05
+	char position_down=0x00;
+ 62c:	1c 82       	std	Y+4, r1	; 0x04
 	stepper my_stepper=ONE;
+
+	stepper_run states=IDLE;
 
 	// konfiguracija vhodnih in izhodnih pinov
 	IOCfg();
- 626:	62 dd       	rcall	.-1340   	; 0xec <IOCfg>
+ 62e:	5e dd       	rcall	.-1348   	; 0xec <IOCfg>
 	//uint8_t data[4];
 
 	//initDHT();
 
 	// inicializacija na I2C
 	USI_I2C_Init(0x40);
- 628:	80 e4       	ldi	r24, 0x40	; 64
- 62a:	e5 d0       	rcall	.+458    	; 0x7f6 <USI_I2C_Init>
-	//sensors[0].data[0]=0x15;
-	//sensors[0].data[2]=0x18;
+ 630:	80 e4       	ldi	r24, 0x40	; 64
+ 632:	e1 d0       	rcall	.+450    	; 0x7f6 <USI_I2C_Init>
 
 
 	// I2C register povežemo z naslovi spremenljivk
-	USI_Slave_register_buffer[0]=&a;
- 62c:	ce 01       	movw	r24, r28
- 62e:	05 96       	adiw	r24, 0x05	; 5
- 630:	90 93 bb 00 	sts	0x00BB, r25	; 0x8000bb <USI_Slave_register_buffer+0x1>
- 634:	80 93 ba 00 	sts	0x00BA, r24	; 0x8000ba <USI_Slave_register_buffer>
-	USI_Slave_register_buffer[1]=&c;
- 638:	01 97       	sbiw	r24, 0x01	; 1
- 63a:	90 93 bd 00 	sts	0x00BD, r25	; 0x8000bd <USI_Slave_register_buffer+0x3>
- 63e:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <USI_Slave_register_buffer+0x2>
 
 	// 12V izhod
-	USI_Slave_register_buffer[2]=&leds[0].value;
- 642:	89 e6       	ldi	r24, 0x69	; 105
- 644:	90 e0       	ldi	r25, 0x00	; 0
- 646:	90 93 bf 00 	sts	0x00BF, r25	; 0x8000bf <USI_Slave_register_buffer+0x5>
- 64a:	80 93 be 00 	sts	0x00BE, r24	; 0x8000be <USI_Slave_register_buffer+0x4>
+	USI_Slave_register_buffer[0]=&leds[0].value;
+ 634:	89 e6       	ldi	r24, 0x69	; 105
+ 636:	90 e0       	ldi	r25, 0x00	; 0
+ 638:	90 93 bb 00 	sts	0x00BB, r25	; 0x8000bb <USI_Slave_register_buffer+0x1>
+ 63c:	80 93 ba 00 	sts	0x00BA, r24	; 0x8000ba <USI_Slave_register_buffer>
 	// senzor 0 -> vlaga
-	USI_Slave_register_buffer[3]=&sensors[0].data[0];
- 64e:	88 e9       	ldi	r24, 0x98	; 152
- 650:	90 e0       	ldi	r25, 0x00	; 0
- 652:	90 93 c1 00 	sts	0x00C1, r25	; 0x8000c1 <USI_Slave_register_buffer+0x7>
- 656:	80 93 c0 00 	sts	0x00C0, r24	; 0x8000c0 <USI_Slave_register_buffer+0x6>
+	USI_Slave_register_buffer[1]=&sensors[0].data[0];
+ 640:	88 e9       	ldi	r24, 0x98	; 152
+ 642:	90 e0       	ldi	r25, 0x00	; 0
+ 644:	90 93 bd 00 	sts	0x00BD, r25	; 0x8000bd <USI_Slave_register_buffer+0x3>
+ 648:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <USI_Slave_register_buffer+0x2>
 	// senzor 0 -> temperatura
-	USI_Slave_register_buffer[4]=&sensors[0].data[2];
- 65a:	8a e9       	ldi	r24, 0x9A	; 154
- 65c:	90 e0       	ldi	r25, 0x00	; 0
- 65e:	90 93 c3 00 	sts	0x00C3, r25	; 0x8000c3 <USI_Slave_register_buffer+0x9>
- 662:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <USI_Slave_register_buffer+0x8>
+	USI_Slave_register_buffer[2]=&sensors[0].data[2];
+ 64c:	8a e9       	ldi	r24, 0x9A	; 154
+ 64e:	90 e0       	ldi	r25, 0x00	; 0
+ 650:	90 93 bf 00 	sts	0x00BF, r25	; 0x8000bf <USI_Slave_register_buffer+0x5>
+ 654:	80 93 be 00 	sts	0x00BE, r24	; 0x8000be <USI_Slave_register_buffer+0x4>
 	// senzor 1 -> vlaga
-	USI_Slave_register_buffer[5]=&sensors[1].data[0];
- 666:	85 ea       	ldi	r24, 0xA5	; 165
- 668:	90 e0       	ldi	r25, 0x00	; 0
- 66a:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <USI_Slave_register_buffer+0xb>
- 66e:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <USI_Slave_register_buffer+0xa>
+	USI_Slave_register_buffer[3]=&sensors[1].data[0];
+ 658:	85 ea       	ldi	r24, 0xA5	; 165
+ 65a:	90 e0       	ldi	r25, 0x00	; 0
+ 65c:	90 93 c1 00 	sts	0x00C1, r25	; 0x8000c1 <USI_Slave_register_buffer+0x7>
+ 660:	80 93 c0 00 	sts	0x00C0, r24	; 0x8000c0 <USI_Slave_register_buffer+0x6>
 	// senzor 1 -> temperatura
-	USI_Slave_register_buffer[6]=&sensors[1].data[2];
- 672:	87 ea       	ldi	r24, 0xA7	; 167
- 674:	90 e0       	ldi	r25, 0x00	; 0
- 676:	90 93 c7 00 	sts	0x00C7, r25	; 0x8000c7 <USI_Slave_register_buffer+0xd>
- 67a:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <USI_Slave_register_buffer+0xc>
+	USI_Slave_register_buffer[4]=&sensors[1].data[2];
+ 664:	87 ea       	ldi	r24, 0xA7	; 167
+ 666:	90 e0       	ldi	r25, 0x00	; 0
+ 668:	90 93 c3 00 	sts	0x00C3, r25	; 0x8000c3 <USI_Slave_register_buffer+0x9>
+ 66c:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <USI_Slave_register_buffer+0x8>
 	// senzor 2 -> vlaga
-	USI_Slave_register_buffer[7]=&sensors[2].data[0];
- 67e:	82 eb       	ldi	r24, 0xB2	; 178
- 680:	90 e0       	ldi	r25, 0x00	; 0
- 682:	90 93 c9 00 	sts	0x00C9, r25	; 0x8000c9 <USI_Slave_register_buffer+0xf>
- 686:	80 93 c8 00 	sts	0x00C8, r24	; 0x8000c8 <USI_Slave_register_buffer+0xe>
+	USI_Slave_register_buffer[5]=&sensors[2].data[0];
+ 670:	82 eb       	ldi	r24, 0xB2	; 178
+ 672:	90 e0       	ldi	r25, 0x00	; 0
+ 674:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <USI_Slave_register_buffer+0xb>
+ 678:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <USI_Slave_register_buffer+0xa>
 	// senzor 2 -> temperatura
-	USI_Slave_register_buffer[8]=&sensors[2].data[2];
- 68a:	84 eb       	ldi	r24, 0xB4	; 180
- 68c:	90 e0       	ldi	r25, 0x00	; 0
- 68e:	90 93 cb 00 	sts	0x00CB, r25	; 0x8000cb <USI_Slave_register_buffer+0x11>
- 692:	80 93 ca 00 	sts	0x00CA, r24	; 0x8000ca <USI_Slave_register_buffer+0x10>
+	USI_Slave_register_buffer[6]=&sensors[2].data[2];
+ 67c:	84 eb       	ldi	r24, 0xB4	; 180
+ 67e:	90 e0       	ldi	r25, 0x00	; 0
+ 680:	90 93 c7 00 	sts	0x00C7, r25	; 0x8000c7 <USI_Slave_register_buffer+0xd>
+ 684:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <USI_Slave_register_buffer+0xc>
 	// register za napake
-	USI_Slave_register_buffer[9]=&error;
- 696:	ce 01       	movw	r24, r28
- 698:	03 96       	adiw	r24, 0x03	; 3
- 69a:	90 93 cd 00 	sts	0x00CD, r25	; 0x8000cd <USI_Slave_register_buffer+0x13>
- 69e:	80 93 cc 00 	sts	0x00CC, r24	; 0x8000cc <USI_Slave_register_buffer+0x12>
+	USI_Slave_register_buffer[7]=&error;
+ 688:	ce 01       	movw	r24, r28
+ 68a:	06 96       	adiw	r24, 0x06	; 6
+ 68c:	90 93 c9 00 	sts	0x00C9, r25	; 0x8000c9 <USI_Slave_register_buffer+0xf>
+ 690:	80 93 c8 00 	sts	0x00C8, r24	; 0x8000c8 <USI_Slave_register_buffer+0xe>
 	// watchdog (ni še uporabljen)
-	USI_Slave_register_buffer[10]=&wtchdog;
- 6a2:	02 97       	sbiw	r24, 0x02	; 2
- 6a4:	90 93 cf 00 	sts	0x00CF, r25	; 0x8000cf <USI_Slave_register_buffer+0x15>
- 6a8:	80 93 ce 00 	sts	0x00CE, r24	; 0x8000ce <USI_Slave_register_buffer+0x14>
+	USI_Slave_register_buffer[8]=&wtchdog;
+ 694:	05 97       	sbiw	r24, 0x05	; 5
+ 696:	90 93 cb 00 	sts	0x00CB, r25	; 0x8000cb <USI_Slave_register_buffer+0x11>
+ 69a:	80 93 ca 00 	sts	0x00CA, r24	; 0x8000ca <USI_Slave_register_buffer+0x10>
 	// pozicija motorja
-	USI_Slave_register_buffer[11]=&position;
- 6ac:	01 96       	adiw	r24, 0x01	; 1
- 6ae:	90 93 d1 00 	sts	0x00D1, r25	; 0x8000d1 <USI_Slave_register_buffer+0x17>
- 6b2:	80 93 d0 00 	sts	0x00D0, r24	; 0x8000d0 <USI_Slave_register_buffer+0x16>
- 6b6:	2f ef       	ldi	r18, 0xFF	; 255
- 6b8:	89 e6       	ldi	r24, 0x69	; 105
- 6ba:	98 e1       	ldi	r25, 0x18	; 24
- 6bc:	21 50       	subi	r18, 0x01	; 1
- 6be:	80 40       	sbci	r24, 0x00	; 0
- 6c0:	90 40       	sbci	r25, 0x00	; 0
- 6c2:	e1 f7       	brne	.-8      	; 0x6bc <main+0xac>
- 6c4:	00 c0       	rjmp	.+0      	; 0x6c6 <main+0xb6>
- 6c6:	00 00       	nop
-	//uint8_t step=10;
-	uint16_t cnt=0;
-	uint16_t cnt1=0;
+	USI_Slave_register_buffer[9]=&load;
+ 69e:	06 96       	adiw	r24, 0x06	; 6
+ 6a0:	90 93 cd 00 	sts	0x00CD, r25	; 0x8000cd <USI_Slave_register_buffer+0x13>
+ 6a4:	80 93 cc 00 	sts	0x00CC, r24	; 0x8000cc <USI_Slave_register_buffer+0x12>
+	USI_Slave_register_buffer[10]=&position_wnt_up;
+ 6a8:	04 97       	sbiw	r24, 0x04	; 4
+ 6aa:	90 93 cf 00 	sts	0x00CF, r25	; 0x8000cf <USI_Slave_register_buffer+0x15>
+ 6ae:	80 93 ce 00 	sts	0x00CE, r24	; 0x8000ce <USI_Slave_register_buffer+0x14>
+	USI_Slave_register_buffer[11]=&position_wnt_down;
+ 6b2:	01 97       	sbiw	r24, 0x01	; 1
+ 6b4:	90 93 d1 00 	sts	0x00D1, r25	; 0x8000d1 <USI_Slave_register_buffer+0x17>
+ 6b8:	80 93 d0 00 	sts	0x00D0, r24	; 0x8000d0 <USI_Slave_register_buffer+0x16>
+	USI_Slave_register_buffer[12]=&position_up;
+ 6bc:	03 96       	adiw	r24, 0x03	; 3
+ 6be:	90 93 d3 00 	sts	0x00D3, r25	; 0x8000d3 <USI_Slave_register_buffer+0x19>
+ 6c2:	80 93 d2 00 	sts	0x00D2, r24	; 0x8000d2 <USI_Slave_register_buffer+0x18>
+	USI_Slave_register_buffer[13]=&position_down;
+ 6c6:	01 97       	sbiw	r24, 0x01	; 1
+ 6c8:	90 93 d5 00 	sts	0x00D5, r25	; 0x8000d5 <USI_Slave_register_buffer+0x1b>
+ 6cc:	80 93 d4 00 	sts	0x00D4, r24	; 0x8000d4 <USI_Slave_register_buffer+0x1a>
+ 6d0:	2f ef       	ldi	r18, 0xFF	; 255
+ 6d2:	89 e6       	ldi	r24, 0x69	; 105
+ 6d4:	98 e1       	ldi	r25, 0x18	; 24
+ 6d6:	21 50       	subi	r18, 0x01	; 1
+ 6d8:	80 40       	sbci	r24, 0x00	; 0
+ 6da:	90 40       	sbci	r25, 0x00	; 0
+ 6dc:	e1 f7       	brne	.-8      	; 0x6d6 <main+0xc6>
+ 6de:	00 c0       	rjmp	.+0      	; 0x6e0 <main+0xd0>
+ 6e0:	00 00       	nop
+
 
 	// default pozicija za koračni motor
 	stepper my_stepper=ONE;
- 6c8:	10 e0       	ldi	r17, 0x00	; 0
-				}
 
-				// izbirni stavek za nastavitev registrov
-				switch(my_stepper){
-					case ONE:
-						leds[1].value=1;
- 6ca:	01 e0       	ldi	r16, 0x01	; 1
+	stepper_run states=IDLE;
+ 6e2:	10 e0       	ldi	r17, 0x00	; 0
+	uint16_t pos;
+	char wtchdog;
+
+
+	// default pozicija za koračni motor
+	stepper my_stepper=ONE;
+ 6e4:	e1 2c       	mov	r14, r1
+
+		switch(states){
+			case IDLE:
+				if (load==1){
+					load=0;
+					states=LOAD;
+ 6e6:	bb 24       	eor	r11, r11
+ 6e8:	b3 94       	inc	r11
+ 6ea:	5b c0       	rjmp	.+182    	; 0x7a2 <main+0x192>
 
 	_delay_ms(1000);
 
 	for(;;){
-		//cnt1=(c<<8)|b;
-		cnt1=abs(position-position_old)*0x0200;
- 6cc:	ca 80       	ldd	r12, Y+2	; 0x02
+
+		switch(states){
+ 6ec:	11 30       	cpi	r17, 0x01	; 1
+ 6ee:	08 f4       	brcc	.+2      	; 0x6f2 <main+0xe2>
+ 6f0:	6a c0       	rjmp	.+212    	; 0x7c6 <main+0x1b6>
+ 6f2:	12 30       	cpi	r17, 0x02	; 2
+ 6f4:	31 f5       	brne	.+76     	; 0x742 <main+0x132>
+				else dir=0;
+
+				states=RUN;
+				break;
+			case RUN:
+				if((pos_wnt-pos)!=0){
+ 6f6:	c8 14       	cp	r12, r8
+ 6f8:	d9 04       	cpc	r13, r9
+ 6fa:	09 f4       	brne	.+2      	; 0x6fe <main+0xee>
+ 6fc:	6b c0       	rjmp	.+214    	; 0x7d4 <main+0x1c4>
+					switch(my_stepper){
+ 6fe:	21 e0       	ldi	r18, 0x01	; 1
+ 700:	e2 16       	cp	r14, r18
+ 702:	09 f4       	brne	.+2      	; 0x706 <main+0xf6>
+ 704:	73 c0       	rjmp	.+230    	; 0x7ec <main+0x1dc>
+ 706:	e2 16       	cp	r14, r18
+ 708:	08 f4       	brcc	.+2      	; 0x70c <main+0xfc>
+ 70a:	6b c0       	rjmp	.+214    	; 0x7e2 <main+0x1d2>
+ 70c:	82 e0       	ldi	r24, 0x02	; 2
+ 70e:	e8 16       	cp	r14, r24
+ 710:	09 f4       	brne	.+2      	; 0x714 <main+0x104>
+ 712:	62 c0       	rjmp	.+196    	; 0x7d8 <main+0x1c8>
+ 714:	93 e0       	ldi	r25, 0x03	; 3
+ 716:	e9 12       	cpse	r14, r25
+ 718:	03 c0       	rjmp	.+6      	; 0x720 <main+0x110>
+							leds[3].value=1;
+							if (dir==1) my_stepper=FOUR;
+							else my_stepper=TWO;
+							break;
+						case FOUR:
+							leds[4].value=1;
+ 71a:	b0 92 8d 00 	sts	0x008D, r11	; 0x80008d <leds+0x29>
+							if (dir==1) my_stepper=ONE;
+ 71e:	e1 2c       	mov	r14, r1
+							else my_stepper=THREE;
+							break;
+					}
+					for (uint8_t i=1; i<LED_NUM;i++){
+						SetValue(&leds[i]);
+ 720:	8d e6       	ldi	r24, 0x6D	; 109
+ 722:	90 e0       	ldi	r25, 0x00	; 0
+ 724:	c2 dd       	rcall	.-1148   	; 0x2aa <SetValue>
+ 726:	86 e7       	ldi	r24, 0x76	; 118
+ 728:	90 e0       	ldi	r25, 0x00	; 0
+ 72a:	bf dd       	rcall	.-1154   	; 0x2aa <SetValue>
+ 72c:	8f e7       	ldi	r24, 0x7F	; 127
+ 72e:	90 e0       	ldi	r25, 0x00	; 0
+ 730:	bc dd       	rcall	.-1160   	; 0x2aa <SetValue>
+ 732:	88 e8       	ldi	r24, 0x88	; 136
+ 734:	90 e0       	ldi	r25, 0x00	; 0
+ 736:	b9 dd       	rcall	.-1166   	; 0x2aa <SetValue>
+					}
+
+					if(dir==1)pos++;
+ 738:	2f ef       	ldi	r18, 0xFF	; 255
+ 73a:	82 1a       	sub	r8, r18
+ 73c:	92 0a       	sbc	r9, r18
+					else pos--;
+
+					position_up=(pos>>8)&0x00FF;
+ 73e:	9d 82       	std	Y+5, r9	; 0x05
+					position_down=pos&0x00FF;
+ 740:	8c 82       	std	Y+4, r8	; 0x04
 
 
 		// zajem podatkov za posamezni senzor
 		// vrne 0, če je zajem z napako oziroma ni uspel
 		// in ponastavi vse registre na 0
 		v=fetchData(&sensors[0]);
- 6ce:	81 e9       	ldi	r24, 0x91	; 145
- 6d0:	90 e0       	ldi	r25, 0x00	; 0
- 6d2:	49 de       	rcall	.-878    	; 0x366 <fetchData>
+ 742:	81 e9       	ldi	r24, 0x91	; 145
+ 744:	90 e0       	ldi	r25, 0x00	; 0
+ 746:	0f de       	rcall	.-994    	; 0x366 <fetchData>
 		if (v==0){
- 6d4:	81 11       	cpse	r24, r1
- 6d6:	0a c0       	rjmp	.+20     	; 0x6ec <main+0xdc>
+ 748:	81 11       	cpse	r24, r1
+ 74a:	0a c0       	rjmp	.+20     	; 0x760 <main+0x150>
 			for (uint8_t i=0; i<5;i++){
 				sensors[0].data[i]=0;
- 6d8:	10 92 98 00 	sts	0x0098, r1	; 0x800098 <sensors+0x7>
- 6dc:	10 92 99 00 	sts	0x0099, r1	; 0x800099 <sensors+0x8>
- 6e0:	10 92 9a 00 	sts	0x009A, r1	; 0x80009a <sensors+0x9>
- 6e4:	10 92 9b 00 	sts	0x009B, r1	; 0x80009b <sensors+0xa>
- 6e8:	10 92 9c 00 	sts	0x009C, r1	; 0x80009c <sensors+0xb>
+ 74c:	10 92 98 00 	sts	0x0098, r1	; 0x800098 <sensors+0x7>
+ 750:	10 92 99 00 	sts	0x0099, r1	; 0x800099 <sensors+0x8>
+ 754:	10 92 9a 00 	sts	0x009A, r1	; 0x80009a <sensors+0x9>
+ 758:	10 92 9b 00 	sts	0x009B, r1	; 0x80009b <sensors+0xa>
+ 75c:	10 92 9c 00 	sts	0x009C, r1	; 0x80009c <sensors+0xb>
 			}
 		}
 
 		v=fetchData(&sensors[1]);
- 6ec:	8e e9       	ldi	r24, 0x9E	; 158
- 6ee:	90 e0       	ldi	r25, 0x00	; 0
- 6f0:	3a de       	rcall	.-908    	; 0x366 <fetchData>
+ 760:	8e e9       	ldi	r24, 0x9E	; 158
+ 762:	90 e0       	ldi	r25, 0x00	; 0
+ 764:	00 de       	rcall	.-1024   	; 0x366 <fetchData>
 		if (v==0){
- 6f2:	81 11       	cpse	r24, r1
- 6f4:	0a c0       	rjmp	.+20     	; 0x70a <main+0xfa>
+ 766:	81 11       	cpse	r24, r1
+ 768:	0a c0       	rjmp	.+20     	; 0x77e <main+0x16e>
 			for (uint8_t i=0; i<5;i++){
 				sensors[1].data[i]=0;
- 6f6:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <sensors+0x14>
- 6fa:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <sensors+0x15>
- 6fe:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <sensors+0x16>
- 702:	10 92 a8 00 	sts	0x00A8, r1	; 0x8000a8 <sensors+0x17>
- 706:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <sensors+0x18>
+ 76a:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <sensors+0x14>
+ 76e:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <sensors+0x15>
+ 772:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <sensors+0x16>
+ 776:	10 92 a8 00 	sts	0x00A8, r1	; 0x8000a8 <sensors+0x17>
+ 77a:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <sensors+0x18>
 			}
 		}
 
 
 		v=fetchData(&sensors[2]);
- 70a:	8b ea       	ldi	r24, 0xAB	; 171
- 70c:	90 e0       	ldi	r25, 0x00	; 0
- 70e:	2b de       	rcall	.-938    	; 0x366 <fetchData>
+ 77e:	8b ea       	ldi	r24, 0xAB	; 171
+ 780:	90 e0       	ldi	r25, 0x00	; 0
+ 782:	f1 dd       	rcall	.-1054   	; 0x366 <fetchData>
 		if (v==0){
- 710:	81 11       	cpse	r24, r1
- 712:	0a c0       	rjmp	.+20     	; 0x728 <main+0x118>
+ 784:	81 11       	cpse	r24, r1
+ 786:	0a c0       	rjmp	.+20     	; 0x79c <main+0x18c>
 			for (uint8_t i=0; i<5;i++){
 				sensors[2].data[i]=0;
- 714:	10 92 b2 00 	sts	0x00B2, r1	; 0x8000b2 <sensors+0x21>
- 718:	10 92 b3 00 	sts	0x00B3, r1	; 0x8000b3 <sensors+0x22>
- 71c:	10 92 b4 00 	sts	0x00B4, r1	; 0x8000b4 <sensors+0x23>
- 720:	10 92 b5 00 	sts	0x00B5, r1	; 0x8000b5 <sensors+0x24>
- 724:	10 92 b6 00 	sts	0x00B6, r1	; 0x8000b6 <sensors+0x25>
+ 788:	10 92 b2 00 	sts	0x00B2, r1	; 0x8000b2 <sensors+0x21>
+ 78c:	10 92 b3 00 	sts	0x00B3, r1	; 0x8000b3 <sensors+0x22>
+ 790:	10 92 b4 00 	sts	0x00B4, r1	; 0x8000b4 <sensors+0x23>
+ 794:	10 92 b5 00 	sts	0x00B5, r1	; 0x8000b5 <sensors+0x24>
+ 798:	10 92 b6 00 	sts	0x00B6, r1	; 0x8000b6 <sensors+0x25>
 			}
 		}
 
 		// nastavi 12V izhod na vrednost
 		SetValue(&leds[0]);
- 728:	84 e6       	ldi	r24, 0x64	; 100
- 72a:	90 e0       	ldi	r25, 0x00	; 0
- 72c:	be dd       	rcall	.-1156   	; 0x2aa <SetValue>
-
-		// krmiljenje koračnega motorja
-		if (a==0){
- 72e:	8d 81       	ldd	r24, Y+5	; 0x05
- 730:	88 23       	and	r24, r24
- 732:	09 f4       	brne	.+2      	; 0x736 <main+0x126>
- 734:	52 c0       	rjmp	.+164    	; 0x7da <main+0x1ca>
+ 79c:	84 e6       	ldi	r24, 0x64	; 100
+ 79e:	90 e0       	ldi	r25, 0x00	; 0
+ 7a0:	84 dd       	rcall	.-1272   	; 0x2aa <SetValue>
 
 	_delay_ms(1000);
 
 	for(;;){
-		//cnt1=(c<<8)|b;
-		cnt1=abs(position-position_old)*0x0200;
- 736:	d1 2c       	mov	r13, r1
- 738:	21 e0       	ldi	r18, 0x01	; 1
- 73a:	c2 1a       	sub	r12, r18
- 73c:	d1 08       	sbc	r13, r1
- 73e:	d7 fc       	sbrc	r13, 7
- 740:	56 c0       	rjmp	.+172    	; 0x7ee <main+0x1de>
- 742:	dc 2c       	mov	r13, r12
- 744:	cc 24       	eor	r12, r12
- 746:	dd 0c       	add	r13, r13
-		// krmiljenje koračnega motorja
-		if (a==0){
-			_delay_ms(1000);
-		}
-		else {
-			while (cnt<cnt1){
- 748:	c1 14       	cp	r12, r1
- 74a:	d1 04       	cpc	r13, r1
- 74c:	79 f1       	breq	.+94     	; 0x7ac <main+0x19c>
- 74e:	e1 2c       	mov	r14, r1
- 750:	f1 2c       	mov	r15, r1
- 752:	8f e0       	ldi	r24, 0x0F	; 15
- 754:	97 e2       	ldi	r25, 0x27	; 39
- 756:	01 97       	sbiw	r24, 0x01	; 1
- 758:	f1 f7       	brne	.-4      	; 0x756 <main+0x146>
- 75a:	00 c0       	rjmp	.+0      	; 0x75c <main+0x14c>
- 75c:	00 00       	nop
-				// hitrost stepper motorja
-				_delay_ms(5);
 
-				// pobrišemo vse registre izhodov koračnega motorja
-				for (uint8_t i=1; i<LED_NUM;i++){
-					leds[i].value=0;
- 75e:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <leds+0xe>
- 762:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <leds+0x17>
- 766:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <leds+0x20>
- 76a:	10 92 8d 00 	sts	0x008D, r1	; 0x80008d <leds+0x29>
+		switch(states){
+ 7a2:	11 30       	cpi	r17, 0x01	; 1
+ 7a4:	09 f0       	breq	.+2      	; 0x7a8 <main+0x198>
+ 7a6:	a2 cf       	rjmp	.-188    	; 0x6ec <main+0xdc>
+					load=0;
+					states=LOAD;
 				}
+				break;
+			case LOAD:
+				pos_wnt=(position_wnt_up<<8)|position_wnt_down;
+ 7a8:	cb 80       	ldd	r12, Y+3	; 0x03
+ 7aa:	d1 2c       	mov	r13, r1
+ 7ac:	dc 2c       	mov	r13, r12
+ 7ae:	cc 24       	eor	r12, r12
+ 7b0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 7b2:	c8 2a       	or	r12, r24
+				pos=(position_up << 8)|position_down;
+ 7b4:	0d 81       	ldd	r16, Y+5	; 0x05
+ 7b6:	10 e0       	ldi	r17, 0x00	; 0
+ 7b8:	10 2f       	mov	r17, r16
+ 7ba:	00 27       	eor	r16, r16
+ 7bc:	8c 81       	ldd	r24, Y+4	; 0x04
+ 7be:	48 01       	movw	r8, r16
+ 7c0:	88 2a       	or	r8, r24
+				if(pos_wnt-pos >= 0)dir=1;
+				else dir=0;
 
-				// izbirni stavek za nastavitev registrov
-				switch(my_stepper){
- 76e:	11 30       	cpi	r17, 0x01	; 1
- 770:	f9 f0       	breq	.+62     	; 0x7b0 <main+0x1a0>
- 772:	60 f1       	brcs	.+88     	; 0x7cc <main+0x1bc>
- 774:	12 30       	cpi	r17, 0x02	; 2
- 776:	19 f1       	breq	.+70     	; 0x7be <main+0x1ae>
- 778:	13 30       	cpi	r17, 0x03	; 3
- 77a:	31 f4       	brne	.+12     	; 0x788 <main+0x178>
-						leds[3].value=1;
-						if (a==1) my_stepper=FOUR;
-						else my_stepper=TWO;
-						break;
-					case FOUR:
-						leds[4].value=1;
- 77c:	00 93 8d 00 	sts	0x008D, r16	; 0x80008d <leds+0x29>
-						if (a==1) my_stepper=ONE;
- 780:	8d 81       	ldd	r24, Y+5	; 0x05
- 782:	81 30       	cpi	r24, 0x01	; 1
- 784:	d1 f0       	breq	.+52     	; 0x7ba <main+0x1aa>
-						if (a==1) my_stepper=TWO;
-						else my_stepper=FOUR;
-						break;
-					case TWO:
-						leds[2].value=1;
-						if (a==1) my_stepper=THREE;
- 786:	12 e0       	ldi	r17, 0x02	; 2
-						break;
-
-				}
-				// na koncu te registre še zapišemo na prave naslove
-				for (uint8_t i=1; i<LED_NUM;i++){
-					SetValue(&leds[i]);
- 788:	8d e6       	ldi	r24, 0x6D	; 109
- 78a:	90 e0       	ldi	r25, 0x00	; 0
- 78c:	8e dd       	rcall	.-1252   	; 0x2aa <SetValue>
- 78e:	86 e7       	ldi	r24, 0x76	; 118
- 790:	90 e0       	ldi	r25, 0x00	; 0
- 792:	8b dd       	rcall	.-1258   	; 0x2aa <SetValue>
- 794:	8f e7       	ldi	r24, 0x7F	; 127
- 796:	90 e0       	ldi	r25, 0x00	; 0
- 798:	88 dd       	rcall	.-1264   	; 0x2aa <SetValue>
- 79a:	88 e8       	ldi	r24, 0x88	; 136
- 79c:	90 e0       	ldi	r25, 0x00	; 0
- 79e:	85 dd       	rcall	.-1270   	; 0x2aa <SetValue>
-				}
-
-				cnt++;
- 7a0:	9f ef       	ldi	r25, 0xFF	; 255
- 7a2:	e9 1a       	sub	r14, r25
- 7a4:	f9 0a       	sbc	r15, r25
-		// krmiljenje koračnega motorja
-		if (a==0){
-			_delay_ms(1000);
-		}
-		else {
-			while (cnt<cnt1){
- 7a6:	ce 14       	cp	r12, r14
- 7a8:	df 04       	cpc	r13, r15
- 7aa:	99 f6       	brne	.-90     	; 0x752 <main+0x142>
-				}
-
-				cnt++;
-
-			}
-			a=0;
- 7ac:	1d 82       	std	Y+5, r1	; 0x05
- 7ae:	8e cf       	rjmp	.-228    	; 0x6cc <main+0xbc>
-						leds[1].value=1;
-						if (a==1) my_stepper=TWO;
-						else my_stepper=FOUR;
-						break;
-					case TWO:
-						leds[2].value=1;
- 7b0:	10 93 7b 00 	sts	0x007B, r17	; 0x80007b <leds+0x17>
-						if (a==1) my_stepper=THREE;
- 7b4:	8d 81       	ldd	r24, Y+5	; 0x05
- 7b6:	81 30       	cpi	r24, 0x01	; 1
- 7b8:	31 f3       	breq	.-52     	; 0x786 <main+0x176>
-						if (a==1) my_stepper=FOUR;
-						else my_stepper=TWO;
-						break;
-					case FOUR:
-						leds[4].value=1;
-						if (a==1) my_stepper=ONE;
- 7ba:	10 e0       	ldi	r17, 0x00	; 0
- 7bc:	e5 cf       	rjmp	.-54     	; 0x788 <main+0x178>
-						leds[2].value=1;
-						if (a==1) my_stepper=THREE;
-						else my_stepper=ONE;
-						break;
-					case THREE:
-						leds[3].value=1;
- 7be:	00 93 84 00 	sts	0x0084, r16	; 0x800084 <leds+0x20>
-						if (a==1) my_stepper=FOUR;
- 7c2:	8d 81       	ldd	r24, Y+5	; 0x05
- 7c4:	81 30       	cpi	r24, 0x01	; 1
- 7c6:	39 f0       	breq	.+14     	; 0x7d6 <main+0x1c6>
-
-				// izbirni stavek za nastavitev registrov
-				switch(my_stepper){
-					case ONE:
-						leds[1].value=1;
-						if (a==1) my_stepper=TWO;
- 7c8:	11 e0       	ldi	r17, 0x01	; 1
- 7ca:	de cf       	rjmp	.-68     	; 0x788 <main+0x178>
-				}
-
-				// izbirni stavek za nastavitev registrov
-				switch(my_stepper){
-					case ONE:
-						leds[1].value=1;
- 7cc:	00 93 72 00 	sts	0x0072, r16	; 0x800072 <leds+0xe>
-						if (a==1) my_stepper=TWO;
- 7d0:	8d 81       	ldd	r24, Y+5	; 0x05
- 7d2:	81 30       	cpi	r24, 0x01	; 1
- 7d4:	c9 f3       	breq	.-14     	; 0x7c8 <main+0x1b8>
-						if (a==1) my_stepper=THREE;
-						else my_stepper=ONE;
-						break;
-					case THREE:
-						leds[3].value=1;
-						if (a==1) my_stepper=FOUR;
- 7d6:	13 e0       	ldi	r17, 0x03	; 3
- 7d8:	d7 cf       	rjmp	.-82     	; 0x788 <main+0x178>
- 7da:	8f ef       	ldi	r24, 0xFF	; 255
- 7dc:	99 e6       	ldi	r25, 0x69	; 105
- 7de:	28 e1       	ldi	r18, 0x18	; 24
- 7e0:	81 50       	subi	r24, 0x01	; 1
- 7e2:	90 40       	sbci	r25, 0x00	; 0
- 7e4:	20 40       	sbci	r18, 0x00	; 0
- 7e6:	e1 f7       	brne	.-8      	; 0x7e0 <main+0x1d0>
- 7e8:	00 c0       	rjmp	.+0      	; 0x7ea <main+0x1da>
- 7ea:	00 00       	nop
- 7ec:	6f cf       	rjmp	.-290    	; 0x6cc <main+0xbc>
-
-	_delay_ms(1000);
+				states=RUN;
+ 7c2:	12 e0       	ldi	r17, 0x02	; 2
+				break;
+ 7c4:	be cf       	rjmp	.-132    	; 0x742 <main+0x132>
 
 	for(;;){
-		//cnt1=(c<<8)|b;
-		cnt1=abs(position-position_old)*0x0200;
- 7ee:	d1 94       	neg	r13
- 7f0:	c1 94       	neg	r12
- 7f2:	d1 08       	sbc	r13, r1
- 7f4:	a6 cf       	rjmp	.-180    	; 0x742 <main+0x132>
+
+		switch(states){
+			case IDLE:
+				if (load==1){
+ 7c6:	8f 81       	ldd	r24, Y+7	; 0x07
+ 7c8:	81 30       	cpi	r24, 0x01	; 1
+ 7ca:	09 f0       	breq	.+2      	; 0x7ce <main+0x1be>
+ 7cc:	ba cf       	rjmp	.-140    	; 0x742 <main+0x132>
+					load=0;
+ 7ce:	1f 82       	std	Y+7, r1	; 0x07
+					states=LOAD;
+ 7d0:	11 e0       	ldi	r17, 0x01	; 1
+ 7d2:	b7 cf       	rjmp	.-146    	; 0x742 <main+0x132>
+
+					position_up=(pos>>8)&0x00FF;
+					position_down=pos&0x00FF;
+				}
+				else{
+					states=IDLE;
+ 7d4:	10 e0       	ldi	r17, 0x00	; 0
+ 7d6:	b5 cf       	rjmp	.-150    	; 0x742 <main+0x132>
+							leds[2].value=1;
+							if (dir==1) my_stepper=THREE;
+							else my_stepper=ONE;
+							break;
+						case THREE:
+							leds[3].value=1;
+ 7d8:	b0 92 84 00 	sts	0x0084, r11	; 0x800084 <leds+0x20>
+							if (dir==1) my_stepper=FOUR;
+ 7dc:	83 e0       	ldi	r24, 0x03	; 3
+ 7de:	e8 2e       	mov	r14, r24
+ 7e0:	9f cf       	rjmp	.-194    	; 0x720 <main+0x110>
+				break;
+			case RUN:
+				if((pos_wnt-pos)!=0){
+					switch(my_stepper){
+						case ONE:
+							leds[1].value=1;
+ 7e2:	b0 92 72 00 	sts	0x0072, r11	; 0x800072 <leds+0xe>
+							if (dir==1) my_stepper=TWO;
+ 7e6:	ee 24       	eor	r14, r14
+ 7e8:	e3 94       	inc	r14
+ 7ea:	9a cf       	rjmp	.-204    	; 0x720 <main+0x110>
+							else my_stepper=FOUR;
+							break;
+						case TWO:
+							leds[2].value=1;
+ 7ec:	e0 92 7b 00 	sts	0x007B, r14	; 0x80007b <leds+0x17>
+							if (dir==1) my_stepper=THREE;
+ 7f0:	92 e0       	ldi	r25, 0x02	; 2
+ 7f2:	e9 2e       	mov	r14, r25
+ 7f4:	95 cf       	rjmp	.-214    	; 0x720 <main+0x110>
 
 000007f6 <USI_I2C_Init>:
 

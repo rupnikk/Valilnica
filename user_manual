@@ -6,25 +6,30 @@ Ploščica za krmiljenje motorja in 3 senzorjev
 
 I2c naslov: 0x40
 
-smer vrtenja			0x00
-število korakov			0x01
-ventilator				0x02
-senzor 0 - vlaga		0x03
-senzor 0 - temperatura	0x04
-senzor 1 - vlaga		0x05
-senzor 1 - temperatura	0x06
-senzor 2 - vlaga		0x07
-senzor 2 - temperatura	0x08
-napaka					0x09
-watchdog				0x0A
-position				0x0B
 
-1.1.
+ventilator				0x00
+senzor 0 - vlaga		0x01
+senzor 0 - temperatura	0x02
+senzor 1 - vlaga		0x03
+senzor 1 - temperatura	0x04
+senzor 2 - vlaga		0x05
+senzor 2 - temperatura	0x06
+napaka					0x07
+watchdog				0x08
+proženje premika		0x09
+željena pozicija (zgornji biti)		0x0A (pozicija 0 0x00, pozicija 1 0x02, pozicija 2 0x04)
+željena pozicija (spodnji biti)		0x0B
+trenutna pozicija (zgornji biti)	0x0C
+trenutna pozicija (spodnji biti)	0x0D
+
+1.2.
 Ploščica za 230 V izhode
 
 I2C naslov 0x41
 
-grelec		0x00
-ventilator 	0x01
-napaka		0x02
-watchdog	0x03
+grelec						0x00
+širina pulza za grelec		0x01
+ventilator 					0x02
+širina pulza za ventilator	0x03
+napaka						0x04
+watchdog					0x05

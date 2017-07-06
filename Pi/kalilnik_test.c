@@ -14,27 +14,30 @@
 
 // definicije internih naslovov za OUT
 
-#define STEP_TURN	0x00
-#define STEP_CNT	0x01
-#define VENT		0x02
-#define S0_H		0x03
-#define S0_T		0x04
-#define S1_H		0x05
-#define S1_T		0x06
-#define S2_H		0x07
-#define S2_T		0x08
-#define ERROR		0x09
-#define WTCH		0x0A
-#define POS			0x0B
 
-#define CNT 		0x02
+#define VENT			0x00
+#define S0_H			0x01
+#define S0_T			0x02
+#define S1_H			0x03
+#define S1_T			0x04
+#define S2_H			0x05
+#define S2_T			0x06
+#define ERROR			0x07
+#define WTCH			0x08
+#define STEP_LOAD		0x09
+#define STEP_POSW_UP	0x0A
+#define STEP_POSW_DOWN	0x0B
+#define STEP_POS_UP 	0x0C
+#define STEP_POS_DOWN 	0x0D
 
 // definicije internih naslovov za POW_OUT
 
 #define HEAT		0x00
-#define VENT_POW 	0x01
-#define ERROR_POW	0x02
-#define WTCH_POW	0x03
+#define HEAT_DUTY	0x01
+#define VENT_POW 	0x02
+#define VENT_DUTY	0x03
+#define ERROR_POW	0x04
+#define WTCH_POW	0x05
 
 int main (void)
 {
@@ -49,7 +52,7 @@ int main (void)
 	uint8_t max_t=33; 
 	uint8_t min_t=30;
 
-	time_t cnt=5;
+	time_t cnt=10;
 	time_t cnt2=2;
 
 
@@ -82,22 +85,30 @@ int main (void)
 		 if(sec != -1) {
 			if ((sec-sec_tmp)>=cnt && turning==1) {
 				sec_tmp=sec;
+
+				//0x02000 == cca. 90 stopinj
 				switch(pos){
-					case 1: 	step_cnt = STEP_CNT;
-							dir=0x01;
-							pos=2;
+					case 0: pos_down=0x00;
+							pos_up=0x00;
+							if (last==1)pos=1
+							else pos=2;
 							break;
-					case 0: 	step_cnt = 2*STEP_CNT;
-							dir=0x01;
-							pos=2;
+
+					case 1: pos_down=0x00;
+							pos_up=0x02;
+							turning=0;
 							break;
-					case 2: 	step_cnt = 2*STEP_CNT;
-							dir=0x02;
-							pos=0;
+
+					case 2: pos_down=0x00;
+							pos_up=0x04;
+							if (last==1)pos=1
+							else pos=0;
 							break;
 				}
-				wiringPiI2CWriteReg8 (sens, STEP_CNT, step_cnt) ;
-				wiringPiI2CWriteReg8 (sens, STEP_TURN, dir) ;
+				wiringPiI2CWriteReg8 (sens, STEP_POS_UP, pos_up) ;
+				wiringPiI2CWriteReg8 (sens, STEP_POS_DOWN, pos_down) ;
+				wiringPiI2CWriteReg8 (sens, STEP_LOAD, 0x01) ;
+
 			}
 			
 			if ((sec-sec_tmp2)>=cnt2) {
